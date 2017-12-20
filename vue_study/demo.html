@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="btn"></button>
+  <a href="http://www.jb51.net" id="aPay" style="display:none" target="_blank"></a>
+
+</body>
+<script>
+  var btn = document.getElementById("btn");
+  btn.onclick = function () {
+    var aP = document.getElementById("aPay");
+    var e = document.createEvent('MouseEvents');
+    e.initEvent('click', true, true);
+    aP.dispatchEvent(e);
+  }
+
+</script>
+
+</html>
