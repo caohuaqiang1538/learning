@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>西安泾渭数联信息技术有限公司</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="keywords" content="硬科技" />
+	<link href="images/bitbug_favicon.ico" rel="shortcut icon" type="image/x-icon" />
+	<link href="css/reset.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/animate.min.css" type="text/css" />
+	<script src="js/jquery-2.1.0.js"></script>
+
+</head>
+
+<body>
+	<div class="banner">
+		<div class="banner-top">
+			<ul id="logoPic">
+				<li class="animated bounceInDown" animate-delay="2s" ;>
+					<a href="javascript:;">
+						<i class="topPic"></i>
+						<img src="images/a.png">
+					</a>
+					<span class="idx_Circle idx_CircleShow"></span>
+					<span class="idx_vLine bounT_VLineShow"></span>
+					<span class="idx_hLine bounT_HLineShow"></span>
+					<div class="idx_font">
+						<h3>硬科技为您保驾护航</h3>
+						<span class="FtBShow"></span>
+						<span class="FtBShow"></span>
+						<span class="FLeftShow"></span>
+						<span class="rightTShow"></span>
+						<span class="rightTShow"></span>
+					</div>
+				</li>
+				<li class="animated bounceInRight">
+					<a href="javascript:;">
+						<i class="rightPic"></i>
+						<img src="images/b.png">
+					</a>
+					<span class="idx_Circle idx_CircleShow"></span>
+					<span class="idx_vLine bounR_vLineShow"></span>
+					<span class="idx_hLine bounR_HLineShow"></span>
+					<div class="idx_font">
+						<h3>硬科技为您保驾护航</h3>
+						<span class="FtBShow"></span>
+						<span class="FtBShow"></span>
+						<span class="FLeftShow"></span>
+						<span class="rightTShow"></span>
+						<span class="rightTShow"></span>
+					</div>
+				</li>
+				<li class="animated bounceInUp">
+					<a href="javascript:;">
+						<i class="botPic"></i>
+						<img class="logoPicShow" src="images/d.png">
+					</a>
+					<span class="idx_Circle idx_CircleShow"></span>
+					<span class="idx_vLine"></span>
+					<span class="idx_hLine"></span>
+					<div class="idx_font">
+						<h3>硬科技为您保驾护航</h3>
+						<span class="FtBShow"></span>
+						<span class="FtBShow"></span>
+						<span class="FLeftShow"></span>
+						<span class="rightTShow"></span>
+						<span class="rightTShow"></span>
+					</div>
+				</li>
+				<li class="animated bounceInLeft">
+					<a href="javascript:;">
+						<i class="leftPic"></i>
+						<img class="logoPicShow" src="images/c.png">
+					</a>
+					<span class="idx_Circle idx_CircleShow"></span>
+					<span class="idx_vLine"></span>
+					<span class="idx_hLine"></span>
+					<div class="idx_font">
+						<h3>硬科技为您保驾护航</h3>
+						<span class="FtBShow"></span>
+						<span class="FtBShow"></span>
+						<span class="FLeftShow"></span>
+						<span class="rightTShow"></span>
+						<span class="rightTShow"></span>
+					</div>
+				</li>
+			</ul>
+			<div class="idx_comInfo">
+				<h1>西安泾渭数联信息技术有限公司</h1>
+				<p>Xi'an Jingwei Digital Information Technology Co., Ltd.</p>
+				<a href="main.html" class="more">进入主站</a>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	$(".bounceInDown .idx_font h3")[0].addEventListener("webkitAnimationEnd", function () {
+		setTimeout(function () {
+			$(".bounceInDown .idx_Circle").removeClass("idx_CircleShow").addClass("idx_CircleMove");
+			$(".bounceInDown a img").addClass("logoImgShow");
+			$(".bounceInDown .idx_vLine,.bounceInDown .idx_hLine,.bounceInDown .idx_font").fadeOut(
+				function () {
+					$(".bounceInDown .idx_Circle").html(
+						" <img style = 'width: 6px;height: 6px;left: 2px;top: 2px;' src = 'images/a.png' > ");
+				}
+			);
+		}, 2000)
+	})
+	$(".bounceInUp .idx_font h3")[0].addEventListener("webkitAnimationEnd", function () {
+		setTimeout(function () {
+			$(".bounceInUp .idx_Circle").removeClass("idx_CircleShow").addClass("idx_botCircleMove");
+			$(".bounceInUp a img").addClass("logoImgShow");
+			$(".bounceInUp .idx_vLine,.bounceInUp .idx_hLine,.bounceInUp .idx_font").fadeOut(
+				function () {
+					$(".bounceInUp .idx_Circle").html(
+						" <img style = 'width: 6px;height: 6px;left: 2px;top: 2px;' src = 'images/d.png' > ");
+				}
+			);
+		}, 4500)
+	})
+	$(".bounceInLeft .idx_font h3")[0].addEventListener("webkitAnimationEnd", function () {
+		setTimeout(function () {
+			$(".bounceInLeft .idx_Circle").removeClass("idx_CircleShow").addClass("idx_LeftCircleMove");
+			$(".bounceInLeft a img").addClass("logoImgShow");
+			$(".bounceInLeft .idx_vLine,.bounceInLeft .idx_hLine,.bounceInLeft .idx_font").fadeOut(
+				function () {
+					$(".bounceInLeft .idx_Circle").html(
+						" <img style = 'width: 6px;height: 6px;left: 2px;top: 2px;' src = 'images/c.png' > ");
+				}
+			);
+		}, 6500)
+	})
+	$(".bounceInRight .idx_font h3")[0].addEventListener("webkitAnimationEnd", function () {
+		setTimeout(function () {
+			$(".bounceInRight .idx_Circle").removeClass("idx_CircleShow").addClass("idx_RightCircleMove");
+			$(".bounceInRight a img").addClass("logoImgShow");
+			$(".bounceInRight .idx_vLine,.bounceInRight .idx_hLine,.bounceInRight .idx_font").fadeOut(
+				function () {
+					$(".bounceInRight .idx_Circle").html(
+						" <img style = 'width: 6px;height: 6px;left: 2px;top: 2px;' src = 'images/b.png' > ");
+				}
+			);
+		}, 8500)
+	})
+	setTimeout(
+		function () {
+			$("#logoPic a>img").on("mouseover", function () {
+				$(this).attr("class", "logoPicHover").css("opacity", 1);
+			})
+			$("#logoPic a>img").on("mouseout", function () {
+				$(this).attr("class", "").css("opacity", 1);
+			})
+		}, 8500)
+</script>
+
+</html>

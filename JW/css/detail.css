@@ -1,0 +1,28 @@
+.nav-ny {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.ny .nav-box .nav-ul li a b {
+    color: #fff;
+}
+
+.met-shownews h1 {
+    margin: 0;
+    margin-bottom: 5px;
+    font-size: 25px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.met-shownews .info {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    color: #7d7d7d;
+    text-align: center;
+}
+
+.detailImg {
+    display: block;
+    margin: 35px auto;
+}

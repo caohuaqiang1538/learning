@@ -1,0 +1,911 @@
+html {
+    font-size: 10px;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.banner {
+    background: url(../UIimg/pageOneBg.png) no-repeat;
+    background-size: 100% 100%;
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    -ms-background-size: 100% 100%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#logoPic {
+    padding: 0px;
+    height: 305px;
+    position: relative;
+}
+
+#logoPic>li {
+    width: 150px;
+    height: 150px;
+    list-style: none;
+    position: absolute;
+    transition: 1.2s;
+}
+
+#logoPic>li:nth-of-type(1) {
+    left: calc((100% - 140px)/2);
+    top: 0;
+}
+
+#logoPic>li:nth-of-type(2) {
+    top: calc((100% - 156px)/2);
+    right: calc((100% - 320px)/2);
+}
+
+#logoPic>li:nth-of-type(3) {
+    left: calc((100% - 140px)/2);
+    bottom: 0;
+}
+
+#logoPic>li:nth-of-type(4) {
+    top: calc((100% - 158px)/2);
+    left: calc((100% - 310px)/2);
+}
+
+#logoPic>li i {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+#logoPic>li img {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    opacity: 0;
+    transform-origin: center center;
+    transform: rotateY(-360deg);
+}
+
+#logoPic>li .idx_Circle>img {
+    opacity: 1;
+}
+
+#logoPic>li:nth-of-type(1) img {
+    top: calc((100% - 62px)/2);
+    left: calc((100% - 45px)/2);
+}
+
+#logoPic>li:nth-of-type(2) img {
+    top: calc((100% - 58px)/2);
+    left: calc((100% - 70px)/2);
+}
+
+#logoPic>li:nth-of-type(3) img {
+    top: calc((100% - 55px)/2);
+    left: calc((100% - 55px)/2);
+}
+
+#logoPic>li:nth-of-type(4) img {
+    top: calc((100% - 50px)/2);
+    left: calc((100% - 31px)/2);
+}
+
+#logoPic>li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.topPic {
+    background: url(../images/img-sprite.png)no-repeat -617px -18px;
+}
+
+.rightPic {
+    background: url(../images/img-sprite.png)no-repeat -14px -346px;
+}
+
+.botPic {
+    background: url(../images/img-sprite.png)no-repeat -425px -145px;
+}
+
+.leftPic {
+    background: url(../images/img-sprite.png)no-repeat -134px -144px;
+}
+
+.idx_comInfo {
+    margin-top: 55px;
+}
+
+.idx_comInfo>h1 {
+    color: #535353;
+    font-size: 3.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.idx_comInfo>p {
+    color: #535353;
+    font-weight: bold;
+    margin: 1rem auto;
+    text-align: center;
+    font-size: 1.4rem;
+    white-space: nowrap;
+}
+
+.idx_comInfo>a {
+    text-decoration: none;
+    font-size: 1.6rem;
+    color: #fff;
+    padding: 0.8rem 1.5rem;
+    background: #00873b;
+    display: table;
+    font-weight: 600;
+    border: none;
+    text-transform: uppercase;
+    margin: 0 auto;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    border-radius: 0.4rem;
+}
+
+.idx_comInfo>a:hover {
+    background: #525252;
+}
+
+@keyframes hLineShow {
+    0% {
+        width: 0;
+    }
+    20% {
+        width: 22px;
+    }
+    40% {
+        width: 44px;
+    }
+    60% {
+        width: 66px;
+    }
+    80% {
+        width: 88px;
+    }
+    100% {
+        width: 110px;
+    }
+}
+
+@keyframes hLineShow {
+    0% {
+        width: 0;
+    }
+    20% {
+        width: 22px;
+    }
+    40% {
+        width: 44px;
+    }
+    60% {
+        width: 66px;
+    }
+    80% {
+        width: 88px;
+    }
+    100% {
+        width: 110px;
+    }
+}
+
+@keyframes vLineShow {
+    0% {
+        height: 0;
+    }
+    20% {
+        height: 5px;
+        top: 30px;
+    }
+    40% {
+        height: 10px;
+        top: 25px;
+    }
+    60% {
+        height: 15px;
+        top: 20px;
+    }
+    80% {
+        height: 20px;
+        top: 15px;
+    }
+    100% {
+        height: 29px;
+        top: 6px;
+    }
+}
+
+@keyframes vRLineShow {
+    0% {
+        height: 0;
+    }
+    20% {
+        height: 6px;
+        bottom: 36px;
+    }
+    40% {
+        height: 12px;
+        bottom: 31px;
+    }
+    60% {
+        height: 18px;
+        bottom: 25px;
+    }
+    80% {
+        height: 24px;
+        bottom: 19px;
+    }
+    100% {
+        height: 29px;
+        bottom: 13px;
+    }
+}
+
+@keyframes FLeftShow {
+    0% {
+        height: 0;
+    }
+    20% {
+        height: 20%;
+        top: 17px;
+    }
+    40% {
+        height: 40%;
+        top: 13px;
+    }
+    60% {
+        height: 60%;
+        top: 9px;
+    }
+    80% {
+        height: 80%;
+        top: 4px;
+    }
+    100% {
+        height: 100%;
+        top: 0px;
+    }
+}
+
+@keyframes FtBShow {
+    0% {
+        width: 0;
+    }
+    20% {
+        width: 20%;
+    }
+    40% {
+        width: 40%;
+    }
+    60% {
+        width: 60%;
+    }
+    80% {
+        width: 80%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes rightTShow {
+    0% {
+        height: 0;
+    }
+    20% {
+        height: 10%;
+    }
+    40% {
+        height: 20%;
+    }
+    60% {
+        height: 30%;
+    }
+    80% {
+        height: 40%;
+    }
+    100% {
+        height: 50%;
+    }
+}
+
+
+/* 元素抖动 */
+
+@keyframes buzz-out {
+    0% {
+        transform: rotate(10deg);
+    }
+    100% {
+        transform: rotate(-10deg);
+    }
+}
+
+.logoPicHover {
+    animation-name: buzz-out;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+
+/* 字体显示动画 */
+
+@keyframes fontShow {
+    0% {
+        opacity: 0;
+        color: #fff;
+    }
+    100% {
+        opacity: 1;
+        color: #535353;
+    }
+}
+
+@keyframes fontChange {
+    0% {
+        /* width: auto;
+        height: 19px;
+        padding: 1rem 1.5rem; */
+        right: -247px;
+        top: -14px;
+    }
+    20% {
+        width: 45px;
+        height: 45px;
+        padding: 0px;
+        top: -14px;
+        right: -187.1px;
+    }
+    40% {
+        top: -14px;
+        right: -127.2px;
+    }
+    60% {
+        top: -14px;
+        right: -67.3px;
+    }
+    80% {
+        top: -14px;
+        right: -7.4px;
+    }
+    100% {
+        width: 45px;
+        height: 45px;
+        padding: 0px;
+        top: 44px;
+        right: 52.5px;
+    }
+}
+
+.idx_fontChange {
+    animation-fill-mode: forwards;
+    animation-name: fontChange;
+    animation-delay: 0s;
+    animation-duration: 1.5s;
+    animation-timing-function: linear;
+}
+
+
+/* 指示图片进入动画 */
+
+@keyframes hLineHide {
+    0% {
+        width: 100%;
+    }
+    20% {
+        width: 80%;
+    }
+    40% {
+        width: 60%;
+    }
+    60% {
+        width: 40%;
+    }
+    80% {
+        width: 20%;
+    }
+    100% {
+        width: 0;
+    }
+}
+
+.hLineHides {
+    top: 6px;
+    left: 126px;
+    animation-fill-mode: forwards;
+    animation-name: hLineHide;
+    animation-delay: 0s;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+}
+
+#logoPic>li:nth-of-type(1) {
+    animation-delay: 1s;
+    -webkit-animation-delay: 1s;
+}
+
+#logoPic>li {
+    animation-duration: 2.5s;
+}
+
+.idx_Circle {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid #535353;
+    position: absolute;
+    top: 35px;
+    right: 18px;
+    overflow: hidden;
+    opacity: 0;
+    z-index: 20;
+}
+
+.idx_CircleShow {
+    animation-fill-mode: forwards;
+    animation-name: circleShow;
+    animation-delay: 3s;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_CircleMove {
+    animation-fill-mode: forwards;
+    animation-name: circleMove;
+    animation-delay: 0s;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_botCircleMove {
+    animation-fill-mode: forwards;
+    animation-name: BotcircleMove;
+    animation-delay: 0s;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_LeftCircleMove {
+    animation-fill-mode: forwards;
+    animation-name: LeftCircleMove;
+    animation-delay: 0s;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_RightCircleMove {
+    animation-fill-mode: forwards;
+    animation-name: RightCircleMove;
+    animation-delay: 0s;
+    animation-duration: 2.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_vLine {
+    display: block;
+    width: 2px;
+    position: absolute;
+    background: #535353;
+    z-index: 10;
+    animation-fill-mode: forwards;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_hLine {
+    display: block;
+    height: 2px;
+    position: absolute;
+    background: #535353;
+    animation-fill-mode: forwards;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.idx_font {
+    position: absolute;
+}
+
+.idx_font>h3 {
+    display: table;
+    white-space: nowrap;
+    padding: 1rem 1.5rem;
+    font-size: 1.4rem;
+    color: #535353;
+    opacity: 0;
+}
+
+
+/* 右面LOGO */
+
+.bounceInRight .idx_Circle {
+    top: 96px;
+}
+
+.bounR_vLineShow {
+    height: 0px;
+    right: 23px;
+    bottom: 40px;
+    animation-name: vRLineShow;
+    animation-delay: 3.5s;
+}
+
+.bounR_HLineShow {
+    width: 0px;
+    left: 125px;
+    bottom: 11px;
+    animation-name: hLineShow;
+    animation-delay: 4s;
+}
+
+.bounceInRight .idx_font {
+    left: 235px;
+    bottom: -9px;
+}
+
+
+/* 上面LOGO */
+
+.bounT_VLineShow {
+    height: 0px;
+    right: 23px;
+    top: 35px;
+    animation-name: vLineShow;
+    animation-delay: 3.5s;
+}
+
+.idx_font>h3 {
+    animation-fill-mode: forwards;
+    animation-name: fontShow;
+    animation-delay: 6s;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+}
+
+.bounT_HLineShow {
+    width: 0px;
+    top: 6px;
+    left: 126px;
+    animation-name: hLineShow;
+    animation-delay: 4s;
+}
+
+.bounceInDown .idx_font {
+    right: -247px;
+    top: -14px;
+}
+
+
+/* 下面LOGO */
+
+.bounceInUp .idx_Circle {
+    top: 95px;
+    left: 13px;
+}
+
+.bounceInUp .idx_vLine {
+    height: 0px;
+    left: 18px;
+    bottom: 44px;
+    animation-name: vRLineShow;
+    animation-delay: 3.5s;
+}
+
+.bounceInUp .idx_hLine {
+    width: 0px;
+    right: 130px;
+    bottom: 12px;
+    animation-name: hLineShow;
+    animation-delay: 4s;
+}
+
+.bounceInUp .idx_font {
+    right: 240px;
+    bottom: -9px;
+}
+
+
+/* 左边LOGO */
+
+.bounceInLeft .idx_Circle {
+    top: 37px;
+    left: 13px;
+}
+
+.bounceInLeft .idx_vLine {
+    height: 0px;
+    left: 18px;
+    top: 6px;
+    animation-name: vLineShow;
+    animation-delay: 3.5s;
+}
+
+.bounceInLeft .idx_hLine {
+    width: 0px;
+    right: 130px;
+    top: 6px;
+    animation-name: hLineShow;
+    animation-delay: 4s;
+}
+
+.bounceInLeft .idx_font {
+    right: 240px;
+    top: -12px;
+}
+
+
+/*------------------------------------------------------------------------------*/
+
+.bounceInDown .idx_font>span:nth-of-type(1),
+.bounceInRight .idx_font>span:nth-of-type(1) {
+    width: 0;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #535353;
+}
+
+.bounceInUp .idx_font>span:nth-of-type(1),
+.bounceInLeft .idx_font>span:nth-of-type(1) {
+    width: 0;
+    height: 1px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #535353;
+}
+
+.FtBShow {
+    animation-fill-mode: forwards;
+    animation-name: FtBShow;
+    animation-delay: 5s;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.bounceInDown .idx_font>span:nth-of-type(2),
+.bounceInRight .idx_font>span:nth-of-type(2) {
+    width: 0;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #535353;
+}
+
+.bounceInUp .idx_font>span:nth-of-type(2),
+.bounceInLeft .idx_font>span:nth-of-type(2) {
+    width: 0;
+    height: 1px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #535353;
+}
+
+.bounceInDown .idx_font>span:nth-of-type(3),
+.bounceInRight .idx_font>span:nth-of-type(3) {
+    width: 1px;
+    height: 0;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    background: #535353;
+}
+
+.bounceInUp .idx_font>span:nth-of-type(3),
+.bounceInLeft .idx_font>span:nth-of-type(3) {
+    width: 1px;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 20px;
+    background: #535353;
+}
+
+.FLeftShow {
+    animation-fill-mode: forwards;
+    animation-name: FLeftShow;
+    animation-delay: 4.5s;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.bounceInDown .idx_font>span:nth-of-type(4),
+.bounceInRight .idx_font>span:nth-of-type(4) {
+    width: 1px;
+    height: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #535353;
+}
+
+.bounceInUp .idx_font>span:nth-of-type(4),
+.bounceInLeft .idx_font>span:nth-of-type(4) {
+    width: 1px;
+    height: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #535353;
+}
+
+.rightTShow {
+    animation-fill-mode: forwards;
+    animation-name: rightTShow;
+    animation-delay: 5.5s;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.logoImgShow {
+    animation-fill-mode: forwards;
+    animation-name: logoImgShow;
+    animation-delay: 2s;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+}
+
+.bounceInDown .idx_font>span:nth-of-type(5),
+.bounceInRight .idx_font>span:nth-of-type(5) {
+    width: 1px;
+    height: 0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #535353;
+}
+
+.bounceInUp .idx_font>span:nth-of-type(5),
+.bounceInLeft .idx_font>span:nth-of-type(5) {
+    width: 1px;
+    height: 0;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #535353;
+}
+
+@keyframes circleShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes circleMove {
+    0% {
+        top: 35px;
+        opacity: 1;
+    }
+    30% {
+        top: 6px;
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    50% {
+        top: 6px;
+        right: -86px;
+        opacity: 1;
+        transform: scale(6);
+        border-color: #007f32;
+    }
+    100% {
+        top: 6px;
+        right: -86px;
+        transform: scale(6) rotateY(180deg);
+        border-color: #007f32;
+        opacity: 0;
+    }
+}
+
+@keyframes BotcircleMove {
+    0% {
+        top: 95px;
+        opacity: 1;
+    }
+    30% {
+        top: 130px;
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    50% {
+        top: 130px;
+        left: -89px;
+        opacity: 1;
+        transform: scale(6);
+        border-color: #007f32;
+    }
+    100% {
+        top: 130px;
+        left: -89px;
+        transform: scale(6) rotateY(180deg);
+        border-color: #007f32;
+        opacity: 0;
+    }
+}
+
+@keyframes LeftCircleMove {
+    0% {
+        top: 37px;
+        opacity: 1;
+    }
+    30% {
+        top: 0px;
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    50% {
+        top: 0px;
+        left: -91px;
+        opacity: 1;
+        transform: scale(6);
+        border-color: #007f32;
+    }
+    100% {
+        top: 0px;
+        left: -91px;
+        transform: scale(6) rotateY(180deg);
+        border-color: #007f32;
+        opacity: 0;
+    }
+}
+
+@keyframes RightCircleMove {
+    0% {
+        top: 96px;
+        opacity: 1;
+    }
+    30% {
+        top: 132px;
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    50% {
+        top: 132px;
+        right: -90px;
+        opacity: 1;
+        transform: scale(6);
+        border-color: #007f32;
+    }
+    100% {
+        top: 132px;
+        right: -90px;
+        transform: scale(6) rotateY(180deg);
+        border-color: #007f32;
+        opacity: 0;
+    }
+}
+
+@keyframes logoImgShow {
+    0% {
+        transform: rotateY("-360deg");
+        opacity: 0;
+    }
+    100% {
+        transform: rotateY("0deg");
+        opacity: 1;
+    }
+}
