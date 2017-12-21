@@ -1,13 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+    <idxHead></idxHead>
   </div>
 </template>
 
 <script>
+import idxHead from "./components/head";
 export default {
-  name: "app"
+  name: "app",
+  components: {
+    idxHead
+  }
 };
 </script>
 
