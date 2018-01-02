@@ -1,0 +1,78 @@
+.mui-slider .mui-slider-group .mui-slider-item img{
+	height:180px;
+}
+.main-h5{
+	background: #fff;
+    margin: 0;
+    height: 40px;
+    line-height: 40px;
+    color: #000;
+    font-size: 18px;
+    text-indent: 15px;
+}
+.mui-table-view{
+	position: static;
+}
+.mui-table-view:after{
+	display: none;
+}
+.main-head i{
+	font-size: 22px;
+    margin-right: 10px;
+}
+.main-change{
+	float: right;
+    margin-right: 15px;
+    font-size: 14px;
+    color: #828282;
+    display: block;
+    height: 100%;
+}
+.main-change i{
+	font-size: 16px;
+}
+.main-smTitle{
+	overflow: hidden;
+	height: 20px;
+    line-height: 20px;
+}
+.main-smTitle>span:nth-of-type(1){
+	display: block;
+	height: 100%;
+	float: left;
+}
+.main-smTitle>span:nth-of-type(2){
+	display: block;
+	height: 100%;
+	float: right;
+}
+.main-content{
+	margin-top: 25px;
+}
+.main-relPic a h3{
+	font-size: 16px;
+    color: #000;
+    line-height: 20px;
+    font-weight: normal;
+    margin-top: 5px;
+    text-align: left;
+}
+.main-relPic a h4{
+	font-size: 12px;
+	color: #000;
+	line-height: 15px;
+    font-weight: normal;
+    overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	text-align: left;
+}
+.mui-media-object{
+	border-radius: 6px;
+}
+.main-relPic .mui-media-object{
+	border-radius: 0;
+}
+.mui-table-view.mui-grid-view .mui-table-view-cell{
+	margin-bottom: 10px;
+}

@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>IconFont</title>
+    <link rel="stylesheet" href="demo.css">
+    <link rel="stylesheet" href="iconfont.css">
+</head>
+<body>
+    <div class="main markdown">
+        <h1>IconFont 图标</h1>
+        <ul class="icon_lists clear">
+            
+                <li>
+                <i class="icon iconfont icon-bofang"></i>
+                    <div class="name">播放</div>
+                    <div class="fontclass">.icon-bofang</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-pause-20"></i>
+                    <div class="name">暂停</div>
+                    <div class="fontclass">.icon-pause-20</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-shuaxin"></i>
+                    <div class="name">刷新</div>
+                    <div class="fontclass">.icon-shuaxin</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-cf-c87"></i>
+                    <div class="name">更多</div>
+                    <div class="fontclass">.icon-cf-c87</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-shequxinwen01"></i>
+                    <div class="name">新闻</div>
+                    <div class="fontclass">.icon-shequxinwen01</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-shimingrenzheng"></i>
+                    <div class="name">实名认证</div>
+                    <div class="fontclass">.icon-shimingrenzheng</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-liwu"></i>
+                    <div class="name">礼物</div>
+                    <div class="fontclass">.icon-liwu</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-mima"></i>
+                    <div class="name">密码</div>
+                    <div class="fontclass">.icon-mima</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-zuoyoujiantou-copy"></i>
+                    <div class="name">左右箭头</div>
+                    <div class="fontclass">.icon-zuoyoujiantou-copy</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-xiugaimima"></i>
+                    <div class="name">修改密码</div>
+                    <div class="fontclass">.icon-xiugaimima</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-zuoyoujiantou-copy-copy-copy"></i>
+                    <div class="name">左右箭头</div>
+                    <div class="fontclass">.icon-zuoyoujiantou-copy-copy-copy</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-jiangbei"></i>
+                    <div class="name">奖杯</div>
+                    <div class="fontclass">.icon-jiangbei</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-qiepian"></i>
+                    <div class="name">用户名</div>
+                    <div class="fontclass">.icon-qiepian</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-gerenziliao"></i>
+                    <div class="name">个人资料</div>
+                    <div class="fontclass">.icon-gerenziliao</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-shipin"></i>
+                    <div class="name">视频</div>
+                    <div class="fontclass">.icon-shipin</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-jiantoushang"></i>
+                    <div class="name">箭头 上</div>
+                    <div class="fontclass">.icon-jiantoushang</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-you"></i>
+                    <div class="name">长箭头</div>
+                    <div class="fontclass">.icon-you</div>
+                </li>
+            
+                <li>
+                <i class="icon iconfont icon-arrow-up"></i>
+                    <div class="name">箭头 上</div>
+                    <div class="fontclass">.icon-arrow-up</div>
+                </li>
+            
+        </ul>
+
+        <h2 id="font-class-">font-class引用</h2>
+        <hr>
+
+        <p>font-class是unicode使用方式的一种变种，主要是解决unicode书写不直观，语意不明确的问题。</p>
+        <p>与unicode使用方式相比，具有如下特点：</p>
+        <ul>
+        <li>兼容性良好，支持ie8+，及所有现代浏览器。</li>
+        <li>相比于unicode语意明确，书写更直观。可以很容易分辨这个icon是什么。</li>
+        <li>因为使用class来定义图标，所以当要替换图标时，只需要修改class里面的unicode引用。</li>
+        <li>不过因为本质上还是使用的字体，所以多色图标还是不支持的。</li>
+        </ul>
+        <p>使用步骤如下：</p>
+        <h3 id="-fontclass-">第一步：引入项目下面生成的fontclass代码：</h3>
+
+
+        <pre><code class="lang-js hljs javascript"><span class="hljs-comment">&lt;link rel="stylesheet" type="text/css" href="./iconfont.css"&gt;</span></code></pre>
+        <h3 id="-">第二步：挑选相应图标并获取类名，应用于页面：</h3>
+        <pre><code class="lang-css hljs">&lt;<span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">class</span>="<span class="hljs-selector-tag">iconfont</span> <span class="hljs-selector-tag">icon-xxx</span>"&gt;&lt;/<span class="hljs-selector-tag">i</span>&gt;</code></pre>
+        <blockquote>
+        <p>"iconfont"是你项目下的font-family。可以通过编辑项目查看，默认是"iconfont"。</p>
+        </blockquote>
+    </div>
+</body>
+</html>
