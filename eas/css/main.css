@@ -76,3 +76,21 @@
 .mui-table-view.mui-grid-view .mui-table-view-cell{
 	margin-bottom: 10px;
 }
+#main-active{
+	overflow: hidden;
+}
+#main-active>li.mui-table-view-cell{
+	float: left;
+}
+#main-active li:nth-of-type(n+5){
+	display: none;
+}
+.mui-bar-nav{
+	background: #0099ff;
+}
+.mui-title{
+	color: #fff;
+}
+.mui-action-back{
+	color: #fff;
+}

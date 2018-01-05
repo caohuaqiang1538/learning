@@ -7,12 +7,19 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+		<link href="font/iconfont.css" rel="stylesheet"/>
 		<link rel="stylesheet" href="css/mui.min.css">
 		<style>
 			html,
 			body {
 				background-color: #efeff4;
+			}
+			.mui-bar-tab .mui-tab-item .mui-icon{
+				font-size: 16px;
+    			height: auto;
+			}
+			.mui-active{
+				color: #0099ff;
 			}
 		</style>
 	</head>
@@ -24,27 +31,31 @@
 		</header>-->
 		<nav class="mui-bar mui-bar-tab">
 			<a id="defaultTab" class="mui-tab-item mui-active" href="pages/main.html">
-				<span class="mui-icon mui-icon-home"></span>
+				<span class="mui-icon iconfont icon-iconfontshouye"></span>
 				<span class="mui-tab-label">首页</span>
 			</a>
 			<a class="mui-tab-item" href="tab-webview-subpage-chat.html">
-				<span class="mui-icon mui-icon-email"><span class="mui-badge">9</span></span>
+				<span class="mui-icon mui-icon-email"></span>
 				<span class="mui-tab-label">消息</span>
 			</a>
 			<a class="mui-tab-item" href="tab-webview-subpage-contact.html">
 				<span class="mui-icon mui-icon-contact"></span>
 				<span class="mui-tab-label">通讯录</span>
 			</a>
-			<a class="mui-tab-item" href="pages/login.html">
-				<span class="mui-icon mui-icon-gear"></span>
-				<span class="mui-tab-label">设置</span>
+			<a class="mui-tab-item" href="pages/my.html">
+				<span class="mui-icon iconfont icon-wo"></span>
+				<span class="mui-tab-label">我</span>
 			</a>
 		</nav>
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
-			mui.init();
-			var subpages = ['pages/main.html', 'tab-webview-subpage-chat.html', 'tab-webview-subpage-contact.html', 'pages/login.html'];
+			//初始化缓存
+			localStorage.setItem("$url",JSON.stringify("http://192.168.31.240:7070"));
+			mui.init({
+				statusBarBackground: '#ffffff',
+			});
+			var subpages = ['pages/main.html', 'tab-webview-subpage-chat.html', 'tab-webview-subpage-contact.html', 'pages/my.html'];
 			var subpage_style = {
 				top: '0',
 				bottom: '51px'
