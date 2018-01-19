@@ -1,0 +1,158 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../font/iconfont.css" rel="stylesheet"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body{
+				background-color:#ffffff ;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				width: 80%;
+				height: 50px;
+			}
+			.mui-input-row label{
+				width: 20%;
+				height: 50px;
+				line-height: 28px;
+			}
+			.mui-input-row label>i{
+				color: #b6b6b6;
+				font-size: 20px;
+			}
+			.mui-input-group .mui-input-row{
+				height: 50px;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 15px;
+			}
+			.mui-input-group:after{
+				display: none;
+			}
+			.reg-btn{
+				background: #0099ff;
+				color: #ffffff;
+				width: 100%;
+				height: 50px;
+				font-size: 18px;
+			}
+			.mui-button-row{
+				padding: 0 15px;
+				margin-top: 25px;
+			}
+			#validate input{
+				width: 50%;
+    			float: left;
+			}
+			#validate span{
+				right: 30%;
+				vertical-align: middle;
+			}
+			#validate button{
+				height: 100%;
+			    border: none;
+			    color: #0099ff;
+			}
+			.mess-save{
+				height: 44px;
+				line-height: 44px;
+			}
+			#mess-Title{
+				font-size: 17px;
+			    line-height: 44px;
+			    margin: 0;
+			    padding: 0;
+			    font-weight: normal;
+			}
+			input[type="date"]:before{
+			    color:#A9A9A9;
+			    content:attr(placeholder);
+			}
+			input[type="date"].full:before {
+			    color:black;
+			    content:""!important;
+			}
+			#date{
+				overflow: hidden;
+				height: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">修改出生日期</h1>
+		    <a class="mui-pull-right mess-save">保存</a>
+		</header>
+		<div class="mui-content">
+		    <form class="mui-input-group">
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-chushengriqi"></i></label>
+					<input type="date"  id="date" class="mui-input-clear" placeholder="请输入出生日期">
+				</div>
+			</form>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true,
+				statusBarBackground: '#0099ff',
+				beforeback: function() {
+		　　　　 //获得父页面的webview
+		        var my = plus.webview.currentWebview().opener();
+		　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+		        mui.fire(my, 'refresh');
+		        //返回true,继续页面关闭逻辑
+		        return true;
+		    }
+			})
+			$("#date").on("input",function(){
+			   if($(this).val().length>0){
+				   $(this).addClass("full");
+				}else{
+			  		$(this).removeClass("full");
+			  	}
+			});
+			/*设置全局地址*/
+			mui.plusReady(function() {
+				$(".mess-save").on("tap",function(){
+					var userMess = JSON.parse(localStorage.getItem("$userMess"));
+					var URL = localStorage.getItem("$url");
+					var AllUrl = URL.substring(1,URL.length-1);
+					var bormBate = $("#date").val();
+					if(bormBate == "" || bormBate == null){
+						plus.nativeUI.toast("出生日期不能为空");
+					}else{
+						$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/UserApp/savephone",
+						data:{
+							id:userMess.id,
+							bormBate:bormBate
+						},
+						async:true,
+						dataType:"jsonp",
+						success:function(data){
+							userMess["bormBate"] = bormBate;
+							localStorage.setItem("$userMess",JSON.stringify(userMess));
+							mui.back();
+							plus.nativeUI.toast("修改成功");
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍后再试");
+						}
+					});	
+					}
+					
+			})
+			})
+		</script>
+	</body>
+
+</html>

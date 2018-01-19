@@ -14,13 +14,22 @@
 			body {
 				background-color: #efeff4;
 			}
+			.mui-bar-tab{
+				height:55px;
+			}
 			.mui-bar-tab .mui-tab-item .mui-icon{
-				font-size: 16px;
+				font-size: 18px;
     			height: auto;
 			}
-			.mui-active{
-				color: #0099ff;
+			.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label{
+				font-size: 14px;
 			}
+			nav a.mui-active span{
+				color: #000;
+			}
+			/*nav a span{
+				color: #fff;;
+			}*/
 		</style>
 	</head>
 
@@ -34,31 +43,28 @@
 				<span class="mui-icon iconfont icon-iconfontshouye"></span>
 				<span class="mui-tab-label">首页</span>
 			</a>
-			<a class="mui-tab-item" href="tab-webview-subpage-chat.html">
-				<span class="mui-icon mui-icon-email"></span>
-				<span class="mui-tab-label">消息</span>
-			</a>
-			<a class="mui-tab-item" href="tab-webview-subpage-contact.html">
-				<span class="mui-icon mui-icon-contact"></span>
-				<span class="mui-tab-label">通讯录</span>
+			<a class="mui-tab-item" href="pages/building.html">
+				<span class="mui-icon iconfont icon-tongjifenxi"></span>
+				<span class="mui-tab-label">统计分析</span>
 			</a>
 			<a class="mui-tab-item" href="pages/my.html">
 				<span class="mui-icon iconfont icon-wo"></span>
-				<span class="mui-tab-label">我</span>
+				<span class="mui-tab-label">我&nbsp;</span>
 			</a>
 		</nav>
 		<script src="js/mui.min.js"></script>
+		<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
-			//初始化缓存
-			localStorage.setItem("$url",JSON.stringify("http://192.168.31.240:7070"));
+			//初始化缓存       http://202.100.185.85:8888     192.168.31.240:8080
+			localStorage.setItem("$url",JSON.stringify("http://202.100.185.85:8888"));
 			mui.init({
-				statusBarBackground: '#ffffff',
+				statusBarBackground: '#0099ff',
 			});
-			var subpages = ['pages/main.html', 'tab-webview-subpage-chat.html', 'tab-webview-subpage-contact.html', 'pages/my.html'];
+			var subpages = ['pages/main.html', 'pages/building.html', 'pages/my.html'];
 			var subpage_style = {
 				top: '0',
-				bottom: '51px'
+				bottom: '56px'
 			};
 			
 			var aniShow = {};
@@ -66,7 +72,7 @@
 			 //创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
 				var self = plus.webview.currentWebview();
-				for (var i = 0; i < 4; i++) {
+				for (var i = 0; i < 3; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
 					if (i > 0) {
@@ -77,7 +83,7 @@
 					}
 					self.append(sub);
 				}
-			});
+			
 			 //当前激活选项
 			var activeTab = subpages[0];
 			var title = document.getElementById("title");
@@ -116,6 +122,77 @@
 					current.classList.remove('mui-active');
 					defaultTab.classList.add('mui-active');
 				}
+			});
+			
+			//版本检测
+			//需要传递当前的版本
+			var URLs = localStorage.getItem("$url");
+			var AllUrl = URLs.substring(1,URLs.length-1);
+			var checkUrl = AllUrl+"/asw-eas/f/appVersion/getAppVersion";
+			function checkUpdate(wgtVer){
+			 //   plus.nativeUI.showWaiting("检测更新...");
+			    $.ajax({
+			    	type:"post",
+			    	url:checkUrl,
+			    	async:true,
+			    	data:{
+			    		versionNumber:wgtVer
+			    	},
+			    	dataType:"jsonp",
+			    	success : function(json){ 
+	                plus.nativeUI.closeWaiting();
+		                if( json.status == "false" ){                   
+		                    //可以升级
+		                    plus.nativeUI.confirm("检查到当前版本有最新更新，下载升级？",
+		                        function(event){
+		                            if(event.index ==0){
+		                               // console.log('下载地址：'+_config.url + json.url)
+		                                var downUrl = AllUrl +"/asw-eas/"+ json.versionUrl;
+		                              //  alert(downUrl);
+		                                downWgt(downUrl); //下载更新版的地址
+		                            }                        
+		                        } ,'系统消息',['马上升级','下次再说']);   
+		                } else{  
+		                    //plus.nativeUI.toast("无新版本可更新！");
+		                    return;
+		                }
+		            },
+		            error : function(xhr, error){ 
+		              //  plus.nativeUI.closeWaiting();
+		                //plus.nativeUI.toast('检测更新失败！') ;
+		            }
+			    }); 
+			}
+			// 下载wgt文件
+			function downWgt(wgtUrl){
+			    plus.nativeUI.showWaiting("下载更新文件...");
+			    plus.downloader.createDownload( wgtUrl, {filename:"_doc/update/"}, function(d,status){
+			        if ( status == 200 ) { 
+			            //console.log("下载wgt成功："+d.filename);
+			            installWgt(d.filename); // 安装wgt包
+			        } else {
+			            //console.log("下载wgt失败！");
+			            plus.nativeUI.alert("下载更新失败！");
+			        }
+			        plus.nativeUI.closeWaiting();
+			    }).start();
+			}
+			// 更新应用资源  
+			function installWgt(path){
+			    plus.nativeUI.showWaiting("安装更新文件...");
+			    plus.runtime.install(path,{},function(){
+			        plus.nativeUI.closeWaiting();        
+			        plus.nativeUI.alert("应用资源更新完成！",function(){
+			            plus.runtime.restart();
+			        });
+			    },function(e){
+			        plus.nativeUI.closeWaiting();        
+			        plus.nativeUI.alert("安装更新文件失败["+e.code+"]："+e.message);
+			    });
+			}
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){ 
+		        checkUpdate(inf.version)
+		    });  
 			});
 		</script>
 	</body>

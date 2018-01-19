@@ -137,83 +137,6 @@
 				background: #0099ff;
     			color: #fff;
 			}
-			.loading{
-				width: 100%;
-			    height: 100%;
-			    background: rgba(0,0,0,0.5);
-			    position: absolute;
-			    top: 0;
-			    left: 0;
-			    z-index: 10;
-			    display: flex;
-			    justify-content: center;
-			    align-items: center;
-			    display: none;
-			}
-			.timer{
-			    width: 24px;
-			    height: 24px;
-			    background-color: transparent;
-			    box-shadow: inset 0px 0px 0px 2px #fff;
-			    border-radius: 50%;
-			    position: relative;
-			 }
-			.timer:after, .timer:before{
-			    position: absolute;
-			    content:"";
-			    background-color: #fff;
-			}
-			.timer:after{
-			    width: 10px;
-			    height: 2px;
-			    top: 11px;
-			    left: 11px;
-			    -webkit-transform-origin: 1px 1px;
-			       -moz-transform-origin: 1px 1px;
-			            transform-origin: 1px 1px;
-			    -webkit-animation: minhand 2s linear infinite;
-			       -moz-animation: minhand 2s linear infinite;
-			            animation: minhand 2s linear infinite;
-			}
-			
-			.timer:before{
-			    width: 8px;
-			    height: 2px;
-			    top: 11px;
-			    left: 11px;
-			    -webkit-transform-origin: 1px 1px;
-			       -moz-transform-origin: 1px 1px;
-			            transform-origin: 1px 1px;
-			    -webkit-animation: hrhand 8s linear infinite;
-			       -moz-animation: hrhand 8s linear infinite;
-			            animation: hrhand 8s linear infinite;
-			}
-
-		@-webkit-keyframes minhand{
-		    0%{-webkit-transform:rotate(0deg)}
-		    100%{-webkit-transform:rotate(360deg)}
-		}
-		@-moz-keyframes minhand{
-		    0%{-moz-transform:rotate(0deg)}
-		    100%{-moz-transform:rotate(360deg)}
-		}
-		@keyframes minhand{
-		    0%{transform:rotate(0deg)}
-		    100%{transform:rotate(360deg)}
-		}
-		
-		@-webkit-keyframes hrhand{
-		    0%{-webkit-transform:rotate(0deg)}
-		    100%{-webkit-transform:rotate(360deg)}
-		}
-		@-moz-keyframes hrhand{
-		    0%{-moz-transform:rotate(0deg)}
-		    100%{-moz-transform:rotate(360deg)}
-		}
-		@keyframes hrhand{
-		    0%{transform:rotate(0deg)}
-		    100%{transform:rotate(360deg)}
-		}
 		</style>
 	</head>
 
@@ -221,9 +144,6 @@
 		<header class="mui-bar mui-bar-nav">
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		</header>
-		<div class="loading">
-			<div class="timer"></div>
-		</div>
 		<div class="mui-content">
 		    <img src="../images/logo.png" />
 		    <div id="divload"></div>
@@ -254,11 +174,11 @@
 		    	</div>
 		   		<div id="log-regBox">
 		   			<div>
-			   			<span>老师</span>
-			   			<span class="log-regAct">家长</span>
-			   			<span>学生</span>
+			   			<span data-type="1">老师</span>
+			   			<span data-type="2">家长</span>
+			   			<span class="log-regAct" data-type="0">学生</span>
 			   		</div>
-		   			<button id="regs" data-href="老师" class="mui-btn mui-btn-block mui-btn-primary loginBtn"><img src="../images/right.png"></button>
+		   			<button id="regs" data-type="0" class="mui-btn mui-btn-block mui-btn-primary loginBtn"><img src="../images/right.png"></button>
 		   		</div>
 		    </div>
 		</div>
@@ -268,7 +188,7 @@
 	<script type="text/javascript" charset="utf-8">
 		mui.init({
 			swipeBack:true,
-			statusBarBackground: '#ffffff',
+			statusBarBackground: '#0099ff',
 			beforeback: function() {
 		　　　　 //获得父页面的webview
 		        var my = plus.webview.currentWebview().opener();
@@ -294,25 +214,35 @@
 				}
 			})
 		})
+		//点击选择角色（家长暂时注掉）
 		$("#log-regBox span").each(function(idx,val){
 			val.addEventListener("tap",function(){
 				$(this).addClass("log-regAct").siblings().removeClass("log-regAct");
-				$("#regs").attr("data-href",$(this).text());
+				$("#regs").data("type",$(this).data("type"));
 			})
 		})
-		$("#regs")[0].addEventListener("tap",function(){
-			mui.openWindow({
-				url:"reg/register.html",
-				id:"reg"
-			})
+		$("#regs").on("tap",function(){
+			if($(this).data("type") == "2"){
+				plus.nativeUI.toast("暂未开放家长注册");
+				return;
+			}else{
+				var type = $(this).data("type");
+				mui.openWindow({
+					url:"reg/register.html",
+					id:"reg",
+					extras:{
+				        type:type
+				    }
+				})
+			}
 		})
-		$("#log-fot")[0].addEventListener("tap",function(){
+		$("#log-fot").on("tap",function(){
 			mui.openWindow({
 				url:"reg/forget.html",
 				id:"forget"
 			})
 		})
-		$("#login")[0].addEventListener("tap",function(){
+		$("#login").on("tap",function(){
 			var accountBox = $("#account")[0],
 				passwordBox = $("#password")[0];
 			var loginInfo = {
@@ -320,7 +250,7 @@
 					password: passwordBox.value
 				};
 			if(app.login(loginInfo)){
-				$(".loading").css("display","flex");
+				var wt=plus.nativeUI.showWaiting();
 				var URL = localStorage.getItem("$url");
 				var AllUrl = URL.substring(1,URL.length-1);
 				$.ajax({
@@ -330,22 +260,19 @@
 					data:loginInfo,
 					dataType:"jsonp",
 					success:function(data){
-						console.log(data);
-						$(".loading").css("display","none");
+						wt.close(); 
 						if(data.loginBoolean == "true"){
 							app.setState(loginInfo);
 							localStorage.setItem("$userMess",JSON.stringify(data.user));
-							mui.openWindow({
-								/*url:"main.html",*/
-								id:"pages/my.html"
-							})
+							mui.back();
 							
 						}else{
-							alert("您的用户名或密码错误")
+							plus.nativeUI.toast("您的用户名或密码错误");
 						}
 					},
 					error:function(){
-						alert("网络错误");
+						plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+						wt.close(); 
 					}
 				});
 			} /*本地输入格式验证*/

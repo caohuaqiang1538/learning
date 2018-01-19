@@ -17,115 +17,43 @@
 			<div class="mui-slider-group mui-slider-loop" id="bannerSlide">
 				<div class="mui-slider-item mui-slider-item-duplicate">
 					<a href="javascript:;">
-						<img :src="urls+bannerData[bannerLength-1].image">
+						<img :src="urls+bannerData[bannerLength-1].articleData.mv">
 					</a>
 				</div>
 				<div v-for="banner in bannerData" class="mui-slider-item">
 					<a href="javascript:;">
-						<img :src="urls+banner.image">
+						<img :src="urls+banner.articleData.mv">
 					</a>
 				</div>
 				<div class="mui-slider-item mui-slider-item-duplicate">
 					<a href="#">
-						<img :src="urls+bannerData[0].image">
+						<img :src="urls+bannerData[0].articleData.mv">
 					</a>
 				</div>
 			</div>
 			<div class="mui-slider-indicator" id="bannerSize">
-				<div v-for="(val,idx) in bannerLength" class="mui-indicator" ></div>
+				<div v-for="(val,idx) in bannerLength" class="mui-indicator" :class="{'mui-active':idx == 0}"></div>
 			</div>
 		</div>
 		<!--最新活动-->
 		<div class="">
-			<h5 class="main-h5"><span class="main-head"><i class="iconfont icon-liwu"></i>最新活动</span><span id="main-actChange" class="main-change">换一组<i class="iconfont icon-shuaxin"></i></span></h5>
+			<h5 class="main-h5"><span class="main-head"><i class="iconfont icon-liwu"></i>最新活动</span></h5>
 		    <div>
-			    <div class="mui-slider">
-		        <div class="mui-slider-group mui-slider-loop" id="actSlide">
-		            <!--<div class="mui-slider-item mui-slider-item-duplicate">
-		                <ul class="mui-table-view mui-grid-view">
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                </ul>
-		            </div>
-		            <div  class="mui-slider-item">
-		                <ul class="mui-table-view mui-grid-view">
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                </ul>
-		            </div>
-		            <div  class="mui-slider-item">
-		                <ul class="mui-table-view mui-grid-view">
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                </ul>
-		            </div>
-		            <div class="mui-slider-item mui-slider-item-duplicate">
-		                <ul class="mui-table-view mui-grid-view">
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                    <li class="mui-table-view-cell mui-media mui-col-xs-6"><a href="#"><img class="mui-media-object" src="../images/cbd.jpg">
-		                            <div class="mui-media-body">Color of SIP CBD</div></a></li>
-		                </ul>
-		            </div>-->
-		        </div>
-		        <!--<div class="mui-slider-indicator" style="position: static;background-color: #fff;">
-		            <span class="mui-action mui-action-previous mui-icon mui-icon-back"></span>
-		            <div class="mui-number">
-		                <span>1</span> / 2
-		            </div>
-		            <span class="mui-action mui-action-next mui-icon mui-icon-forward"></span>
-		        </div>-->
-		    </div>
+			    <div class="mui-slider" id="sliders">
+		        	<div class="mui-slider-group mui-slider-loop" id="actSlide">
+		        	</div>
+		       </div>
 			</div>
 		</div>
 		<!--教学成果-->
 		<div  class="main-content">
-			<h5 class="main-h5"><span class="main-head"><i class="iconfont icon-jiangbei"></i>教学成果</span><span class="main-change">换一组<i class="iconfont icon-shuaxin"></i></span></h5>
-		    <ul class="mui-table-view mui-grid-view main-relPic">
-		    	<li class="mui-table-view-cell mui-media mui-col-xs-4">
-		    		<a href="#">
-		    			<img class="mui-media-object" src="../images/goodRel.jpg"/>
-		    			<h3>王明辉</h3>
-		    			<h4>一等奖学金获得者</h4>
-		    		</a>
-		    	</li>
-		    	<li class="mui-table-view-cell mui-media mui-col-xs-4">
-		    		<a href="#">
-		    			<img class="mui-media-object" src="../images/goodRel.jpg"/>
-		    			<h3>王明辉</h3>
-		    			<h4>一等奖学金获得者</h4>
-		    		</a>
-		    	</li>
-		    	<li class="mui-table-view-cell mui-media mui-col-xs-4">
-		    		<a href="#">
-		    			<img class="mui-media-object" src="../images/goodRel.jpg"/>
-		    			<h3>王明辉</h3>
-		    			<h4>一等奖学金获得者</h4>
-		    		</a>
-		    	</li>
-		    </ul>
+			<h5 class="main-h5"><span class="main-head"><i class="iconfont icon-jiangbei"></i>教学成果</span><span class="main-change"></span></h5>
+		    <div>
+			    <div class="mui-slider" id="relSliders">
+		        	<div class="mui-slider-group mui-slider-loop" id="relSlide">
+		        	</div>
+		       </div>
+			</div>
 		</div>
 		<!--教学视频-->
 		<div  class="main-content">
@@ -138,18 +66,18 @@
 		            	<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
 		            </a></li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#">
+		            <a href="javascript:;">
 		                <img class="mui-media-object" src="../images/video.jpg">
 		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
 		        		<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
 		            </a></li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#"><img class="mui-media-object" src="../images/video.jpg">
+		            <a href="javascript:;"><img class="mui-media-object" src="../images/video.jpg">
 		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
 		        		<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
 		            </a></li>
 		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#">
+		            <a href="javascript:;">
 		                <img class="mui-media-object" src="../images/video.jpg">
 		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
 		    			<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
@@ -157,31 +85,14 @@
 		    </ul>  
 		</div>
 		<!--新闻资讯-->
-		<div class="main-content">
-			<h5 class="main-h5"><span class="main-head"><i class="iconfont icon-shequxinwen01"></i>新闻资讯</span><span class="main-change">查看全部</span></h5>
+		<div class="main-content" id="main-news">
+			<h5 class="main-h5"><span class="main-head"><i class="iconfont icon-shequxinwen01"></i>新闻资讯</span><span class="main-change" @tap="toList()">查看全部</span></h5>
 		    <ul class="mui-table-view mui-grid-view">
-		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#">
-		                <img class="mui-media-object" src="../images/news.jpg">
-		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
-		            	<h6 class="main-smTitle"><span>2017-12-25发布</span></h6>
-		            </a></li>
-		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#">
-		                <img class="mui-media-object" src="../images/news.jpg">
-		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
-		        		<h6 class="main-smTitle"><span>2017-12-25发布</span></h6>
-		            </a></li>
-		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#"><img class="mui-media-object" src="../images/news.jpg">
-		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
-		        		<h6 class="main-smTitle"><span>2017-12-25发布</span></h6>
-		            </a></li>
-		        <li class="mui-table-view-cell mui-media mui-col-xs-6">
-		            <a href="#">
-		                <img class="mui-media-object" src="../images/news.jpg">
-		                <div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
-		    			<h6 class="main-smTitle"><span>2017-12-25发布</span></h6>
+		        <li class="mui-table-view-cell mui-media mui-col-xs-6" v-for="item in news" :id="item.id" @tap="toDetail($event)">
+		            <a href="javascript:;">
+		                <img class="mui-media-object" :src="urls+item.image">
+		                <div class="mui-media-body" style="text-align: left;" v-text="item.title"></div>
+		            	<h6 class="main-smTitle"><span v-text="item.createDate+'发布'"></span></h6>
 		            </a></li>
 		    </ul>  
 		</div>
@@ -192,54 +103,103 @@
 <script src="../js/mui.min.js"></script>
 <script type="text/javascript">
 	/*设置全局地址*/
-	$(document).ready(function(){
-		var URL = localStorage.getItem("$url");
-		var AllUrl = URL.substring(1,URL.length-1);
-		/*banner图*/
-		$.ajax({
-		url:AllUrl+"/asw-eas/f/FrontApp/front",
+	var newsData = {};
+	var URL = localStorage.getItem("$url");
+	var AllUrl = URL.substring(1,URL.length-1);
+	//新闻资讯
+	$.ajax({
 		type:"post",
+		url:AllUrl+"/asw-eas/f/FrontApp/front",
+		async:true,
 		data:{
-			categoryId:"f7a377bf6ba6458a892d9cb2d6c525da",
-			number:3,
-			param:""
+			categoryId:"2b18679ef5a74611af07fa290ee7d7f2",
+			number:4,
+			param:"",
+			pageNo:1
 		},
 		dataType:"jsonp",
 		success:function(data){
-			var bannerLength = data.length;
-			var bannerData = data;
+			newsData = data
 			new Vue({
-				el:"#bannerSlide",
+				el:"#main-news",
 				data:{
-					urls:AllUrl,
-					bannerData:bannerData,
-					bannerLength:bannerLength
+					news:newsData,
+					urls:AllUrl
+				},
+				methods:{
+					toDetail:function(event){
+						var toggle = event.currentTarget;
+		            	var toggleTitle = $(toggle).find(".mui-media-body").text();
+		            	mui.openWindow({
+						    url:"detail.html",
+						    id:"detail.html",
+						    extras:{
+						        ids:toggle.id,
+						        title:"新闻资讯",
+						        newsTitle:toggleTitle
+						    }
+						})
+					},
+					toList:function(){
+						mui.openWindow({
+						    url:"newsList.html",
+						    id:"newsList.html",
+						})
+					}
 				}
 			})
-			new Vue({
-				el:"#bannerSize",
-				data:{
-					bannerLength:bannerLength
-				}
-			})//默认选中第一个
-			var slider = mui("#slider");
-			slider.slider({
-				interval: 5000
-			});
 		}
-	})
+	});
+	//banner图
+		$.ajax({
+			url:AllUrl+"/asw-eas/f/FrontApp/front",
+			type:"post",
+			data:{
+				categoryId:"56a3452cb2244609b0a9e06f941dfc45",
+				number:3,
+				param:"",
+				pageNo:1
+			},
+			dataType:"jsonp",
+			success:function(data){
+				var bannerLength = data.length;
+				var bannerData = data;
+				new Vue({
+					el:"#bannerSlide",
+					data:{
+						urls:AllUrl,
+						bannerData:bannerData,
+						bannerLength:bannerLength
+					}
+				})
+				new Vue({
+					el:"#bannerSize",
+					data:{
+						bannerLength:bannerLength
+					}
+				})//默认选中第一个
+				var slider = mui("#slider");
+				slider.slider({
+					interval: 5000
+				});
+			}
+		})
+	//下拉刷新方法
+	function getNewDatas(){
 		/*活动中心*/
 		$.ajax({
-		url:AllUrl+"/asw-eas/f/FrontApp/front",
-		type:"post",
-		data:{
-			categoryId:"96822ac8835e4132b6b5cf0696d736fc",
-			number:12,
-			param:""
-		},
-		dataType:"jsonp",
-		success:function(data){
-			var dataLength = Math.ceil(data.length/4);
+			url:AllUrl+"/asw-eas/f/FrontApp/front",
+			type:"post",
+			data:{
+				categoryId:"96822ac8835e4132b6b5cf0696d736fc",
+				number:12,
+				param:"",
+				pageNo:1
+			},
+			async:false,
+			dataType:"jsonp",
+			success:function(data){
+				var dataLength = Math.ceil(data.length/4);
 			var nowData = 4;
 			var activeCont = '';
 			for(var i=0;i<dataLength;i++){
@@ -248,12 +208,11 @@
 				$(newUl).addClass("mui-slider-item");
 				var newUlData = "<ul class='mui-table-view mui-grid-view'>";
 				for(var j=0;j<actData.length;j++){
-					newUlData += "<li class='mui-table-view-cell mui-media mui-col-xs-6'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+actData[j].image+"'>"+
+					newUlData += "<li id='"+actData[j].id+"' class='mui-table-view-cell mui-media mui-col-xs-6'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+actData[j].image+"'>"+
 		                            "<div class='mui-media-body'>"+actData[j].title+"</div></a></li>";
 				}
 				newUlData +="</ul>";
 				$(newUl).html(newUlData);
-				console.log(newUl);
 				$("#actSlide").append(newUl);
 			}
 			var startData = data.slice(0,4);
@@ -261,8 +220,8 @@
 			$(startSlide).addClass("mui-slider-item mui-slider-item-duplicate");
 			var startSlideData = "<ul class='mui-table-view mui-grid-view'>";
 	        for(var i=0;i<startData.length;i++){
-	        	startSlideData += "<li class='mui-table-view-cell mui-media mui-col-xs-6'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+startData[j].image+"'>"+
-		                            "<div class='mui-media-body'>"+startData[j].title+"</div></a></li>";
+	        	startSlideData += "<li id='"+startData[i].id+"' class='mui-table-view-cell mui-media mui-col-xs-6'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+startData[i].image+"'>"+
+		                            "<div class='mui-media-body'>"+startData[i].title+"</div></a></li>";
 	        }
 	        startSlideData += "</ul>";
 	        $(startSlide).html(startSlideData);
@@ -274,46 +233,138 @@
 			$(endSlide).addClass("mui-slider-item mui-slider-item-duplicate");
 			var endSlideData = "<ul class='mui-table-view mui-grid-view'>";
 	        for(var i=0;i<endData.length;i++){
-	        	endSlideData += "<li class='mui-table-view-cell mui-media mui-col-xs-6'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+endData[i].image+"'>"+
+	        	endSlideData += "<li id='"+endData[i].id+"' class='mui-table-view-cell mui-media mui-col-xs-6'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+endData[i].image+"'>"+
 	                            "<div class='mui-media-body'>"+endData[i].title+"</div></a></li>";
 	        }
 	        endSlideData += "</ul>";
 	        $(endSlide).html(endSlideData);
 	        $("#actSlide").prepend(endSlide);
 	        
-	        $("#actSlide")[0].addEventListener("swipeleft",function(){
-	        	$(this).animate({"transform":"translate(-200%,0)"});
-	        })
-	        mui.init({
-      		statusBarBackground: '#ffffff',
-      		pullRefresh : {
-			    container:"#mainContent",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
-			    down : {
-			      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
-			      color:'#2BD009', //可选，默认“#2BD009” 下拉刷新控件颜色
-			      height:'50px',//可选,默认50px.下拉刷新控件的高度,
-			      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
-			      offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
-			      auto: true,//可选,默认false.首次加载自动上拉刷新一次
-			      callback :getNewData //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
-			    }
-			  }
-      	});
-      	function getNewData(){
-      		mui('#mainContent').pullRefresh().endPulldown();//关闭下拉刷新动画
-      		return;
-      	}
-      	$("#detail")[0].addEventListener("tap",function(){
-      		mui.openWindow({
-      			url:"detail.html",
-      			id:"detail"
-      		})
-      	})
-		},
-		error:function(){
-			plus.nativeUI.toast("网络错误，请求失败");
-		}
-	})	
-	})
+	        var slider = mui("#sliders");
+			slider.slider();
+				//最新活动查看详情
+			  	$("#sliders li").on("tap",function(){
+			  		var actDataId = $(this).attr("id");
+			  		var actDataTitle = $(this).find(".mui-media-body").text();
+			  		mui.openWindow({
+			  			url:"detail.html",
+			  			id:"detail.html",
+			  			extras:{
+					        ids:actDataId,
+					        title:"最新活动",
+					        newsTitle:actDataTitle
+					    }
+			  		})
+			  	})
+			}
+		})
+		//教学成果
+		$.ajax({
+			url:AllUrl+"/asw-eas/f/FrontApp/front",
+			type:"post",
+			data:{
+				categoryId:"3d94996bd8c24a42ba768362f671ce38",
+				number:12,
+				param:"",
+				pageNo:1
+			},
+			async:false,
+			dataType:"jsonp",
+			success:function(data){
+				var reldataLength = Math.ceil(data.length/3);
+				var relnowData = 4;
+				var relactiveCont = '';
+				for(var i=0;i<reldataLength;i++){
+					var relactData = data.slice(4*i,4*i+3);
+					var relnewUl = document.createElement("div");
+					$(relnewUl).addClass("mui-slider-item");
+					var relnewUlData = "<ul class='mui-table-view mui-grid-view'>";
+					for(var j=0;j<relactData.length;j++){
+						relnewUlData += "<li class='mui-table-view-cell mui-media mui-col-xs-4'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+relactData[j].image+"'>"+
+			                            "<div class='mui-media-body'>"+relactData[j].title+"</div></a></li>";
+					}
+					relnewUlData +="</ul>";
+					$(relnewUl).html(relnewUlData);
+					$("#relSlide").append(relnewUl);
+				}
+				var relstartData = data.slice(0,3);
+				var relstartSlide = document.createElement("div");
+				$(relstartSlide).addClass("mui-slider-item mui-slider-item-duplicate");
+				var relstartSlideData = "<ul class='mui-table-view mui-grid-view'>";
+		        for(var i=0;i<relstartData.length;i++){
+		        	relstartSlideData += "<li class='mui-table-view-cell mui-media mui-col-xs-4'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+relstartData[j].image+"'>"+
+			                            "<div class='mui-media-body'>"+relstartData[j].title+"</div></a></li>";
+		        }
+		        relstartSlideData += "</ul>";
+		        $(relstartSlide).html(relstartSlideData);
+		        $("#relSlide").append(relstartSlide);
+				
+				
+				var relendData = data.slice((reldataLength-1)*4,4*(reldataLength-1)+3);
+				var relendSlide = document.createElement("div");
+				$(relendSlide).addClass("mui-slider-item mui-slider-item-duplicate");
+				var relendSlideData = "<ul class='mui-table-view mui-grid-view'>";
+		        for(var i=0;i<relendData.length;i++){
+		        	relendSlideData += "<li class='mui-table-view-cell mui-media mui-col-xs-4'><a href='javascript:;'><img class='mui-media-object' src='"+AllUrl+relendData[i].image+"'>"+
+		                            "<div class='mui-media-body'>"+relendData[i].title+"</div></a></li>";
+		        }
+		        relendSlideData += "</ul>";
+		        $(relendSlide).html(relendSlideData);
+		        $("#relSlide").prepend(relendSlide);
+		        
+		        var relslider = mui("#relSliders");
+				relslider.slider();
+				mui('#mainContent').pullRefresh().endPulldownToRefresh();
+				mui.toast("已更新为最新数据");
+			}
+		})
+	}
+	//下拉刷新
+	function pulldownRefresh(){
+		$("#actSlide,#relSlide").html("");
+		getNewDatas();
+		$.ajax({
+			type:"post",
+			url:AllUrl+"/asw-eas/f/FrontApp/front",
+			async:true,
+			data:{
+				categoryId:"2b18679ef5a74611af07fa290ee7d7f2",
+				number:4,
+				param:"",
+				pageNo:1
+			},
+			dataType:"jsonp",
+			success:function(data){
+				newsData = data;
+			},
+			error:function(){
+				setTimeout(function() {
+					mui('#mainContent').pullRefresh().endPulldownToRefresh();
+					plus.nativeUI.toast("服务器暂无响应，请稍后再试")
+				}, 1500);
+			}
+		})
+	}
+
+	mui.init({
+  		statusBarBackground: '#0099ff',
+  		pullRefresh: {
+					container: '#mainContent',
+					down: {
+						style:'circle',
+						auto: true,
+						range:'100px',
+						color:'#0099ff',
+						callback: pulldownRefresh
+					}
+				}
+  	});
+  	//新闻查看更多
+  	$("#moreNews").on("tap",function(){
+  		mui.openWindow({
+  			url:"newsList.html",
+  			id:"newsList.html"
+  		})
+  	})
     </script>
 </html>

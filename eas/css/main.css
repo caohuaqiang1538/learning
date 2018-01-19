@@ -1,6 +1,9 @@
 .mui-slider .mui-slider-group .mui-slider-item img{
 	height:180px;
 }
+.mui-table-view.mui-grid-view .mui-table-view-cell .mui-media-object{
+	height: 110px;
+}
 .main-h5{
 	background: #fff;
     margin: 0;
@@ -35,6 +38,7 @@
 	overflow: hidden;
 	height: 20px;
     line-height: 20px;
+    text-align: left;
 }
 .main-smTitle>span:nth-of-type(1){
 	display: block;
