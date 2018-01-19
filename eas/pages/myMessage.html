@@ -11,8 +11,11 @@
     <link href="../css/main.css" rel="stylesheet"/>
     <link href="../font/iconfont.css" rel="stylesheet"/>
     <script type="text/javascript" src="../js/mui.min.js"></script>
-    <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
     <style>
+    	html,body{
+    		height:100%;
+    		background: #fff;
+    	}
     	.mui-bar-nav{
     		box-shadow: none;
     		background: #fff;
@@ -21,7 +24,7 @@
     		margin-top: 0px;
     	}
     	.mui-table-view-cell{
-    		padding: 12px 15px;
+    		padding: 15px 15px;
     	}
     	.spanMargin{
     		margin-right: 20px;
@@ -30,7 +33,7 @@
     		width: 100px;
     		height: 100px;
     		border-radius: 50%;
-    		border: 1px solid #0099ff;
+    		border: 2px solid #0099ff;
     	}
     	.my-photoBox{
     		height: auto;
@@ -40,12 +43,20 @@
     	}
     	.my-photoBox>span{
     		position: absolute;
-		    bottom: 5px;
+		    bottom: 0px;
 		    right: 5px;
-		    color: #0099ff;
+    	}
+    	#changePhoto{
+    		background: #0099FF;
+    		border-radius: 50%;
+			width: 35px;
+			height:35px;  
+			color: #fff; 
+			text-align: center;
+			line-height: 35px; 		
     	}
     	.my-photoBox>span>i{
-    		font-size: 30px;
+    		font-size: 20px;
     	}
     	#my-photoCont .mui-active{
     		background: #ffffff;
@@ -70,8 +81,8 @@
 		<ul class="mui-table-view" id='my-photoCont'>
 			<li class="mui-table-view-cell">
 					<span class="my-photoBox">
-						<img class="my-photo mui-action-preview" id="headimg" @click="changePic" :src="userMess.photo"/>
-						<span><i class="iconfont icon-combinedshape"></i></span>
+						<img class="my-photo mui-action-preview" id="headimg" @tap="changePic" :src="userMess.photo"/>
+						<span id="changePhoto"  @tap="changePic"><i class="iconfont icon-bianji"></i></span>
 					</span>
 				</a>
 			</li>
@@ -80,32 +91,32 @@
 			<!--<li class="mui-table-view-cell" >
 				<a href="#changeMessage" id="mess-name"><span>姓名</span><span class="mui-pull-right mui-navigate-right spanMargin" v-text="userMess.name"></span></a>
 			</li>-->
-			<li class="mui-table-view-cell" data-names="name" data-icon="icon-shouji" @click="changeUserMess($event)">
+			<li class="mui-table-view-cell" data-names="name" data-icon="icon-xingmingyonghumingnicheng" @tap="changeUserMess($event)">
 				<a href="javascript:;"  id="mess-name"><span>昵称</span><span class="mui-pull-right mui-navigate-right  spanMargin" v-text="userMess.name"></span></a>
 			</li>
-			<li class="mui-table-view-cell" @click="changeUserPhone" >
+			<li class="mui-table-view-cell" @tap="changeUserPhone" >
 				<a href="javascript:;" id="mess-phone"><span>用户名</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.loginName"></span></a>
 			</li>
-			<li class="mui-table-view-cell" @click="tochangeSex">
+			<li class="mui-table-view-cell" @tap="tochangeSex">
 				<a href="javascript:;"  id="mess-sex" ><span>性别</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="sexs"></span></a>
 			</li>
-			<li class="mui-table-view-cell" @click="tochangeData">
+			<li class="mui-table-view-cell" @tap="tochangeData">
 				<a href="javascript:;"  id="mess-born"><span>出生日期</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.bormBate"></span></a>
 			</li>
-			<li class="mui-table-view-cell" @click="tochangeArea">
+			<li class="mui-table-view-cell" @tap="tochangeArea">
 				<a href="javascript:;"  id="mess-area"><span>地区</span><span id="mess-city" class="mui-pull-right mui-navigate-right  spanMargin" v-text="userMess.area.name"></span></a>
 			</li>
-			<li class="mui-table-view-cell" @click="tochangeSchool">
+			<li class="mui-table-view-cell" @tap="tochangeSchool">
 				<a href="javascript:;"  id="mess-schooll"><span>学校</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.company.name"></span></a>
 			</li>
-			<li class="mui-table-view-cell" data-names="email" data-icon="icon-shouji"  @click="changeUserMess($event)">
+			<li class="mui-table-view-cell" data-names="email" data-icon="icon-youxiangbangding"  @tap="changeUserMess($event)">
 				<a href="javascript:;"  id="mess-email"><span>邮箱</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.email"></span></a>
 			</li>
 		</ul>
 	</div>
 </body>
 <script src="../js/vue.js"></script>
-<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<script src="../js/jquery-2.1.0.js"></script>
 <script type="text/javascript">
 	mui.init({
       		statusBarBackground: '#0099ff',

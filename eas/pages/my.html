@@ -11,8 +11,11 @@
     <link href="../css/main.css" rel="stylesheet"/>
     <link href="../font/iconfont.css" rel="stylesheet"/>
     <script type="text/javascript" src="../js/mui.min.js"></script>
-    <script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
     <style>
+    	html,body{
+    		height:100%;
+    		background: #fff;
+    	}
     	.mui-bar-nav{
     		box-shadow: none;
     		background: #fff;
@@ -21,7 +24,7 @@
     		margin-top: 15px;
     	}
     	.mui-table-view-cell{
-    		padding: 12px 15px;
+    		padding: 15px 15px;
     	}
     	.spanMargin{
     		margin-right: 20px;
@@ -124,7 +127,7 @@
 	</div>
 </body>
 <script src="../js/vue.js"></script>
-<script src="http://www.jq22.com/jquery/jquery-2.1.1.js"></script>
+<script src="../js/jquery-2.1.0.js"></script>
 <script type="text/javascript">
 	mui.init({
       		statusBarBackground: '#0099ff',
@@ -278,7 +281,7 @@
 			})
 		})
 		//实名认证
-		$("#my-validate").on("click",function(){
+		$("#my-validate").on("tap",function(){
 			var messageUrl = allurlPass || "validate.html";
 			var messageId = allurlPass || "validate.html";
 			if(messageUrl == "login.html"){
