@@ -1,0 +1,368 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">   
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../css/shop.css"/>
+		<style type="text/css">
+			#shops .shops-tab ul{
+				margin: 0;
+    			background: #fff;
+    			padding: 15px 0;
+			}
+			#shops .shops-tab li{
+				width: 25%;
+				list-style: none;
+				float: left;
+			}
+			#shops .shops-tab li img{
+				width: 45px;
+			    display: block;
+			    margin: 0 auto;
+			}
+			#shops .shops-tab li h4{
+				text-align: center;
+				line-height: 30px;
+				font-size: 16px;
+				font-weight: normal;
+			}
+			.shops-listTitle{
+				text-align: center;
+				padding-top: 15px;
+			}
+			.shops-showBox{
+				background: #fff;
+				margin-top: 15px;
+			}
+			.shops-showBox img{
+				width: 65px;
+			    max-height: 95px;
+			    height: auto;
+			    display: block;
+			}
+			.shops-showBox li img{
+				margin: 0 auto;
+			}
+			#shops-hotSeal .mui-segmented-control.mui-scroll-wrapper{
+				height: 180px;
+			    margin-top: 15px;
+			    border-bottom: 1px solid #ddd;
+			    padding: 15px;
+			}
+			#shops-hotSeal .mui-segmented-control.mui-scroll-wrapper .mui-scroll{
+				height: 100%;
+			}
+			#shops-hotSeal .mui-segmented-control.mui-segmented-control-inverted .mui-control-item{
+				width: 95px;
+    			border: none;
+    			padding: 0;
+			}
+			.shops-h4{
+				font-size: 14px;
+				text-align: left;
+				color: #000;
+				line-height: 22px;
+			    font-weight: normal;
+			    margin-top: 8px;
+			}
+			.shops-h3{
+				font-size: 12px;
+				color: #FF4200;
+				text-align: left;
+				font-weight: normal;
+			}
+			.shops-h3>span{
+				font-size: 16px;
+			}
+			.shops-h3>del{
+				color: #8C8C8C;
+				font-size: 12px;
+			}
+			.shops-showBox ul{
+				padding: 0 15px;
+			    background: #fff;
+			    margin-bottom: 0;
+			}
+			.shops-showBox h5{
+				padding: 10px 15px;
+    			border-top: 1px solid #ddd;
+    			color: #000;
+			}
+			.shops-showBox li{
+				float: left;
+				width: calc(100% / 3);
+			    list-style: none;
+			    padding: 10px;
+			}
+			.shops-goodBook,.shops-goodBook2{
+				height: 180px;
+			    margin-top: 15px;
+			    border-bottom: 1px solid #ddd;
+			    padding: 15px;
+	    		width: 100%;
+	    		overflow-x: scroll;
+	    		overflow-y: hidden;
+			}
+			.shops-goodBook>div,.shops-goodBook2>div{
+				height: 150px;
+			}
+			#shops-hotSeal a{
+				display: inline-block;
+				width: 95px;
+			}
+		</style>
+	</head>
+
+	<body id="shops">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">商城</h1>
+		</header>
+		<div class="mui-content shops-tab">
+			<ul class="mui-clearfix">
+				<li id="2f323012881543cd9e3f7c1bc7338c1a">
+					<img src="../images/teacherBook.png" />
+					<h4>教材</h4>
+				</li>
+				<li id="322334571e464fecb138f49261f588d7">
+					<img src="../images/test.png" />
+					<h4>考试</h4>
+				</li>
+				<li id="f51f8916453640158629af05ffe290f4">
+					<img src="../images/teaching.png" />
+					<h4>教辅</h4>
+				</li>
+				<li id="68a4decea0fb460ea477cbf60260e751">
+					<img src="../images/book.png" />
+					<h4>工具书</h4>
+				</li>
+			</ul>
+		</div>
+	    <div class="shops-showBox" id="shops-hotSeal">
+	    	<header class="shops-listTitle">热销·好书</header>
+	    	<div class="shops-goodBook">
+	    	    <div></div>
+	    	</div>
+	    	<div class="shops-goodBook2">
+	    	    <div style="border: none;"></div>
+	    	</div>
+	    </div>
+	    <div class="shops-showBox" id="shops-newBook">
+	    	<header class="shops-listTitle">新书·上架</header>
+	    	<ul class="mui-clearfix"></ul>
+	    	<h5>更多新品好书供您观看<span class="mui-pull-right" id="goodsToRead">去看 <i class="iconfont icon-zuoyoujiantou-copy"></i></span></h5>
+	    </div>
+	    <div class="shops-showBox" id="shops-sellBook">
+	    	<header class="shops-listTitle">特价·促销</header>
+	    	<ul class="mui-clearfix"></ul>
+	    </div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
+	<script src="../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init({
+			pullRefresh : {
+			    container:"#shops",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+			    down : {
+			      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+			      color:'#0099ff', //可选，默认“#2BD009” 下拉刷新控件颜色
+			      height:'50px',//可选,默认50px.下拉刷新控件的高度,
+			      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+			      offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+			      auto: true,//可选,默认false.首次加载自动上拉刷新一次
+			      callback :getNewData //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+			    }
+			  },
+		});
+		//mui.plusReady(function(){
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			function getNewData(){
+				//热销第一分栏
+				$(".shops-goodBook div").html("");
+				$(".shops-goodBook2 div").html("");
+				$("#shops-newBook ul.mui-clearfix").html("");
+				$("#shops-sellBook ul.mui-clearfix").html("");
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:true,
+					data:{
+						pageNo:1,
+						pageSize:8,
+						type:"selfNumDesc"
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(data);
+						var listData = data.page.list;
+						var listDatelng = listData.length;
+						$(".shops-goodBook div").width(95*listDatelng+'px');
+						listData.forEach(function(val,idx){
+							if(val.gImg !== ""){
+								var gImg = AllUrl+val.gImg.split("|")[1];
+							}else{
+								var gImg = "../images/shopList.png";
+							}
+							var newA = document.createElement("a");
+							$(newA).attr("id",val.id);
+							$(newA).html("<img src='"+gImg+"'>"+
+		    	            "<h4 class='mui-ellipsis shops-h4'>"+val.gName+"</h4>"+
+		    	            "<h3 class='shops-h3'><span>￥"+val.gPrice+"</span>元</h3>");
+		    	            $(newA).appendTo($(".shops-goodBook div"));
+		    	            $(newA).on("tap",function(){
+		    	            	mui.openWindow({
+		    	            		url:"shop/goodsDetail.html",
+		    	            		id:"shop/goodsDetail.html",
+		    	            		extras:{
+										ids:$(this).attr("id")
+									}
+		    	            	})
+		    	            })
+						})
+					}
+				});
+				//热销第二分栏
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:true,
+					data:{
+						pageNo:2,
+						pageSize:8,
+						type:"selfNumDesc"
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(data);
+						var listData1 = data.page.list;
+						var listDatelng1 = listData1.length;
+						$(".shops-goodBook2 div").width(95*listDatelng1+'px');
+						listData1.forEach(function(val,idx){
+							if(val.gImg !== ""){
+								var gImg1 = AllUrl+val.gImg.split("|")[1];
+							}else{
+								var gImg1 = "../images/shopList.png";
+							}
+							var newA1 = document.createElement("a");
+							$(newA1).attr("id",val.id);
+							$(newA1).html("<img src='"+gImg1+"'>"+
+		    	            "<h4 class='mui-ellipsis shops-h4'>"+val.gName+"</h4>"+
+		    	            "<h3 class='shops-h3'><span>￥"+val.gPrice+"</span>元</h3>");
+		    	            $(newA1).appendTo($(".shops-goodBook2 div"));
+		    	            $(newA1).on("tap",function(){
+		    	            	mui.openWindow({
+		    	            		url:"shop/goodsDetail.html",
+		    	            		id:"shop/goodsDetail.html",
+		    	            		extras:{
+										ids:$(this).attr("id")
+									}
+		    	            	})
+		    	            })
+						})
+					}
+				});
+				//新书上架
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:true,
+					data:{
+						pageNo:1,
+						pageSize:6,
+						type:"createDate "
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(data);
+						var listData3 = data.page.list;
+						listData3.forEach(function(val,idx){
+							if(val.gImg !== ""){
+								var gImg3 = AllUrl+val.gImg.split("|")[1];
+							}else{
+								var gImg3 = "../images/shopList.png";
+							}
+							var newA3 = document.createElement("li");
+							$(newA3).attr("id",val.id);
+							$(newA3).html("<img src='"+gImg3+"'>"+
+		    	            "<h4 class='mui-ellipsis mui-text-center shops-h4'>"+val.gName+"</h4>"+
+		    	            "<h3 class='shops-h3 mui-text-center'><span>￥"+val.gPrice+"</span>元</h3>");
+		    	            $(newA3).appendTo($("#shops-newBook ul.mui-clearfix"));
+		    	            $(newA3).on("tap",function(){
+		    	            	mui.openWindow({
+		    	            		url:"shop/goodsDetail.html",
+		    	            		id:"shop/goodsDetail.html",
+		    	            		extras:{
+										ids:$(this).attr("id")
+									}
+		    	            	})
+		    	            })
+						})
+					}
+				});
+				//特价促销
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:false,
+					data:{
+						pageNo:1,
+						pageSize:9,
+						type:"discount "
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(data);
+						var listData4 = data.page.list;
+						listData4.forEach(function(val,idx){
+							if(val.gImg !== ""){
+								var gImg4 = AllUrl+val.gImg.split("|")[1];
+							}else{
+								var gImg4 = "../images/shopList.png";
+							}
+							var newA4 = document.createElement("li");
+							$(newA4).attr("id",val.id);
+							$(newA4).html("<img src='"+gImg4+"'>"+
+		    	            "<h4 class='mui-ellipsis mui-text-center shops-h4'>"+val.gName+"</h4>"+
+		    	            "<h3 class='shops-h3 mui-text-center'><span>￥"+val.gPrice+"</span>元</h3>");
+		    	            $(newA4).appendTo($("#shops-sellBook ul.mui-clearfix"));
+		    	            $(newA4).on("tap",function(){
+		    	            	mui.openWindow({
+		    	            		url:"shop/goodsDetail.html",
+		    	            		id:"shop/goodsDetail.html",
+		    	            		extras:{
+										ids:$(this).attr("id")
+									}
+		    	            	})
+		    	            })
+						})
+						mui('#shops').pullRefresh().endPulldownToRefresh();
+					}
+				});
+			}
+			$(".shops-tab li").on("tap",function(){
+				mui.openWindow({
+					url:"shop/shop.html",
+					id:"shop/shop.html",
+					extras:{
+						ids:$(this).attr("id")
+					}
+				})
+			})
+			//新书上架查看更多
+			$("#goodsToRead").on("tap",function(){
+				mui.openWindow({
+					url:"shop/shop.html",
+            		id:"shop/shop.html",
+            		extras:{
+						types:"createDate"
+					}
+				})
+			})
+		//})
+	</script>
+</html>

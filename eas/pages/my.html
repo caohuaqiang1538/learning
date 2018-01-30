@@ -16,6 +16,10 @@
     		height:100%;
     		background: #fff;
     	}
+    	#MY{
+    		height: 100%;
+    		overflow: scroll;
+    	}
     	.mui-bar-nav{
     		box-shadow: none;
     		background: #fff;
@@ -86,12 +90,12 @@
     	#my-show .mui-active{
     		background:#fff;
     	}
-    	#my-list img{
+    	#my-list img,#my-shop img{
     		width: 25px;
     		vertical-align: middle;
     		margin-right: 10px;
     	}
-    	#my-list span{
+    	#my-list span,my-shop span{
     		vertical-align: middle;
     		display: inline-block;
     	}
@@ -122,6 +126,18 @@
 			</li>-->
 			<li class="mui-table-view-cell" id="my-about">
 				<a href="javascript:;"><img src="../images/about.png"><span>关于我们</span><span class="mui-pull-right mui-navigate-right"></span></a>
+			</li>
+		</ul>
+		
+		<ul class="mui-table-view" id="my-shop">
+			<li class="mui-table-view-cell" id="my-dealList">
+				<a href="javascript:;"><img src="../images/deal.png"><span>我的订单</span><span class="mui-pull-right mui-navigate-right"></span></a>
+			</li>
+			<li class="mui-table-view-cell" id="my-cars">
+				<a href="javascript:;"><img src="../images/cars.png"><span>我的购物车</span><span class="mui-pull-right mui-navigate-right"></span></a>
+			</li>
+			<li class="mui-table-view-cell" id="my-address">
+				<a href="javascript:;"><img src="../images/addrs.png"><span>我的地址</span><span class="mui-pull-right mui-navigate-right"></span></a>
 			</li>
 		</ul>
 	</div>
@@ -213,6 +229,7 @@
 					data:userID,
 					dataType:"jsonp",
 					success:function(data){
+						console.log(JSON.stringify(data));
 						if(data.loginBoolean == "false"){
 							userMess = {};
 							localStorage.setItem("$state","{}");
@@ -311,14 +328,14 @@
 							extras:{
 							        showTip:false,
 							    }
-						})
+						});
 					}else{
 						var validateStu = data.realAudit.auditInfo.auditResult;
 						if(validateStu == "4"){//认证成功
 							mui.openWindow({
 								url:"valSuccess.html",
 								id:"valSuccess.html",
-							})
+							});
 						}else if(validateStu == "3"){
 							var tipCont = data.realAudit.auditInfo.auditCoutent;
 							mui.openWindow({
@@ -337,12 +354,12 @@
 							        oneId:data.realAudit.auditInfo.id,
 									fkId:data.realAudit.auditInfo.fkId
 							    }
-							})
+							});
 						}else if(validateStu == "2"){
 							mui.openWindow({
 								url:"valLoad.html",
 								id:"valLoad.html",
-							})
+							});
 						}
 					}
 				},
@@ -364,7 +381,34 @@
 		$("#my-about").on("tap",function(){
 			mui.openWindow({
 				url:"version.html",
-				id:"messageUrl"
+				id:"version.html"
+			})
+		})
+		//我的订单
+		$("#my-dealList").on("tap",function(){
+			var messageUrl = allurlPass || "shop/myDealList.html";
+			var messageId = allurlPass || "shop/myDealList.html";
+			mui.openWindow({
+				url:messageUrl,
+				id:messageUrl
+			})
+		})
+		//我的购物车
+		$("#my-cars").on("tap",function(){
+			var messageUrl = allurlPass || "shop/myCar.html";
+			var messageId = allurlPass || "shop/myCar.html";
+			mui.openWindow({
+				url:messageUrl,
+				id:messageUrl
+			})
+		})
+		//我的地址
+		$("#my-address").on("tap",function(){
+			var messageUrl = allurlPass || "shop/myaddress.html";
+			var messageId = allurlPass || "shop/myaddress.html";
+			mui.openWindow({
+				url:messageUrl,
+				id:messageUrl
 			})
 		})
 	})

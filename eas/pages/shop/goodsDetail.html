@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			.mui-bar-nav~.mui-content {
+			    height: 100%;
+			    overflow: scroll;
+			}
+			#picSlider img{
+				display: block;
+				width: auto;
+				height: 300px;
+				margin: 0 auto;
+			}
+		</style>
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">商品详情</h1>
+		</header>
+		<div class="mui-content">
+		    <div id="slider" class="mui-slider" >
+		      <div class="mui-slider-group mui-slider-loop" id="picSlider"></div>
+		      <div class="mui-slider-indicator" id="picLength"></div>
+		    </div>
+		    <ul class="mui-table-view" id="goods-mess">
+		        <li class="mui-table-view-cell mui-media">
+		            <a href="javascript:;">
+		                <div class="mui-media-body">
+		                   	<h3 class="goodsDet-name">普通高等教育国家级重点教材·外国教育史教程</h3>
+		                    <p class="mui-ellipsis goodsDet-tip">这本书非常的好，大家一定要来看哦</p>
+		                    <h2 class="goodsDet-nowMoy">￥98.99</h2>
+		                    <h5><del class="goodsDet-lastMoy">原价￥129.98</del></h5>
+		                    <h5><span>运费&nbsp;&nbsp;10元</span><span>月销&nbsp;&nbsp;<span class="goodsDet-gSelfNum">80本</span></span></h5>
+		                </div>
+		            </a>
+		        </li>
+		    </ul>
+		    <form class="mui-input-group" id="goods-messFont">
+		        <div class="mui-input-row">
+		            <label>作者</label>
+		            <span class="goodsDet-author">王明辉教授主编</span>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>出版</label>
+		            <span class="goodsDet-public">陕西省人民教育出版社&nbsp;&nbsp;2018年1月dasdsadsadsadsadsadsa</span>
+		        </div>
+		        <div class="mui-input-row">
+		            <label>送至</label>
+		            <span>新疆>乌鲁木齐市>东城区>第一中学</span>
+		        </div>
+		    </form>
+		</div>
+		<div id="goods-buyBox" class="mui-popover mui-popover-bottom mui-popover-action">
+			<form class="mui-input-group">
+				<div class="mui-input-row" id="goods-pic">
+					<div class="goods-goodsPic"><img src="../../images/shopList.png" /></div>
+					<h6><span>￥89.9</span>元</h6>
+					<a href="#goods-buyBox"><span class="mui-pull-right iconfont icon-guanbi spanMargin"></span></a>
+				</div>
+			    <div class="mui-input-row">
+			        <label>购买数量</label>
+			        <div class="mui-numbox" data-numbox-min='1'>
+						<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+						<input id="test" class="mui-input-numbox" type="number" value="1" />
+						<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+					</div>
+			    </div>
+			    <div class="mui-input-row" id="goods-area">
+			    	<label>配送区域</label>
+			    	<div>
+			    		<h5>西安市雁塔区张家村社区小学<span class="mui-pull-right mui-navigate-right spanMargin"></span></h5>
+			    	</div>
+			    </div>
+			    <div class="mui-input-row">
+			    	<button type="button" id="buyBtn" class="mui-btn  mui-btn-block">确定</button>
+			    </div>
+			</form>
+		</div>
+		<div id="goods-buyCar" class="mui-popover mui-popover-bottom mui-popover-action">
+			<form class="mui-input-group">
+				<div class="mui-input-row" id="goods-carPic">
+					<div class="goods-goodsPic"><img src="../../images/shopList.png" /></div>
+					<h6><span>￥99.9</span>元</h6>
+					<a href="#goods-buyCar"><span class="mui-pull-right iconfont icon-guanbi spanMargin"></span></a>
+				</div>
+			    <div class="mui-input-row">
+			        <label>购买数量</label>
+			        <div class="mui-numbox" data-numbox-min='1'>
+						<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+						<input id="test" class="mui-input-numbox" type="number" value="1" />
+						<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+					</div>
+			    </div>
+			    <div class="mui-input-row" id="goods-carArea">
+			    	<label>配送区域</label>
+			    	<div>
+			    		<h5>西安市雁塔区张家村社区小学<span class="mui-pull-right mui-navigate-right spanMargin"></span></h5>
+			    	</div>
+			    </div>
+			    <div class="mui-input-row">
+			    	<button type="button" id="catBuyBtn" class="mui-btn  mui-btn-block">确定</button>
+			    </div>
+			</form>
+		</div>
+		<footer id="good-footer">
+		    	<div>
+		    		<a class="mui-tab-item" href="#goods-buyCar">加入购物车</a>
+		    	</div>
+		    	<div>
+		    		<a class="mui-tab-item" href="#goods-buyBox">立即购买</a>
+		    	</div>
+		</footer>
+		<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+		<script src="../../js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			mui.plusReady(function(){
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				var self = plus.webview.currentWebview();//获取父页面传递的值
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo /getGoodInfo",
+					async:true,
+					data:{
+						id:self.ids
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(data);
+						var goodsData = data.goodInfo;
+						//轮播图
+						var imgSrc = data.goodInfo.gImg.split("|");
+						var imgSrcLength = imgSrc.length-1;
+						var newPicArr = [];
+						imgSrc.forEach(function(vals,idxs){
+							if(vals !== ""){
+								newPicArr.push(vals);
+							}
+						})
+						var newPicArrLeg = newPicArr.length-1;
+						newPicArr.forEach(function(val,idx){
+							var picList = document.createElement("div");
+							$(picList).addClass("mui-slider-item");
+					        $(picList).html("<a href='javascript:;'><img src='"+AllUrl+val+"'></a>");
+					        $(picList).appendTo($("#picSlider"));
+					        
+					        if(idx == newPicArrLeg){
+					        	var firstPic = document.createElement("div");
+					        	$(firstPic).addClass("mui-slider-item mui-slider-item-duplicate");
+					        	$(firstPic).html("<a href='javascript:;'><img src='"+AllUrl+newPicArr[0]+"'></a>");
+					        	$(firstPic).appendTo($("#picSlider"));
+					        };
+					        var picNum = document.createElement("div");
+					        if(idx == 0){
+					        	$(picNum).addClass("mui-indicator mui-active");
+					        	var lastPic = document.createElement("div");
+					        	$(lastPic).addClass("mui-slider-item mui-slider-item-duplicate");
+					        	$(lastPic).html("<a href='javascript:;'><img src='"+AllUrl+newPicArr[newPicArrLeg]+"'></a>");
+					        	$(lastPic).prependTo($("#picSlider"));
+					        }else{
+					        	$(picNum).addClass("mui-indicator");
+					        }
+					        $(picNum).appendTo($("#picLength"));
+						})
+						mui("#slider").slider({
+							interval:5000
+						});
+						//商品信息
+						$(".goodsDet-name").text(goodsData.gName);
+						$(".goodsDet-tip").text(goodsData.gProfile);
+						if(goodsData.isDiscount == 0){
+							$(".goodsDet-nowMoy").text("￥"+goodsData.gDiscount);
+							$(".goodsDet-lastMoy").text("￥"+goodsData.gPrice);
+						}else{
+							$(".goodsDet-nowMoy").text("￥"+goodsData.gPrice);
+							$(".goodsDet-lastMoy").parent("h5").remove();
+						}
+						$(".goodsDet-gSelfNum").text(goodsData.gSelfNum);
+						$(".goodsDet-author").text(goodsData.gAuthor);
+						$(".goodsDet-public").text(goodsData.gPublish+"("+goodsData.gpubDate+")");
+					}
+				})
+			})
+			$("#goods-area").on("tap",function(){
+				mui.openWindow({
+					url:"goods-wuliu.html",
+					id:"goods-wuliu.html"
+				})
+			})
+			$("#buyBtn").on("tap",function(){
+				mui.openWindow({
+					url:"toDeal.html",
+					id:"toDeal.html"
+				})
+			})
+		</script>
+	</body>
+
+</html>

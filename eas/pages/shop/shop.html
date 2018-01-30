@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			.mui-bar-nav~.mui-content {
+			    height: 100%;
+			    overflow: scroll;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">
+		    <div class="mui-input-row mui-search">
+		        <input type="search" class="mui-input-clear" placeholder="教材名称">
+		    </div>
+		    </h1>
+		</header>
+		<div id="shop-tab">
+			    <ul id="shop-order">
+			    	<li class="orderBydefalt">默认</li>
+			    	<li>销量</li>
+			    	<li>价格<img src="../../images/bottom.png" /></li>
+			    	<li id="shop-choose"><img src="../../images/choose.png" />筛选</li>
+			    </ul>
+			    <!--筛选弹出框-->
+			    <div id="shop-chooseBox">
+				    <ul id="shop-schoolLv"></ul>
+				    <div id="shop-tabDetail">
+				    </div>
+				</div>
+			</div>
+		<div class="mui-content" style="position: relative;">
+		    <ul class="mui-table-view" id="shop-list"></ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init()
+		mui.plusReady(function(){
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var chooseShow = false;
+			$("#shop-choose").on("tap",function(){
+				if(!chooseShow){
+					$(this).css("color","#0099ff");
+					$("#shop-chooseBox").fadeIn();
+					$("#shop-tab").css("height","100%");
+				    document.body.classList.add("model-open");
+				}else{
+					$(this).css("color","#000");
+					$("#shop-chooseBox").fadeOut();
+					document.body.classList.remove("model-open");
+	      			$("#shop-tab").css("height","auto");
+				}
+				chooseShow = !chooseShow;
+			})
+			//获取父页面传递的值
+			var self = plus.webview.currentWebview();
+			if(self.types == undefined){
+				self.types = "";
+			}
+			if(self.ids == undefined){
+				self.ids = "";
+			}
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/goodsInfo/list",
+				async:true,
+				data:{
+					pageNo:1,
+					pageSize:8,
+					gType:self.ids,
+					type:self.types
+				},
+				dataType:"jsonp",
+				success:function(data){
+					var dataList = data.page.list;
+					if(dataList == undefined){
+						var newLis = document.createElement("li");
+						$(newLis).addClass("mui-table-view-cell mui-media");
+						$(newLis).text("抱歉，暂无该类商品！");
+						$(newLis).appendTo($("#shop-list"));
+					}else{
+						dataList.forEach(function(val,idx){
+							var newLis = document.createElement("li");
+							$(newLis).addClass("mui-table-view-cell mui-media").attr("id",val.id);
+							var picSrc = val.gImg.split("|")[1];
+							if(val.isDiscount == 0){
+								var nowMoy = val.gDiscount;
+								var lastMoy = "￥"+val.gPrice;
+							}else{
+								var nowMoy = val.gPrice;
+								var lastMoy = "";
+							}
+							$(newLis).html("<a href='javascript:;'><img class='mui-media-object mui-pull-left' src='"+AllUrl+picSrc+"'>"+
+			                "<div class='mui-media-body' style='width: 100%;'>"+
+			                    "<h4>"+val.gName+"</h4>"+
+			                    "<div class='shop-sellMess'><div>"+
+			                    		"<p class='mui-ellipsis'>"+val.gAuthor+"编译</p>"+
+			                    		"<h3><span class='shop-nowMoney'>￥"+nowMoy+"</span><del>"+lastMoy+"</del></h3>"+
+			                    		"<h5>"+val.gSelfNum+"人购买过此书</h5></div><div>"+
+			                    		"<span><i class='iconfont icon-gouwuche'></i></span>"+
+			                    	"</div></div></div></a>");
+							$(newLis).appendTo($("#shop-list"));
+							$(newLis).on("tap",function(){
+								mui.openWindow({
+									url:"goodsDetail.html",
+		    	            		id:"goodsDetail.html",
+		    	            		extras:{
+										ids:$(this).attr("id")
+									}
+								})
+							})
+						})
+					}
+				},
+				error:function(){
+					alert("服务器暂无响应，请稍后再试!");
+				}
+			});
+			
+			//进入商品详情页
+			$("#shop-list>li").on("tap",function(){
+				mui.openWindow({
+					url:"goodsDetail.html",
+					id:"goodsDetail.html"
+				})
+			})
+			//获取筛选信息
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/sysAppmdict/sysMdict/list",
+				async:true,
+				data:{
+					"parent.id":"1c5337a0e843430196ffa3474232a591"
+				},
+				dataType:"jsonp",
+				success:function(data){
+					data.forEach(function(val,idx){
+						var newSchoolLv = document.createElement("li");
+						if(idx == 0){
+							$(newSchoolLv).addClass("tabListAct");
+						}
+						$(newSchoolLv).attr("id",val.id);
+						$(newSchoolLv).text(val.name);
+						$(newSchoolLv).appendTo($("#shop-schoolLv"));
+						$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/sysAppmdict/sysMdict/list",
+							async:true,
+							data:{
+								"parent.id":val.id
+							},
+							dataType:"jsonp",
+							success:function(data){
+								console.log(JSON.stringify(data));
+								var chooseDet = document.createElement("ul");
+								data.forEach(function(){
+									var chooseDetLi = document.createElement("li");
+									$(chooseDetLi).text(val.name).attr({"id":val.id,"parentId":val.parentId});
+									$(chooseDetLi).appendTo($(chooseDet));
+								})
+								$(chooseDet).appendTo($("#shop-tabDetail"));
+							}
+						});
+						/*$(newSchoolLv).on("tap",function(){
+							if($(this).hasClass("tabListAct")){
+								return;
+							}else{
+								var tabIdx = $(this).attr("id");
+								$(this).addClass("tabListAct").siblings().removeClass("tabListAct");
+								$("#shop-tabDetail>ul").forEach(function(val,idx){
+									if($(val).attr("parentId") == tabIdx){
+										$(val).css({"display":"block","color":"#0099ff"});
+									}else{
+										$(val).css({"display":"none","color":"#000"});
+									}
+								})
+							}
+						})*/
+					})
+				},
+				error:function(){
+					console.log(2)
+				}
+			});
+		})
+	</script>
+</html>

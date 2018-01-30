@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css"/>
+    	<link rel="stylesheet" type="text/css" href="../../css/mui.poppicker.css"/>
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			.mui-bar-nav~.mui-content {
+			    height: 100%;
+			    overflow: scroll;
+			}
+			.mui-input-group .mui-input-row{
+				height: 55px;
+			}
+			.mui-input-row label{
+				padding: 0 15px;
+			    height: 100%;
+			    line-height: 55px;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				height: 100%;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 18px;
+			}
+			#addr-textarea{
+				height: 85px;
+			}
+			#address-Mess textarea{
+				line-height: 25px;
+			}
+		</style>
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title"></h1>
+		</header>
+		<div class="mui-content" id="address-Mess">
+			<form class="mui-input-group">
+			    <div class="mui-input-row">
+			        <label>收货人</label>
+			        <input type="text" class="mui-input-clear" id="uName" placeholder="请输入收件人">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>联系电话</label>
+			        <input type="number" class="mui-input-clear" id="uPhone" placeholder="请输入联系电话">
+			    </div>
+			    <div class="mui-input-row">
+			        <label>所在区域</label>
+			        <input type="text" readonly="readonly"  id="area" class="mui-input-clear" placeholder="请选择地区">
+			    </div>
+			    <div class="mui-input-row" id="addr-textarea">
+			        <label>详细地址</label>
+			        <textarea  class="mui-input-clear" id="uStree"  placeholder="请输入详细地址"></textarea>
+			    </div>
+			</form>
+		</div>
+		<footer id="todeal-buyNow">
+	    	<div id="myaddr-addBtn">
+	    		<a class="mui-tab-item addBtns">保存新地址</a>
+	    	</div>
+	   </footer>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript" src="../../js/cityData.js" ></script>
+	<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+	<script type="text/javascript" src="../../js/mui.poppicker.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function() {
+			var self = plus.webview.currentWebview();
+			$(".mui-title").text(self.uTitlt);
+			$("#area").val(self.uCity);
+			$("#uName").val(self.uName);
+			$("#uPhone").val(self.uPhone);
+			$("#uStree").val(self.uStree);
+			$(".addBtns").text(self.uBtn);
+			 //地区选择
+		    var cityPicker3 = new mui.PopPicker({
+				layer: 3
+			});
+			var _getParam = function(obj, param) {
+				return obj[param] || '';
+			};
+			var areaval = "";
+			cityPicker3.setData(cityData);
+			var showCityPickerButton = document.getElementById('area');
+			var cityResult3 = document.getElementById('area');
+			showCityPickerButton.addEventListener('tap', function(event) {
+				cityPicker3.show(function(items) {
+					$(cityResult3).val(_getParam(items[0], 'text') + _getParam(items[1], 'text') + _getParam(items[2], 'text'));
+					$(cityResult3).attr("data-id",_getParam(items[2], 'value'));
+					areaval = $(cityResult3).val();
+				});
+			}, false);
+			/*设置全局地址*/				
+			})
+	</script>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			.mui-bar-nav~.mui-content {
+			    height: 100%;
+			    overflow: scroll;
+			}
+		</style>
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">提交订单</h1>
+		</header>
+		<div class="mui-content">
+			<div class="deal-border"></div>
+		    <div class="mui-input-row" id="deal-uMess">
+		    	<div class="mui-input-row">
+		    		<label>收货人：</label>
+			    	<div>
+			    		<h5>王明辉<span style="float: right;">15035451152</span></h5>
+			    	</div>
+		    	</div>
+		    	<div class="mui-input-row">
+			    	<label>收货地址：</label>
+			    	<div>
+			    		<p>西安市长安区广场北路明威橡树湾张家村社区3号楼2906室</p>
+			    	</div>
+			    </div>
+			    <span class="mui-pull-right mui-navigate-right"></span>
+		    </div>
+		    <div class="deal-border"></div>
+		    <ul class="mui-table-view" id="todeal-Mess">
+				<li class="mui-table-view-cell mui-media" id="todeal-goodPic">
+			        <a href="javascript:;">
+			            <img class="mui-media-object mui-pull-left" src="../../images/shopList.png">
+			            <div class="mui-media-body">
+			                <h3>普通高等教育国家级重点教材·外国教育史教程第二卷</h3>
+			                <h2>￥98.99<span>×<span>1</span></span></h2>
+			            </div>
+			        </a>
+			    </li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"><span style="line-height: 35px;">购买数量</span>
+						<div class="mui-numbox" data-numbox-min='1' style="float: right;">
+							<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>
+							<input id="test" class="mui-input-numbox" type="number" value="1" />
+							<button class="mui-btn mui-btn-numbox-plus" type="button">+</button>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell" id="todeal-give">
+					<a href="javascript:;"><span>物流方式</span><span class="mui-pull-right mui-navigate-right todeal-change">默认</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"><span>支付方式</span><span class="mui-pull-right">支付宝</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"><span>运费</span><span class="mui-pull-right">￥10.00</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"><span>商品总金额</span><span class="mui-pull-right">￥98.99</span></a>
+				</li>
+			</ul>
+		</div>
+		<footer id="todeal-buyNow">
+			<div class="todealMoney">
+	    		合计：<span>￥108.99</span>
+	    	</div>
+	    	<div class="todealBuyBtn">
+	    		<a class="mui-tab-item">去支付</a>
+	    	</div>
+	   </footer>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		$("#todeal-give").on("tap",function(){
+			mui.openWindow({
+				url:"goods-wuliu.html",
+				id:"goods-wuliu.html"
+			})
+		});
+		$("#deal-uMess").on("tap",function(){
+			mui.openWindow({
+				url:"myaddress.html",
+				id:"myaddress.html"
+			})
+		})
+		mui.init()
+	</script>
+</html>

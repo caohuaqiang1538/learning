@@ -118,9 +118,9 @@
 			var AllUrl = URL.substring(1,URL.length-1);
 			var validateCodes = "";
 			//用户名重复检测
-			$("#relPass").on("blur",function(){
-				var userName = $(this).val().trim();
-				if(userName !== ""||userName !== null){
+			/*function checkOldPhone(){
+				var userName = $("#relPass").val().trim();
+				if(userName !== "" && userName !== null && userName.length > 0){
 					$.ajax({
 						type:"post",
 						url:AllUrl+"/asw-eas/f/UserApp/checkphoneLoginName",
@@ -128,16 +128,25 @@
 							loginName:userName
 						},
 						dataType:"jsonp",
-						async:true,
+						async:false,
 						success:function(data){
 							if(data.code == "false"){
 								plus.nativeUI.toast("该手机号已注册");
 								$("#relPass").val("");
+								return false;
+							}else{
+								return true;
 							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+							return false;
 						}
 					});
+				}else{
+					return false;
 				}
-			})
+			}*/
 			$("#regBtn").on("tap",function(){
 				var userMess = JSON.parse(localStorage.getItem("$userMess"));
 				$("input").each(function(idx,val){
@@ -179,40 +188,61 @@
 				function valideCode(){
 				    var sMobile = $("#relPass").val().trim();
 				    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))){ 
-				    	$("#getValCode").one("tap",valideCode);
 				        plus.nativeUI.toast("您的手机格式有误，请重新输入");
+				        $("#getValCode").one("tap",valideCode);
 					}else{
-						mui("#getValCode").button('loading');
-						 $.ajax({
-						 	type:"post",
-						 	url:AllUrl+"/asw-eas/f/smsSendApp/sendSms",
-						 	async:true,
-						 	dataType:"jsonp",
-						 	data:{
-						 		phone:sMobile,
-						 		type:"3"
-						 	},
-						 	success:function(data){
-						 		mui("#getValCode").button('reset');
-						 		validateCodes = data.code;
-								var i = 60;
-								var newValide = setInterval(function(){
-								 	i--;
-								 	$("#getValCode").text("重新获取("+i+")");
-								 	if(i == 0){
-								 		$("#getValCode").text("重新获取");
-								 		clearInterval(newValide);
-								 		$("#getValCode").one("tap",valideCode);
-								 	}
-								},1000)
-								$("#regBtn").removeAttr("disabled");
-								plus.nativeUI.toast("已成功发送验证码，请注意查收");
-						 	},
-						 	error:function(){
-						 		$("#getValCode").one("tap",valideCode);
-						 		plus.nativeUI.toast("服务器未响应，请稍后再试");
-						 	}
-						 });
+						$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/UserApp/checkphoneLoginName",
+							data:{
+								loginName:sMobile
+							},
+							dataType:"jsonp",
+							async:false,
+							success:function(data){
+								if(data.code == "false"){
+									plus.nativeUI.toast("该手机号已注册");
+									$("#relPass").val("");
+									$("#getValCode").one("tap",valideCode);
+								}else{
+									mui("#getValCode").button('loading');
+									 $.ajax({
+									 	type:"post",
+									 	url:AllUrl+"/asw-eas/f/smsSendApp/sendSms",
+									 	async:false,
+									 	dataType:"jsonp",
+									 	data:{
+									 		phone:sMobile,
+									 		type:"3"
+									 	},
+									 	success:function(data){
+									 		mui("#getValCode").button('reset');
+									 		validateCodes = data.code;
+											var i = 60;
+											var newValide = setInterval(function(){
+											 	i--;
+											 	$("#getValCode").text("重新获取("+i+")");
+											 	if(i == 0){
+											 		$("#getValCode").text("重新获取");
+											 		clearInterval(newValide);
+											 		$("#getValCode").one("tap",valideCode);
+											 	}
+											},1000)
+											$("#regBtn").removeAttr("disabled");
+											plus.nativeUI.toast("已成功发送验证码，请注意查收");
+									 	},
+									 	error:function(){
+									 		$("#getValCode").one("tap",valideCode);
+									 		plus.nativeUI.toast("服务器未响应，请稍后再试");
+									 	}
+									 });
+								}
+							},
+							error:function(){
+								plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+								$("#getValCode").one("tap",valideCode);
+							}
+						});
 					}
 				}
 			})

@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			.mui-bar-nav~.mui-content {
+			    height: 100%;
+			    overflow: scroll;
+			}
+		</style>
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">我的收货地址</h1>
+		</header>
+		<div class="mui-content" id="address-Mess">
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
+						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="mui-input-row mui-checkbox mui-left">
+					  <label class="chooseAddr">默认地址</label>
+					  <input name="checkbox1" type="checkbox" checked onclick="return false;" >
+					</div>
+					<div>
+						<button type="button" class="mui-btn adds-delBtn">删除</button>
+						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
+					</div>
+				</div>
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
+						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="mui-input-row mui-checkbox mui-left">
+					  <label>设为默认</label>
+					  <input name="checkbox1" type="checkbox" onclick="return false;">
+					</div>
+					<div>
+						<button type="button" class="mui-btn adds-delBtn">删除</button>
+						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
+					</div>
+				</div>
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
+						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="mui-input-row mui-checkbox mui-left">
+					  <label>设为默认</label>
+					  <input name="checkbox1" type="checkbox" onclick="return false;">
+					</div>
+					<div>
+						<button type="button" class="mui-btn adds-delBtn">删除</button>
+						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
+					</div>
+				</div>
+			</div>
+			<div class="mui-card">
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
+						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
+					</div>
+				</div>
+				<div class="mui-card-footer">
+					<div class="mui-input-row mui-checkbox mui-left">
+					  <label>设为默认</label>
+					  <input name="checkbox1" type="checkbox" onclick="return false;">
+					</div>
+					<div>
+						<button type="button" class="mui-btn adds-delBtn">删除</button>
+						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer id="todeal-buyNow">
+	    	<div id="myaddr-addBtn">
+	    		<a class="mui-tab-item">添加新收货地址</a>
+	    	</div>
+	   </footer>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function() {
+			$(".mui-checkbox").on("tap",function(){
+				if($(this).find("input[type='checkbox']").is(":checked")){
+					return;
+				}else{
+					var btnArray = ['确定', '取消'];
+					var nodeBtn = $(this);
+					mui.confirm('确认更换默认地址？', '', btnArray, function(e) {
+						if (e.index == 1) {
+							return;
+						} else {
+							$("input[type='checkbox']").prop("checked",false);
+							nodeBtn.find("input[type='checkbox']").prop("checked","checked");
+						}
+					})
+				}
+			})
+			
+			$("#myaddr-addBtn").on("tap",function(){
+				mui.openWindow({
+					url:"addAddress.html",
+					id:"addAddress.html",
+					extras:{
+						uTitlt:"添加收货地址",
+						uBtn:"保存新地址",
+						uName:'',
+						uPhone:'',
+						uAddr:'',
+						uCity:'',
+						uStree:''
+					}
+				})
+			})
+			
+			//删除
+			$(".adds-delBtn").on("tap",function(){
+				var delBtnFont = ['确定', '取消'];
+				var delNode = $(this);
+				mui.confirm('确定要删除此地址吗？', '', delBtnFont, function(e) {
+					if (e.index == 1) {
+						return;
+					} else {
+						if(delNode.parents(".mui-card").find('label').text() == '默认地址'){
+							mui.alert("默认地址不可删除");
+						}else{
+							delNode.parents(".mui-card").remove();
+						}
+					}
+				})
+			})
+			$(".adds-whiteBtn").on("tap",function(){
+				var uNode = $(this).parents(".mui-card");
+				var uName = uNode.find(".addr-name").text();
+				var uPhone = uNode.find(".addr-phone").text();
+				var uCity = uNode.find(".uCity").text();
+				var uStree = uNode.find(".uStree").text();
+				var uTitlt = "编辑收货地址";
+				console.log(JSON.stringify(uNode.find(".addr-name")));
+				mui.openWindow({
+					url:"addAddress.html",
+					id:"addAddress.html",
+					extras:{
+						uTitlt:uTitlt,
+						uBtn:"保存",
+						uName:uName,
+						uPhone:uPhone,
+						uCity:uCity,
+						uStree:uStree
+					}
+				})
+			})
+		})
+	</script>
+</html>

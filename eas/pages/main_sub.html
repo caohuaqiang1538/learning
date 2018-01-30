@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/main.css" />
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<div class="mui-table-view mui-table-view-chevron">
+					<div id="slider" class="mui-slider">
+						<div class="mui-slider-group mui-slider-loop">
+							<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								<a href="#">
+									<img src="">
+								</a>
+							</div>
+							<!-- 第一张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="">
+								</a>
+							</div>
+							<!-- 第二张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="">
+								</a>
+							</div>
+							<!-- 第三张 -->
+							<div class="mui-slider-item">
+								<a href="#">
+									<img src="">
+								</a>
+							</div>
+							<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+							<div class="mui-slider-item mui-slider-item-duplicate">
+								<a href="#">
+									<img src="">
+								</a>
+							</div>
+						</div>
+						<div class="mui-slider-indicator">
+							<div class="mui-indicator mui-active"></div>
+							<div class="mui-indicator"></div>
+							<div class="mui-indicator"></div>
+						</div>
+					</div>
+				</div>
+				<!--首页二级导航-->
+				<ul id="main-tab" class="mui-clearfix">
+					<li>
+						<div><img src="../images/jigou.png" /></div>
+						<h4>培训机构</h4>
+					</li>
+					<li>
+						<div><img src="../images/active.png" /></div>
+						<h4>活动</h4>
+					</li>
+					<li>
+						<div><img src="../images/news.png" /></div>
+						<h4>新闻</h4>
+					</li>
+					<li id="main-toShop">
+						<div><img src="../images/shop.png" /></div>
+						<h4>商城</h4>
+					</li>
+				</ul>
+				<!--教学成果-->
+				<div class="main-content" id="main-resoult">
+					<h4 class="main-newTitle"><img class="main-titleBg" src="../images/titleBgL.png"><img class="main-titlePic" src="../images/result.png"/>教学成果<img class="main-titleBg" src="../images/titleBgR.png"></h4>
+					<!--<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" id="main-resSlider">
+	    	    <div class="mui-scroll">
+	    	        <a class="mui-control-item mui-active">
+	    	            <img src="../images/goodRels.jpg">
+	    	            <h4 class="mui-ellipsis shops-h4">王明辉</h4>
+	    	            <h3 class="shops-h3 mui-ellipsis">一等奖学金获得者</h3>
+	    	        </a>
+	    	    </div>
+	    	</div>-->
+				</div>
+				<!--教学视频-->
+				<div class="main-content" id="teachVideo">
+					<h4 class="main-newTitle" style="color: #000;"><img class="main-titleBg" src="../images/titleBgL1.png"><img class="main-titlePic" src="../images/huangguan.png"/>精选推荐<img class="main-titleBg" src="../images/titleBgR1.png"></h4>
+					<ul class="mui-table-view mui-grid-view" style="margin-top: 15px;">
+						<li class="mui-table-view-cell mui-media mui-col-xs-6">
+							<a href="javascript:;" id="detail">
+								<img class="mui-media-object" src="../images/video.jpg">
+								<div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
+								<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-6">
+							<a href="javascript:;" id="shops">
+								<img class="mui-media-object" src="../images/video.jpg">
+								<div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
+								<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-6" id="test">
+							<a href="javascript:;"><img class="mui-media-object" src="../images/video.jpg">
+								<div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
+								<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-6">
+							<a href="javascript:;">
+								<img class="mui-media-object" src="../images/video.jpg">
+								<div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
+								<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-6" id="test">
+							<a href="javascript:;"><img class="mui-media-object" src="../images/video.jpg">
+								<div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
+								<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
+							</a>
+						</li>
+						<li class="mui-table-view-cell mui-media mui-col-xs-6">
+							<a href="javascript:;">
+								<img class="mui-media-object" src="../images/video.jpg">
+								<div class="mui-media-body">爱思维教育培训学校开展线下教育打劫卡数据库加速度计阿萨</div>
+								<h6 class="main-smTitle"><span>56人观看</span><span style="color: #ff4200;">免费</span></h6>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/mui.min.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+				}
+			});
+			/**
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+				}, 1500);
+			}
+			/*设置全局地址*/
+			var newsData = {};
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1, URL.length - 1);
+			//banner图
+			$.ajax({
+				url: AllUrl + "/asw-eas/f/FrontApp/front",
+				type: "post",
+				data: {
+					categoryId: "56a3452cb2244609b0a9e06f941dfc45",
+					number: 3,
+					param: "",
+					pageNo: 1
+				},
+				dataType: "jsonp",
+				success: function(data) {
+					console.log(data);
+					var bannerData = data;
+					console.log($("#slider img"));
+					$("#slider img").each(function(idx, val) {
+						if(idx == 0) {
+							$(val).attr("src", AllUrl + bannerData[bannerData.length - 1].articleData.mv);
+						} else if(idx == $("#slider img").length - 1) {
+							$(val).attr("src", AllUrl + bannerData[0].articleData.mv);
+						} else {
+							$(val).attr("src", AllUrl + bannerData[idx - 1].articleData.mv);
+						}
+
+					})
+					var slider = mui("#slider");
+					slider.slider({
+						interval: 3000
+					});
+
+				}
+			})
+
+			function getNewDatas() {
+				//教学成果
+				$.ajax({
+					url: AllUrl + "/asw-eas/f/FrontApp/front",
+					type: "post",
+					data: {
+						categoryId: "3d94996bd8c24a42ba768362f671ce38",
+						number: 12,
+						param: "",
+						pageNo: 1
+					},
+					dataType: "jsonp",
+					success: function(data) {
+						var list = data;
+						var newDiv = document.createElement("div");
+						var newScroll = document.createElement("div");
+						$(newDiv).attr("id", "main-resSlider").addClass("mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted");
+						$(newScroll).addClass("mui-scroll").appendTo(newDiv);
+						data.forEach(function(val, idx) {
+							var newA = document.createElement("a");
+							console.log(val);
+							if(idx == 0) {
+								$(newA).addClass("mui-control-item mui-active");
+							} else {
+								$(newA).addClass("mui-control-item");
+							}
+							$(newA).html("<img src='" + AllUrl + val.image + "'><h4 class='mui-ellipsis shops-h4'>" + val.title + "</h4>");
+							$(newA).appendTo(newScroll);
+						})
+						$(newDiv).appendTo("#main-resoult");
+						mui(newDiv).scroll();
+
+					},
+					error: function() {
+						setTimeout(function() {
+							plus.nativeUI.toast("服务器暂无响应，请稍后再试")
+						}, 1500);
+					}
+				})
+			}
+			getNewDatas();
+		</script>
+	</body>

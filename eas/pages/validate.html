@@ -184,7 +184,7 @@
 		<div id="tipBox">
 			<div>
 				<img src="../images/validate.png">
-				<div id="errorTip" class="mui-ellipsis-5">很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！很遗憾，您的实名认证未通过！</div>
+				<div id="errorTip" class="mui-ellipsis-5"></div>
 			</div>
 			<img src="../images/closeTip.png"  id="closeTip"/>
 		</div>
@@ -262,7 +262,11 @@
 				var self = plus.webview.currentWebview();
 				if(self.showTip){
 					$("#tipBox").css("display","flex");
-					$("#errorTip").html("很抱歉，您的实名认证未通过审核！<br>驳回原因："+self.tip);
+					if(self.tip == ""){
+						$("#errorTip").html("很抱歉，您的实名认证未通过审核！");	
+					}else{
+						$("#errorTip").html("很抱歉，您的实名认证未通过审核！<br>驳回原因："+self.tip);
+					}
 					var frontPhoto = self.frontPhoto;
 					var reversePhoto = self.reversePhoto;
 					var allId = self.allId;
