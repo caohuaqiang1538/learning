@@ -121,7 +121,6 @@
 				async:true,
 				dataType:"jsonp",
 				success:function(data){
-					console.log(JSON.stringify(data));
 					if(data.length == 0){
 						setTimeout(function(){
 							plus.nativeUI.toast("暂无年级信息");
@@ -163,7 +162,6 @@
 						dataType:"jsonp",
 						success:function(data){
 							userMess["grade"].gradeName = schoolVal;
-							console.log(JSON.stringify(userMess));
 							localStorage.setItem("$userMess",JSON.stringify(userMess));
 							mui.back();
 							plus.nativeUI.toast("修改成功");

@@ -175,9 +175,7 @@
 			},
 			dataType:"jsonp",
 			success:function(data){
-				console.log(data);
 				var bannerData = data;
-				console.log($("#slider img"));
 				$("#slider img").each(function(idx,val){
 					if(idx == 0){
 						$(val).attr("src",AllUrl+bannerData[bannerData.length-1].articleData.mv);
@@ -217,7 +215,6 @@
 					$(newScroll).addClass("mui-scroll").appendTo(newDiv);
 					data.forEach(function(val,idx){
 						var newA = document.createElement("a");
-						console.log(val);
 						if(idx == 0){
 							$(newA).addClass("mui-control-item mui-active");
 						}else{

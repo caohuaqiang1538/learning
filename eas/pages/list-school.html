@@ -100,42 +100,10 @@
 					}
 				}
 			});
-			var count = 0;//下拉次数
+			var count = 1;//下拉次数
 			var newData = "";//初始化列表数据
 			var URL = localStorage.getItem("$url");
 			var AllUrl = URL.substring(1,URL.length-1);
-			//进页面加载数据
-			/*$.ajax({
-					type:"post",
-					url:AllUrl+"/asw-eas/f/FrontApp/front",
-					async:false,
-					data:{
-						categoryId:"2b18679ef5a74611af07fa290ee7d7f2",
-						number:8,
-						param:"",
-						pageNo:1
-					},
-					dataType:"jsonp",
-					success:function(data){
-						listData = data;
-						new Vue({
-							el:"#listBox",
-							data:{
-								listData:listData
-							},
-							methods:{
-								toDetail:function(event){
-									var toggle = event.currentTarget;
-			                    	var toggleTitle = $(toggle).find("h4").text();
-			                    	
-								}
-							}
-						})
-						setTimeout(function() {
-							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-						}, 1500);
-					}
-				})*/
 			/* 上拉加载具体业务实现*/
 			function pullupRefresh() {
 				count+=1;
@@ -151,42 +119,43 @@
 					},
 					dataType:"jsonp",
 					success:function(data){
-						for(var i = 0;i<data.length;i++){
-							var lis = document.createElement("li");
-							var lisData = "";
-							$(lis).addClass("mui-table-view-cell mui-media").attr("id",data[i].id);
-							lisData += 	"<a href='javascript:;'>"+
-												"<img class='mui-media-object mui-pull-left' src='"+AllUrl+data[i].image+"'>"+
-												"<div class='mui-media-body'>"+
-													"<h4 class='mui-ellipsis'>"+data[i].title+"</h4>"+
-													"<p class='mui-ellipsis-2'>"+data[i].description+"</p>"+
-													"<h6><i class='iconfont icon-guankan'></i><span hits>"+data[i].hits+"</span></h6>"+
-												"</div></a>";
-							$(lis).html(lisData);
-							$("#listBox").append(lis);
-						}
-						//点击进入详情
-						$("#listBox li").on("tap",function(){
-							var ids = $(this).attr("id");
-							var newsTitle = $(this).find("h4").text();
-							mui.openWindow({
-							    url:"detail.html",
-							    id:"detail.html",
-							    extras:{
-							        ids:ids,
-							        title:"新闻资讯",
-							        newsTitle:newsTitle
-							    }
+						if(data.length !== 0){
+							for(var i = 0;i<data.length;i++){
+								var lis = document.createElement("li");
+								var lisData = "";
+								$(lis).addClass("mui-table-view-cell mui-media").attr("id",data[i].id);
+								lisData += 	"<a href='javascript:;'>"+
+													"<img class='mui-media-object mui-pull-left' src='"+AllUrl+data[i].image+"'>"+
+													"<div class='mui-media-body'>"+
+														"<h4 class='mui-ellipsis'>"+data[i].title+"</h4>"+
+														"<p class='mui-ellipsis-2'>"+data[i].description+"</p>"+
+														"<h6><i class='iconfont icon-guankan'></i><span hits>"+data[i].hits+"</span></h6>"+
+													"</div></a>";
+								$(lis).html(lisData);
+								$("#listBox").append(lis);
+							}
+							//点击进入详情
+							$("#listBox li").on("tap",function(){
+								var ids = $(this).attr("id");
+								var newsTitle = $(this).find("h4").text();
+								mui.openWindow({
+								    url:"detail.html",
+								    id:"detail.html",
+								    extras:{
+								        ids:ids,
+								        title:"新闻资讯",
+								        newsTitle:newsTitle
+								    }
+								})
 							})
-						})
-						setTimeout(function() {
 							mui('#pullrefresh').pullRefresh().endPullupToRefresh();
-						}, 1500);
+						}else{
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
 					}
 				})
 			}
 			//下拉刷新实现
-			pulldownRefresh()
 			function pulldownRefresh(){
 				$.ajax({
 					type:"post",
@@ -196,7 +165,7 @@
 						categoryId:"23bb6570e2444e4db1ad55227b7b534e",
 						number:8,
 						param:"",
-						pageNo:count,
+						pageNo:1,
 					},
 					dataType:"jsonp",
 					success:function(data){
@@ -212,9 +181,7 @@
 												"</div></a></li>";
 						}
 						$("#listBox").html(newData);
-						setTimeout(function() {
-							mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-						}, 1500);
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
 						//点击进入详情
 						$("#listBox li").on("tap",function(){
 							var ids = $(this).attr("id");

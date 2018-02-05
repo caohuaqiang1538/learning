@@ -240,7 +240,6 @@
                 page={ 
                     imgUp:function(){ 
                         var m=this; 
-                       /* console.log(m);*/
                         plus.nativeUI.actionSheet({cancel:"取消",buttons:[ 
                             {title:"拍照"}, 
                             {title:"从相册中选择"} 
@@ -318,7 +317,6 @@
 									plus.webview.close("validate.html")
 									plus.webview.close("validate_step2.html");
 									plus.webview.close("validate_step3.html");
-									console.log(JSON.stringify(data));
 									wt.close();
 								},
 								error:function(){

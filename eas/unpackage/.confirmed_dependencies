@@ -1,251 +1,251 @@
 {
-	"pages/building.html": {
-		"href": "pages/building.html",
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"images/building.png"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"pages/detail.html": {
-		"href": "pages/detail.html",
-		"resources": [
-			"js/mui.min.js",
-			"js/vue.js",
-			"css/mui.min.css",
-			"images/500556005_wx.jpg"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"pages/list-home.html": {
-		"href": "pages/list-home.html",
-		"resources": [
-			"css/mui.min.css",
-			"font/iconfont.css",
-			"js/mui.min.js",
-			"js/vue.js"
-		],
-		"refer": [
-			"pages/detail.html"
-		],
-		"priority": 0
-	},
-	"pages/list-school.html": {
-		"href": "pages/list-school.html",
-		"resources": [
-			"css/mui.min.css",
-			"font/iconfont.css",
-			"js/mui.min.js",
-			"js/vue.js"
-		],
-		"refer": [
-			"pages/detail.html"
-		],
-		"priority": 0
-	},
-	"pages/newsList.html": {
-		"href": "pages/newsList.html",
-		"resources": [
-			"js/mui.min.js",
-			"js/webviewGroup.js",
-			"css/mui.min.css",
-			"pages/list-school.html",
-			"pages/list-asw.html"
-		],
-		"refer": [
-			"pages/list-home.html",
-			"pages/list-school.html",
-			"pages/list-asw.html"
-		],
-		"priority": 0
-	},
-	"pages/main.html": {
-		"href": "pages/main.html",
-		"resources": [
-			"js/vue.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"css/main.css",
-			"font/iconfont.css",
-			"images/video.jpg",
-			"images/cbd.jpg",
-			"images/goodRel.jpg",
-			"pages/main_sub.html"
-		],
-		"refer": [
-			"pages/detail.html",
-			"pages/newsList.html",
-			"pages/shop/shop.html",
-			"pages/goodsShop.html",
-			"pages/main_sub.html",
-			"pages/activeList.html",
-			"pages/video.html"
-		],
-		"priority": 0
-	},
-	"pages/reg/register.html": {
-		"href": "pages/reg/register.html",
-		"resources": [
-			"font/iconfont.css",
-			"css/mui.min.css",
-			"js/mui.min.js"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"pages/reg/forget.html": {
-		"href": "pages/reg/forget.html",
-		"resources": [
-			"font/iconfont.css",
-			"css/mui.min.css",
-			"js/mui.min.js"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"pages/login.html": {
-		"href": "pages/login.html",
-		"resources": [
-			"js/mui.min.js",
-			"js/login.js",
-			"css/mui.min.css",
-			"images/loginBg.png",
-			"images/dog.png",
-			"images/logo.png",
-			"images/right.png"
-		],
-		"refer": [
-			"pages/reg/register.html",
-			"pages/reg/forget.html"
-		],
-		"priority": 0
-	},
-	"pages/myMessage.html": {
-		"href": "pages/myMessage.html",
-		"resources": [
-			"js/vue.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"css/main.css",
-			"font/iconfont.css"
-		],
-		"refer": [
-			"pages/reg/changeUserMess.html",
-			"pages/reg/changeUserArea.html",
-			"pages/reg/changeUserPhone.html",
-			"pages/reg/changeUserSchool.html",
-			"pages/reg/changeUserData.html",
-			"pages/reg/changeUserClass.html"
-		],
-		"priority": 0
-	},
-	"pages/reg/changePass.html": {
-		"href": "pages/reg/changePass.html",
-		"resources": [
-			"font/iconfont.css",
-			"css/mui.min.css",
-			"js/mui.min.js"
-		],
-		"refer": [],
-		"priority": 0
-	},
-	"pages/my.html": {
-		"href": "pages/my.html",
-		"resources": [
-			"js/vue.js",
-			"images/pic.png",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"css/main.css",
-			"font/iconfont.css",
-			"images/mess.png",
-			"images/valde.png",
-			"images/changePass.png"
-		],
-		"refer": [
-			"pages/login.html",
-			"pages/myMessage.html",
-			"pages/reg/changePass.html",
-			"pages/version.html",
-			"pages/validate.html",
-			"pages/valLoad.html",
-			"pages/shop/myCar.html",
-			"pages/shop/myaddress.html",
-			"pages/shop/myDealList.html"
-		],
-		"priority": 0
-	},
-	"index.html": {
-		"href": "index.html",
-		"resources": [
-			"font/iconfont.css",
-			"css/mui.min.css",
-			"js/mui.min.js",
-			"pages/main.html",
-			"pages/building.html",
-			"pages/my.html"
-		],
-		"refer": [
-			"pages/building.html",
-			"pages/main.html",
-			"pages/my.html"
-		],
-		"priority": 0
-	},
-	"pages/validate.html": {
-		"refer": [
-			"pages/validate_step2.html"
-		],
-		"resources": []
-	},
-	"pages/validate_step2.html": {
-		"refer": [
-			"pages/validate_step3.html"
-		],
-		"resources": []
-	},
-	"pages/shop/shop.html": {
-		"refer": [
-			"pages/shop/goodsDetail.html"
-		]
-	},
-	"pages/shop/goodsDetail.html": {
-		"refer": [
-			"pages/shop/goods-wuliu.html",
-			"pages/shop/toDeal.html"
-		]
-	},
-	"pages/shop/toDeal.html": {
-		"refer": [
-			"pages/shop/myaddress.html",
-			"pages/shop/goods-wuliu.html"
-		]
-	},
-	"pages/shop/myaddress.html": {
-		"refer": [
-			"pages/shop/addAddress.html"
-		]
-	},
-	"pages/activeList.html": {
-		"resources": [
-			"images/1514950694(1).png"
-		],
-		"refer": [
-			"pages/detail.html"
-		]
-	},
-	"pages/video.html": {
-		"resources": [
-			"images/400076324_wx.jpg"
-		]
-	},
-	"pages/goodsShop.html": {
-		"refer": [
-			"pages/shop/shop.html",
-			"pages/shop/goodsDetail.html"
-		]
-	}
+  "pages/building.html": {
+    "href": "pages/building.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "images/building.png"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "pages/detail.html": {
+    "href": "pages/detail.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/vue.js",
+      "css/mui.min.css",
+      "images/500556005_wx.jpg"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "pages/list-home.html": {
+    "href": "pages/list-home.html",
+    "resources": [
+      "css/mui.min.css",
+      "font/iconfont.css",
+      "js/mui.min.js",
+      "js/vue.js"
+    ],
+    "refer": [
+      "pages/detail.html"
+    ],
+    "priority": 0
+  },
+  "pages/list-school.html": {
+    "href": "pages/list-school.html",
+    "resources": [
+      "css/mui.min.css",
+      "font/iconfont.css",
+      "js/mui.min.js",
+      "js/vue.js"
+    ],
+    "refer": [
+      "pages/detail.html"
+    ],
+    "priority": 0
+  },
+  "pages/newsList.html": {
+    "href": "pages/newsList.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/webviewGroup.js",
+      "css/mui.min.css",
+      "pages/list-school.html",
+      "pages/list-asw.html"
+    ],
+    "refer": [
+      "pages/list-home.html",
+      "pages/list-school.html",
+      "pages/list-asw.html"
+    ],
+    "priority": 0
+  },
+  "pages/main.html": {
+    "href": "pages/main.html",
+    "resources": [
+      "js/vue.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/main.css",
+      "font/iconfont.css",
+      "images/video.jpg",
+      "images/cbd.jpg",
+      "images/goodRel.jpg",
+      "pages/main_sub.html"
+    ],
+    "refer": [
+      "pages/detail.html",
+      "pages/newsList.html",
+      "pages/shop/shop.html",
+      "pages/goodsShop.html",
+      "pages/main_sub.html",
+      "pages/activeList.html",
+      "pages/video.html"
+    ],
+    "priority": 0
+  },
+  "pages/reg/register.html": {
+    "href": "pages/reg/register.html",
+    "resources": [
+      "font/iconfont.css",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "pages/reg/forget.html": {
+    "href": "pages/reg/forget.html",
+    "resources": [
+      "font/iconfont.css",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "pages/login.html": {
+    "href": "pages/login.html",
+    "resources": [
+      "js/mui.min.js",
+      "js/login.js",
+      "css/mui.min.css",
+      "images/loginBg.png",
+      "images/dog.png",
+      "images/logo.png",
+      "images/right.png"
+    ],
+    "refer": [
+      "pages/reg/register.html",
+      "pages/reg/forget.html"
+    ],
+    "priority": 0
+  },
+  "pages/myMessage.html": {
+    "href": "pages/myMessage.html",
+    "resources": [
+      "js/vue.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/main.css",
+      "font/iconfont.css"
+    ],
+    "refer": [
+      "pages/reg/changeUserMess.html",
+      "pages/reg/changeUserArea.html",
+      "pages/reg/changeUserPhone.html",
+      "pages/reg/changeUserSchool.html",
+      "pages/reg/changeUserData.html",
+      "pages/reg/changeUserClass.html"
+    ],
+    "priority": 0
+  },
+  "pages/reg/changePass.html": {
+    "href": "pages/reg/changePass.html",
+    "resources": [
+      "font/iconfont.css",
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "pages/my.html": {
+    "href": "pages/my.html",
+    "resources": [
+      "js/vue.js",
+      "images/pic.png",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/main.css",
+      "font/iconfont.css",
+      "images/mess.png",
+      "images/valde.png",
+      "images/changePass.png"
+    ],
+    "refer": [
+      "pages/login.html",
+      "pages/myMessage.html",
+      "pages/reg/changePass.html",
+      "pages/version.html",
+      "pages/validate.html",
+      "pages/valLoad.html",
+      "pages/shop/myCar.html",
+      "pages/shop/myaddress.html",
+      "pages/shop/myDealList.html"
+    ],
+    "priority": 0
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "font/iconfont.css",
+      "css/mui.min.css",
+      "js/mui.min.js",
+      "pages/main.html",
+      "pages/building.html",
+      "pages/my.html"
+    ],
+    "refer": [
+      "pages/building.html",
+      "pages/main.html",
+      "pages/my.html"
+    ],
+    "priority": 0
+  },
+  "pages/validate.html": {
+    "refer": [
+      "pages/validate_step2.html"
+    ],
+    "resources": []
+  },
+  "pages/validate_step2.html": {
+    "refer": [
+      "pages/validate_step3.html"
+    ],
+    "resources": []
+  },
+  "pages/shop/shop.html": {
+    "refer": [
+      "pages/shop/goodsDetail.html"
+    ]
+  },
+  "pages/shop/goodsDetail.html": {
+    "refer": [
+      "pages/shop/goods-wuliu.html",
+      "pages/shop/toDeal.html"
+    ]
+  },
+  "pages/shop/toDeal.html": {
+    "refer": [
+      "pages/shop/myaddress.html",
+      "pages/shop/goods-wuliu.html"
+    ]
+  },
+  "pages/shop/myaddress.html": {
+    "refer": [
+      "pages/shop/addAddress.html"
+    ]
+  },
+  "pages/activeList.html": {
+    "resources": [
+      "images/1514950694(1).png"
+    ],
+    "refer": [
+      "pages/detail.html"
+    ]
+  },
+  "pages/video.html": {
+    "resources": [
+      "images/400076324_wx.jpg"
+    ]
+  },
+  "pages/goodsShop.html": {
+    "refer": [
+      "pages/shop/shop.html",
+      "pages/shop/goodsDetail.html"
+    ]
+  }
 }

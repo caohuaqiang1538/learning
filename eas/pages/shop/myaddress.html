@@ -22,80 +22,7 @@
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		    <h1 class="mui-title">我的收货地址</h1>
 		</header>
-		<div class="mui-content" id="address-Mess">
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
-						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div class="mui-input-row mui-checkbox mui-left">
-					  <label class="chooseAddr">默认地址</label>
-					  <input name="checkbox1" type="checkbox" checked onclick="return false;" >
-					</div>
-					<div>
-						<button type="button" class="mui-btn adds-delBtn">删除</button>
-						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
-						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div class="mui-input-row mui-checkbox mui-left">
-					  <label>设为默认</label>
-					  <input name="checkbox1" type="checkbox" onclick="return false;">
-					</div>
-					<div>
-						<button type="button" class="mui-btn adds-delBtn">删除</button>
-						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
-						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div class="mui-input-row mui-checkbox mui-left">
-					  <label>设为默认</label>
-					  <input name="checkbox1" type="checkbox" onclick="return false;">
-					</div>
-					<div>
-						<button type="button" class="mui-btn adds-delBtn">删除</button>
-						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="addr-name">王明辉</span><span class="addr-phone">15092519635</span></h3>
-						<p><span class="uCity">陕西省西安市长安区</span><span class="uStree">广场北路明威橡树湾张家新村社区3号楼2906</span></p>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div class="mui-input-row mui-checkbox mui-left">
-					  <label>设为默认</label>
-					  <input name="checkbox1" type="checkbox" onclick="return false;">
-					</div>
-					<div>
-						<button type="button" class="mui-btn adds-delBtn">删除</button>
-						<button type="button" class="mui-btn adds-whiteBtn">编辑</button>
-					</div>
-				</div>
-			</div>
-		</div>
+		<div class="mui-content" id="address-Mess"></div>
 		<footer id="todeal-buyNow">
 	    	<div id="myaddr-addBtn">
 	    		<a class="mui-tab-item">添加新收货地址</a>
@@ -107,18 +34,85 @@
 	<script type="text/javascript">
 		mui.init();
 		mui.plusReady(function() {
-			$(".mui-checkbox").on("tap",function(){
-				if($(this).find("input[type='checkbox']").is(":checked")){
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var message = JSON.parse(localStorage.getItem("$userMess"));
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/addressAppController/findUseraddArea",
+				async:true,
+				data:{
+					userId:message.id,
+					strSegmentation:""
+				},
+				dataType:"jsonp",
+				success:function(data){
+					if(data.length == 0){
+						$("#address-Mess").html('<div class="mui-card">'+
+							'<div class="mui-card-content">'+
+								'<div class="mui-card-content-inner"><h3>您还未添加地址喔！</h3>'+
+							'</div></div></div>')
+					}else{
+						data.forEach(function(val,idx){
+							var newCardBox = document.createElement("div");
+							$(newCardBox).addClass("mui-card").attr("isDefault",val.addressInfo.isDefault);
+							if(val.addressInfo.isDefault == '0'){
+								var isDefault = "设为默认",checkeds = "",defaultColor = "";
+							}else{
+								var isDefault = "默认地址",checkeds = "checked",defaultColor = "chooseAddr";
+							}
+							$(newCardBox).html('<div class="mui-card-content"><div class="mui-card-content-inner">'+
+						'<h3><span class="addr-name">'+val.addressInfo.addContact+'</span><span class="addr-phone">'+val.addressInfo.addTel+'</span></h3>'+
+						'<p><span class="uCity">'+val.addressInfo.addArea.name+'</span><span class="uStree">'+val.addressInfo.addDetail+'</span></p>'+
+						'</div></div><div class="mui-card-footer"><div class="mui-input-row mui-checkbox mui-left" id="'+val.addressInfo.id+'">'+
+						'<label class='+defaultColor+'>'+isDefault+'</label><input name="checkbox1" type="checkbox" '+checkeds+' onclick="return false;"></div><div>'+
+						'<button type="button" data-lisId="'+val.id+'" data-addressLisId="'+val.addressInfo.id+'" class="mui-btn adds-delBtn">删除</button>'+
+						'<button type="button" id="'+val.id+'" data-addAreaId="'+val.addressInfo.addArea.id+'" data-addrssa="'+val.addId+'" data-addrs="'+val.addressInfo.id+'" class="mui-btn adds-whiteBtn">编辑</button></div></div>');
+						$(newCardBox).appendTo($("#address-Mess"));
+						})
+					}
+				},
+				error:function(){
+					plus.nativeUI.toast("服务器暂无响应，请稍后再拨")
+				}
+			})
+			$("#address-Mess").on("tap",".mui-checkbox",function(){
+				var defaultChooseidx = $(this).attr("id");
+				nodeBtn = $(this);
+				if(nodeBtn.find("input[type='checkbox']").is(":checked")){
 					return;
 				}else{
 					var btnArray = ['确定', '取消'];
-					var nodeBtn = $(this);
 					mui.confirm('确认更换默认地址？', '', btnArray, function(e) {
 						if (e.index == 1) {
 							return;
 						} else {
-							$("input[type='checkbox']").prop("checked",false);
-							nodeBtn.find("input[type='checkbox']").prop("checked","checked");
+							$.ajax({
+								type:"post",
+								url:AllUrl+"/asw-eas/f/addressAppController/updateDefault",
+								async:true,
+								data:{
+									user:message.id,
+									"addressInfo.id":defaultChooseidx
+								},
+								dataType:"jsonp",
+								success:function(data){
+									if(data.status){
+										$(".mui-card").attr("isDefault",0);
+										nodeBtn.parents(".mui-card").attr("isDefault",1);
+										$("input[type='checkbox']").prop("checked",false);
+										nodeBtn.find("input[type='checkbox']").prop("checked","checked");
+										$("label").removeClass("chooseAddr").text("设为默认");
+										nodeBtn.find("label").text("默认地址").addClass("chooseAddr");
+										plus.nativeUI.toast("默认地址更换成功");
+									}else{
+										plus.nativeUI.toast("默认地址更改失败！")
+									}
+								},
+								error:function(){
+									plus.nativeUI.toast("默认地址更改失败！")
+								}
+							});
 						}
 					})
 				}
@@ -135,13 +129,19 @@
 						uPhone:'',
 						uAddr:'',
 						uCity:'',
-						uStree:''
+						uStree:'',
+						uId:'',
+						addId:'',
+						tip:"新地址添加成功",
+						addIds:"",
+						addAreaId:"",
+						isDefault:"0"
 					}
 				})
 			})
 			
 			//删除
-			$(".adds-delBtn").on("tap",function(){
+			$("#address-Mess").on("tap",".adds-delBtn",function(){
 				var delBtnFont = ['确定', '取消'];
 				var delNode = $(this);
 				mui.confirm('确定要删除此地址吗？', '', delBtnFont, function(e) {
@@ -149,21 +149,53 @@
 						return;
 					} else {
 						if(delNode.parents(".mui-card").find('label').text() == '默认地址'){
-							mui.alert("默认地址不可删除");
+							plus.nativeUI.toast("默认地址不可删除");
 						}else{
-							delNode.parents(".mui-card").remove();
+							var lisId = delNode.attr("data-lisId");
+							var addressLisId = delNode.attr("data-addressLisId")
+							$.ajax({
+								type:"post",
+								url:AllUrl+"/asw-eas/f/addressAppController/delete",
+								async:true,
+								data:{
+									id:lisId,
+									"addressInfo.id":addressLisId
+								},
+								dataType:"jsonp",
+								success:function(data){
+									if(data.status){
+										delNode.parents(".mui-card").remove();
+										if($(".mui-card").length == 0){
+											$("#address-Mess").html('<div class="mui-card">'+
+										'<div class="mui-card-content">'+
+											'<div class="mui-card-content-inner"><h3>您还未添加地址喔！</h3>'+
+										'</div></div></div>')
+										}
+										plus.nativeUI.toast("删除成功");
+									}else{
+										plus.nativeUI.toast("删除失败，请重试！")
+									}
+								},
+								error:function(){
+									plus.nativeUI.toast("删除失败，请重试！")
+								}
+							});
 						}
 					}
 				})
 			})
-			$(".adds-whiteBtn").on("tap",function(){
+			$("#address-Mess").on("tap",".adds-whiteBtn",function(){
 				var uNode = $(this).parents(".mui-card");
 				var uName = uNode.find(".addr-name").text();
 				var uPhone = uNode.find(".addr-phone").text();
 				var uCity = uNode.find(".uCity").text();
 				var uStree = uNode.find(".uStree").text();
 				var uTitlt = "编辑收货地址";
-				console.log(JSON.stringify(uNode.find(".addr-name")));
+				var uId = $(this).attr("id");
+				var addId = $(this).attr("data-addrs");
+				var addIds = $(this).attr("data-addrssa");
+				var addAreaId = $(this).attr("data-addAreaId");
+				var isDefault = $(uNode).attr("isDefault");
 				mui.openWindow({
 					url:"addAddress.html",
 					id:"addAddress.html",
@@ -173,7 +205,13 @@
 						uName:uName,
 						uPhone:uPhone,
 						uCity:uCity,
-						uStree:uStree
+						uStree:uStree,
+						uId:uId,
+						addId:addId,
+						tip:"地址信息修改成功",
+						addIds:addIds,
+						addAreaId:addAreaId,
+						isDefault:isDefault
 					}
 				})
 			})

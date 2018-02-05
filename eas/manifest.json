@@ -7,7 +7,7 @@
 	"id": "H510B1FA5",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "爱思维",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "1.0.2",/*应用版本名称*/
+		"name": "1.0.3",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "爱思维教育平台",/*应用描述信息*/
@@ -29,6 +29,9 @@
 		},
 		"Cache": {
 			"description": "管理应用缓存"
+		},
+		"Payment":{
+			"description":"管理支付插件"
 		},
 		"Camera": {},
 		"Console": {
@@ -93,7 +96,7 @@
 		},
 		"NativeObj": {
 			"description": "原生对象"
-		},"OAuth":{},"Speech":{},"Barcode":{},"Messaging":{},"Geolocation":{}
+		},"OAuth":{},"Speech":{},"Barcode":{},"Messaging":{},"Geolocation":{},"Payment":{}
 	},
 	"plus": {
 		"splashscreen": {
@@ -105,7 +108,7 @@
 		
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
 		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
-		"distribute": {"plugins":{"maps":{}},
+		"distribute": {"plugins":{"payment":{"alipay":{"description":"阿里支付","scheme":""}},"maps":{}},
 			"apple": {
 				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
 				"mobileprovision": "",/*iOS应用打包配置文件*/
@@ -200,7 +203,7 @@
 					"xxhdpi": "C:/Users/LimingTech/Desktop/tests.png"
 				}
 			}
-		}
+		},"ads":{"rp":false,"splash":false,"push":false,"spot":false},"adid":""
 	},
 	"dependencies": {
 		"pages": {

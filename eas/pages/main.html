@@ -187,9 +187,7 @@
 			async:true,
 			dataType:"jsonp",
 			success:function(data){
-				console.log(data);
 				var bannerData = data;
-				console.log($("#slider img"));
 				$("#slider img").each(function(idx,val){
 					if(idx == 0){
 						$(val).attr("src",AllUrl+bannerData[bannerData.length-1].articleData.mv);
@@ -226,7 +224,6 @@
 					var list = data;
 					data.forEach(function(val,idx){
 						var newA = document.createElement("a");
-						console.log(val);
 						$(newA).html("<img src='"+AllUrl+val.image+"'><h4 class='mui-ellipsis shops-h4'>"+val.title+"</h4>");
 						$(newA).appendTo("#main-resSliders>div");
 					})
@@ -241,25 +238,31 @@
 		}
 		getNewDatas();
 	  	//test
-		$("#test").on("tap",function(){
+		/*$("#test").on("tap",function(){
 			mui.openWindow({
 				url:"video.html",
 				
 			})
-		})
+		})*/
 		
 		/*商城列表*/
-		$("#detail").on("tap",function(){
+		/*$("#detail").on("tap",function(){
 			mui.openWindow({
 				url:"shop/shop.html",
 				id:"shop/shop.html"
 			})
-		})
+		})*/
 		/*新闻列表*/
 		$("#main-toNew").on("tap",function(){
 			mui.openWindow({
 				url:"newsList.html",
 				id:"newsList.html"
+			})
+		})
+		$("#main-toJG").on("tap",function(){
+			mui.openWindow({
+				url:"Training.html",
+				id:"Training.html"
 			})
 		})
 		/*活动列表*/

@@ -229,7 +229,6 @@
 					data:userID,
 					dataType:"jsonp",
 					success:function(data){
-						console.log(JSON.stringify(data));
 						if(data.loginBoolean == "false"){
 							userMess = {};
 							localStorage.setItem("$state","{}");

@@ -40,8 +40,7 @@
 			}
 			.shops-showBox img{
 				width: 65px;
-			    max-height: 95px;
-			    height: auto;
+			    height: 95px;
 			    display: block;
 			}
 			.shops-showBox li img{
@@ -190,87 +189,107 @@
 				$.ajax({
 					type:"post",
 					url:AllUrl+"/asw-eas/f/goodsInfo/list",
-					async:true,
+					async:false,
 					data:{
 						pageNo:1,
 						pageSize:8,
-						type:"selfNumDesc"
+						type:"AelfNumDesc"
 					},
 					dataType:"jsonp",
 					success:function(data){
-						console.log(data);
 						var listData = data.page.list;
-						var listDatelng = listData.length;
-						$(".shops-goodBook div").width(95*listDatelng+'px');
-						listData.forEach(function(val,idx){
-							if(val.gImg !== ""){
-								var gImg = AllUrl+val.gImg.split("|")[1];
-							}else{
-								var gImg = "../images/shopList.png";
-							}
-							var newA = document.createElement("a");
-							$(newA).attr("id",val.id);
-							$(newA).html("<img src='"+gImg+"'>"+
-		    	            "<h4 class='mui-ellipsis shops-h4'>"+val.gName+"</h4>"+
-		    	            "<h3 class='shops-h3'><span>￥"+val.gPrice+"</span>元</h3>");
-		    	            $(newA).appendTo($(".shops-goodBook div"));
-		    	            $(newA).on("tap",function(){
-		    	            	mui.openWindow({
-		    	            		url:"shop/goodsDetail.html",
-		    	            		id:"shop/goodsDetail.html",
-		    	            		extras:{
-										ids:$(this).attr("id")
-									}
-		    	            	})
-		    	            })
-						})
+						if(listData == undefined){
+							$(".shops-goodBook").css("display","none");
+						}else{
+							var listDatelng = listData.length;
+							$(".shops-goodBook div").width(95*listDatelng+'px');
+							listData.forEach(function(val,idx){
+								if(val.gImg !== ""){
+									var gImg = AllUrl+val.gImg.split("|")[1];
+								}else{
+									var gImg = "../images/shopList.png";
+								}
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								var newA = document.createElement("a");
+								$(newA).attr("id",val.id);
+								$(newA).html("<img src='"+gImg+"'>"+
+			    	            "<h4 class='mui-ellipsis shops-h4'>"+val.gName+"</h4>"+
+			    	            "<h3 class='shops-h3'><span>￥"+nowMoy+"</span>元</h3>");
+			    	            $(newA).appendTo($(".shops-goodBook div"));
+			    	            $(newA).on("tap",function(){
+			    	            	mui.openWindow({
+			    	            		url:"shop/goodsDetail.html",
+			    	            		id:"shop/goodsDetail.html",
+			    	            		extras:{
+											ids:$(this).attr("id")
+										}
+			    	            	})
+			    	            })
+							})
+						}
 					}
 				});
 				//热销第二分栏
 				$.ajax({
 					type:"post",
 					url:AllUrl+"/asw-eas/f/goodsInfo/list",
-					async:true,
+					async:false,
 					data:{
 						pageNo:2,
 						pageSize:8,
-						type:"selfNumDesc"
+						type:"AelfNumDesc"
 					},
 					dataType:"jsonp",
 					success:function(data){
-						console.log(data);
 						var listData1 = data.page.list;
-						var listDatelng1 = listData1.length;
-						$(".shops-goodBook2 div").width(95*listDatelng1+'px');
-						listData1.forEach(function(val,idx){
-							if(val.gImg !== ""){
-								var gImg1 = AllUrl+val.gImg.split("|")[1];
-							}else{
-								var gImg1 = "../images/shopList.png";
-							}
-							var newA1 = document.createElement("a");
-							$(newA1).attr("id",val.id);
-							$(newA1).html("<img src='"+gImg1+"'>"+
-		    	            "<h4 class='mui-ellipsis shops-h4'>"+val.gName+"</h4>"+
-		    	            "<h3 class='shops-h3'><span>￥"+val.gPrice+"</span>元</h3>");
-		    	            $(newA1).appendTo($(".shops-goodBook2 div"));
-		    	            $(newA1).on("tap",function(){
-		    	            	mui.openWindow({
-		    	            		url:"shop/goodsDetail.html",
-		    	            		id:"shop/goodsDetail.html",
-		    	            		extras:{
-										ids:$(this).attr("id")
-									}
-		    	            	})
-		    	            })
-						})
+						if(listData1 == undefined){
+							$(".shops-goodBook2").css("display","none");
+						}else{
+							var listDatelng1 = listData1.length;
+							$(".shops-goodBook2 div").width(95*listDatelng1+'px');
+							listData1.forEach(function(val,idx){
+								if(val.gImg !== ""){
+									var gImg1 = AllUrl+val.gImg.split("|")[1];
+								}else{
+									var gImg1 = "../images/shopList.png";
+								}
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								var newA1 = document.createElement("a");
+								$(newA1).attr("id",val.id);
+								$(newA1).html("<img src='"+gImg1+"'>"+
+			    	            "<h4 class='mui-ellipsis shops-h4'>"+val.gName+"</h4>"+
+			    	            "<h3 class='shops-h3'><span>￥"+nowMoy+"</span>元</h3>");
+			    	            $(newA1).appendTo($(".shops-goodBook2 div"));
+			    	            $(newA1).on("tap",function(){
+			    	            	mui.openWindow({
+			    	            		url:"shop/goodsDetail.html",
+			    	            		id:"shop/goodsDetail.html",
+			    	            		extras:{
+											ids:$(this).attr("id")
+										}
+			    	            	})
+			    	            })
+							})
+						}
 					}
 				});
 				//新书上架
 				$.ajax({
 					type:"post",
 					url:AllUrl+"/asw-eas/f/goodsInfo/list",
-					async:true,
+					async:false,
 					data:{
 						pageNo:1,
 						pageSize:6,
@@ -278,30 +297,38 @@
 					},
 					dataType:"jsonp",
 					success:function(data){
-						console.log(data);
 						var listData3 = data.page.list;
-						listData3.forEach(function(val,idx){
-							if(val.gImg !== ""){
-								var gImg3 = AllUrl+val.gImg.split("|")[1];
-							}else{
-								var gImg3 = "../images/shopList.png";
-							}
-							var newA3 = document.createElement("li");
-							$(newA3).attr("id",val.id);
-							$(newA3).html("<img src='"+gImg3+"'>"+
-		    	            "<h4 class='mui-ellipsis mui-text-center shops-h4'>"+val.gName+"</h4>"+
-		    	            "<h3 class='shops-h3 mui-text-center'><span>￥"+val.gPrice+"</span>元</h3>");
-		    	            $(newA3).appendTo($("#shops-newBook ul.mui-clearfix"));
-		    	            $(newA3).on("tap",function(){
-		    	            	mui.openWindow({
-		    	            		url:"shop/goodsDetail.html",
-		    	            		id:"shop/goodsDetail.html",
-		    	            		extras:{
-										ids:$(this).attr("id")
-									}
-		    	            	})
-		    	            })
-						})
+						if(listData3 !== undefined){
+							listData3.forEach(function(val,idx){
+								if(val.gImg !== ""){
+									var gImg3 = AllUrl+val.gImg.split("|")[1];
+								}else{
+									var gImg3 = "../images/shopList.png";
+								}
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								var newA3 = document.createElement("li");
+								$(newA3).attr("id",val.id);
+								$(newA3).html("<img src='"+gImg3+"'>"+
+			    	            "<h4 class='mui-ellipsis mui-text-center shops-h4'>"+val.gName+"</h4>"+
+			    	            "<h3 class='shops-h3 mui-text-center'><span>￥"+nowMoy+"</span>元</h3>");
+			    	            $(newA3).appendTo($("#shops-newBook ul.mui-clearfix"));
+			    	            $(newA3).on("tap",function(){
+			    	            	mui.openWindow({
+			    	            		url:"shop/goodsDetail.html",
+			    	            		id:"shop/goodsDetail.html",
+			    	            		extras:{
+											ids:$(this).attr("id")
+										}
+			    	            	})
+			    	            })
+							})
+						}
 					}
 				});
 				//特价促销
@@ -316,30 +343,42 @@
 					},
 					dataType:"jsonp",
 					success:function(data){
-						console.log(data);
 						var listData4 = data.page.list;
-						listData4.forEach(function(val,idx){
-							if(val.gImg !== ""){
-								var gImg4 = AllUrl+val.gImg.split("|")[1];
-							}else{
-								var gImg4 = "../images/shopList.png";
-							}
-							var newA4 = document.createElement("li");
-							$(newA4).attr("id",val.id);
-							$(newA4).html("<img src='"+gImg4+"'>"+
-		    	            "<h4 class='mui-ellipsis mui-text-center shops-h4'>"+val.gName+"</h4>"+
-		    	            "<h3 class='shops-h3 mui-text-center'><span>￥"+val.gPrice+"</span>元</h3>");
-		    	            $(newA4).appendTo($("#shops-sellBook ul.mui-clearfix"));
-		    	            $(newA4).on("tap",function(){
-		    	            	mui.openWindow({
-		    	            		url:"shop/goodsDetail.html",
-		    	            		id:"shop/goodsDetail.html",
-		    	            		extras:{
-										ids:$(this).attr("id")
-									}
-		    	            	})
-		    	            })
-						})
+						if(listData4 !== undefined){
+							listData4.forEach(function(val,idx){
+								if(val.gImg !== ""){
+									var gImg4 = AllUrl+val.gImg.split("|")[1];
+								}else{
+									var gImg4 = "../images/shopList.png";
+								}
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								var newA4 = document.createElement("li");
+								$(newA4).attr("id",val.id);
+								$(newA4).html("<img src='"+gImg4+"'>"+
+			    	            "<h4 class='mui-ellipsis mui-text-center shops-h4'>"+val.gName+"</h4>"+
+			    	            "<h3 class='shops-h3 mui-text-center'><span>￥"+nowMoy+"</span>元</h3>");
+			    	            $(newA4).appendTo($("#shops-sellBook ul.mui-clearfix"));
+			    	            $(newA4).on("tap",function(){
+			    	            	mui.openWindow({
+			    	            		url:"shop/goodsDetail.html",
+			    	            		id:"shop/goodsDetail.html",
+			    	            		extras:{
+											ids:$(this).attr("id")
+										}
+			    	            	})
+			    	            })
+							})
+						}
+						
+						mui('#shops').pullRefresh().endPulldownToRefresh();
+					},
+					error:function(){
 						mui('#shops').pullRefresh().endPulldownToRefresh();
 					}
 				});

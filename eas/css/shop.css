@@ -34,10 +34,19 @@ header .mui-search span{
 	width: 70px;
 	margin-right: 10px;
 }
+#shop-order li.actChoose{
+	color: #0099ff;
+}
+.actDetailChoose{
+	color: #0099ff;
+}
 #shop-order #shop-choose{
 	float:right;
 	text-align: right;
 	margin-right: 0px;
+}
+#shop-choose i{
+	font-size: 22px;
 }
 #shop-order li img{
 	width: 26px;
@@ -97,6 +106,9 @@ header .mui-search span{
 	justify-content: center;
 	align-items: center;
 }
+#deal-noMess{
+	padding: 15px;
+}
 #shop-list .shop-sellMess>div:nth-of-type(2) span{
 	display: block;
 	background: #FF5043;
@@ -134,6 +146,7 @@ header .mui-search span{
 #shop-chooseBox>ul>li.tabListAct{
 	border-left: 2px solid #0099ff;
 	background: #F7F5F6;
+	color: #0099ff;
 }
 #shop-chooseBox>ul>li>ul{
 	width: 60%;
@@ -153,6 +166,9 @@ header .mui-search span{
 	background: #F7F5F6;
 	overflow-y: scroll;
 	position: relative;
+}
+#shop-tabDetail ul:first-child{
+	display: block;
 }
 #shop-tabDetail ul{
 	margin: 0;
@@ -332,7 +348,7 @@ header .mui-search span{
 }
 #deal-uMess{
 	background: #fff;
-    padding: 15px 35px 15px 15px;
+    padding: 15px 50px 15px 15px;
 }
 #deal-uMess .mui-input-row{
 	height: auto;
@@ -353,21 +369,23 @@ header .mui-search span{
 #deal-uMess p{
 	color: #000;
 	font-size: 16px;
+	line-height: 20px;
+	height: auto;
 }
-#todeal-Mess{
+#todeal-Mess,#todealAllMoy{
 	margin-top: 15px;
 }
-#todeal-goodPic img{
+#todeal-Mess .todeal-goodPic img{
 	max-width: 75px;
     height: 100px;
 }
-#todeal-goodPic h3{
+#todeal-Mess .todeal-goodPic h3{
 	font-weight: normal;
     white-space: initial;
     font-size: 16px;
     line-height: 20px;
 }
-#todeal-goodPic h2{
+#todeal-Mess .todeal-goodPic h2{
 	font-weight: normal;
     white-space: initial;
     font-size: 18px;
@@ -375,14 +393,14 @@ header .mui-search span{
     color: #FD5042;
     margin-top: 15px;
 }
-#todeal-goodPic h2>span{
+#todeal-Mess .todeal-goodPic h2>span{
 	float: right;
 	color: #000;
 }
-#todeal-Mess .mui-table-view-cell{
+#todeal-Mess .mui-table-view-cell,#todealAllMoy .mui-table-view-cell{
 	padding: 15px;
 }
-#todeal-Mess .todeal-change{
+#todeal-Mess .todeal-change,#todealAllMoy .todeal-change{
 	margin-right: 20px;
 }
 #todeal-buyNow{
@@ -414,6 +432,35 @@ header .mui-search span{
     line-height: 55px;
     text-align: center;
 }
+.carNone{
+	display: -webkit-flex;
+	display: flex;
+	height: 400px!important;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+#nodealList,#nodealList div{
+	height: 420px;
+	display: -webkit-flex;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+#nodealList img{
+	width: 75px;
+}
+#nodealList h3{
+	font-size: 16px!important;
+}
+.carNone h4{
+	font-weight: normal;
+	line-height: 25px;
+}
+.noneCar .mui-input-group:after{
+	display: none!important;
+}
 #myaddr-addBtn a{
 	color: #fff;
 }
@@ -434,18 +481,18 @@ header .mui-search span{
 #address-Mess .mui-checkbox.mui-left input[type=checkbox], .mui-radio.mui-left input[type=radio]{
 	left: 0px;
 }
-#address-Mess .mui-checkbox.mui-left label, .mui-radio.mui-left label{
+#address-Mess .mui-checkbox.mui-left label, .mui-radio.mui-left label,#address-ziti  .mui-checkbox.mui-left label, .mui-radio.mui-left label{
 	padding-left: 34px;
 }
-#address-Mess h3{
+#address-Mess h3,#address-ziti h3{
 	font-size: 18px;
     font-weight: normal;
     line-height: 26px;
 }
-#address-Mess h3>span.addr-phone{
+#address-Mess h3>span.addr-phone,#address-ziti h3>span.addr-phone{
 	float: right;
 }
-#address-Mess p{
+#address-Mess p,#address-ziti p{
 	font-size: 16px;
 	color: #000;
 	margin-top: 15px;
@@ -460,7 +507,7 @@ header .mui-search span{
 	border-radius: 14px;
 	padding: 5px 20px;
 }
-#address-Mess .mui-card,#myDeal-list .mui-card{
+#address-Mess .mui-card,#myDeal-list .mui-card,#address-ziti .mui-card{
 	margin:10px 0 0;
 	box-shadow: none;
 }
@@ -481,8 +528,7 @@ header .mui-search span{
 }
 #myDeal-list .myDeal-box img{
 	width: 15%;
-    height: auto;
-    max-height: 80px;
+    height: 80px;
     margin-right: 5px;
 }
 #myDeal-list .myDeal-boxFont{
@@ -503,7 +549,8 @@ header .mui-search span{
 #myDeal-list .myDeal-boxFont h2{
 	font-size:16px;
 	font-weight: normal;
-	line-height: 22px;
+	line-height: 18px;
+	height: 36px;
 }
 #myDeal-list .myDeal-boxMoney h1{
 	font-size: 20px;
@@ -525,6 +572,7 @@ header .mui-search span{
 #myDeal-list .deal-buyAgain{
 	border:1px solid #FF4E44;
 	color: #FF4E44;
+	margin-left: 5px;
 }
 #myDeal-list .deal-delBtn{
 	color: #6B6B6B;
@@ -556,7 +604,6 @@ header .mui-search span{
 	display: inherit;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
 	padding-left: 15px;
 	width: 75%;
 }
@@ -574,6 +621,7 @@ header .mui-search span{
 	display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 #car-box .car-make{
 	display: inherit;
@@ -596,7 +644,7 @@ header .mui-search span{
 }
 #car-box .car-make h5{
 	font-size: 20px;
-	margin-top: 20px;
+	margin-top: 10px;
 }
 #car-box .car-make h5>span{
 	margin-left: 5px;

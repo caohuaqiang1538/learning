@@ -49,16 +49,6 @@
 		
 		<div class="mui-content"  id="mainContent">
 		    <ul class="mui-table-view">
-		        <li class="mui-table-view-cell mui-media">
-		            <a href="javascript:;">
-		                <img class="mui-media-object mui-pull-left" src="../images/1514950694(2).png">
-		                <div class="mui-media-body">
-		                    <h4 class="mui-ellipsis">爱思维教育培训学校</h4>
-		                    <p class="mui-ellipsis-2">热烈庆祝爱思维教育培训平台上线，祝大家吃好喝好，新的一年开开心心，健健康康</p>
-		               		<h5><i class="iconfont icon-guankan"></i><span>26</span></h5>
-		                </div>
-		            </a>
-		        </li>
 		    </ul>
 		</div>
 	</body>
@@ -67,12 +57,15 @@
 	<script type="text/javascript">
 		var URL = localStorage.getItem("$url");
 		var AllUrl = URL.substring(1,URL.length-1);
+		var count = 1;
 		mui.init({
 			pullRefresh: {
 				container: '#mainContent',
 				down: {
 					style:'circle',
-					auto:true,
+					auto: true,
+					range:'100px',
+					color:'#0099ff',
 					callback: pulldownRefresh
 				},
 				up: {
@@ -97,9 +90,7 @@
 			dataType:"jsonp",
 			success:function(data){
 				var datas = data;
-				console.log(datas);
 				datas.forEach(function(val,idx){
-					console.log(val);
 					var newLis = document.createElement("li");
 					$(newLis).addClass("mui-table-view-cell mui-media").attr("id",val.id);
 					$(newLis).html("<a href='javascript:;'><img class='mui-media-object mui-pull-left' src='"+AllUrl+val.image+"'><div class='mui-media-body'>"+
@@ -121,16 +112,62 @@
 						    }
 				  		})
 				  	})
-	               	mui('#mainContent').pullRefresh().endPulldown();
 				})
+				mui('#mainContent').pullRefresh().endPulldown();
 			},
 			error:function(){
+				plus.nativeUI.toast("抱歉，服务器未响应，获取活动列表失败")
 			}
 		})
 		}
 		function pullupRefresh(){
-			
-			this.endPullupToRefresh(true);
+			count += 1;
+			$.ajax({
+				url:AllUrl+"/asw-eas/f/FrontApp/front",
+				type:"post",
+				data:{
+					categoryId:"96822ac8835e4132b6b5cf0696d736fc",
+					number:8,
+					param:"",
+					pageNo:count
+				},
+				async:true,
+				dataType:"jsonp",
+				success:function(data){
+					var datas = data;
+					if(datas.length !== 0){
+						datas.forEach(function(val,idx){
+							var newLis = document.createElement("li");
+							$(newLis).addClass("mui-table-view-cell mui-media").attr("id",val.id);
+							$(newLis).html("<a href='javascript:;'><img class='mui-media-object mui-pull-left' src='"+AllUrl+val.image+"'><div class='mui-media-body'>"+
+			                    "<h4 class='mui-ellipsis'>"+val.title+"</h4>"+
+			                    "<p class='mui-ellipsis-2'>"+val.description+"</p>"+
+			               		"<h5><i class='iconfont icon-guankan'></i><span>26</span></h5></div></a>");
+			               	$(newLis).appendTo("#mainContent>ul");
+			               	//最新活动查看详情
+						  	$("#mainContent li").on("tap",function(){
+						  		var actDataId = $(this).attr("id");
+						  		var actDataTitle = $(this).find(".mui-media-body").text();
+						  		mui.openWindow({
+						  			url:"detail.html",
+						  			id:"detail.html",
+						  			extras:{
+								        ids:actDataId,
+								        title:"最新活动",
+								        newsTitle:actDataTitle
+								    }
+						  		})
+						  	})
+						})
+						mui('#mainContent').pullRefresh().endPullupToRefresh();
+					}else{
+						mui('#mainContent').pullRefresh().endPullupToRefresh(true);
+					}
+				},
+				error:function(){
+					plus.nativeUI.toast("抱歉，服务器未响应，获取活动列表失败")
+				}
+			})
 		}
 		
 	</script>

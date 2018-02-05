@@ -125,7 +125,6 @@
 				},
 				dataType:"jsonp",
 				success:function(data){
-					console.log(JSON.stringify(data));
 					if(data.length == 0){
 						setTimeout(function(){
 							plus.nativeUI.toast("抱歉，该地区暂无学校");

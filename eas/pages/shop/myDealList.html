@@ -7,13 +7,16 @@
 		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
 		<link href="../../css/mui.min.css" rel="stylesheet" />
 		<style type="text/css">
-			html,body{
+			/*html,body{
 				height: 100%;
 			}
 			.mui-bar-nav~.mui-content {
 			    height: 100%;
 			    overflow: scroll;
-			}
+			}*/
+			/*.mui-card-content,.mui-card-content-inner{
+				position: static!important;
+			}*/
 		</style>
 	</head>
 
@@ -22,124 +25,208 @@
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		    <h1 class="mui-title">我的订单</h1>
 		</header>
-		<div class="mui-content" id="myDeal-list">
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="myDeal-number">物流编号：3696365896</span><span class="myDeal-status">交易成功</span></h3>
-						<div class="myDeal-box">
-							<img src="../../images/shopList.png" />
-							<div class="myDeal-boxFont">
-								<h2>普通高等教育国家重点级教材·外国教育史教程</h2>
-								<h5>订单编号：3696365896</h5>
-							</div>
-							<div class="myDeal-boxMoney">
-								<h1>￥98.99</h1>
-								<del>￥128.98</del>
-								<h5>×<span>1</span></h5>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div>
-						<button type="button" class="mui-btn deal-delBtn">删除</button>
-					</div>
-					<div>
-						<h3>共计<span>1</span>件商品，合计：<span>￥98.99</span></h3>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="myDeal-number">物流编号：3696365896</span><span class="myDeal-status">交易失败</span></h3>
-						<div class="myDeal-box">
-							<img src="../../images/shopList.png" />
-							<div class="myDeal-boxFont">
-								<h2>普通高等教育国家重点级教材·外国教育史教程</h2>
-								<h5>订单编号：3696365896</h5>
-							</div>
-							<div class="myDeal-boxMoney">
-								<h1>￥98.99</h1>
-								<del>￥128.98</del>
-								<h5>×<span>1</span></h5>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div>
-						<button type="button" class="mui-btn deal-delBtn">删除</button>
-						<button type="button" class="mui-btn deal-buyAgain">再次购买</button>
-					</div>
-					<div>
-						<h3>共计<span>1</span>件商品，合计：<span>￥98.99</span></h3>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="myDeal-number">物流编号：3696365896</span><span class="myDeal-status">交易成功</span></h3>
-						<div class="myDeal-box">
-							<img src="../../images/shopList.png" />
-							<div class="myDeal-boxFont">
-								<h2>普通高等教育国家重点级教材·外国教育史教程</h2>
-								<h5>订单编号：3696365896</h5>
-							</div>
-							<div class="myDeal-boxMoney">
-								<h1>￥98.99</h1>
-								<del>￥128.98</del>
-								<h5>×<span>1</span></h5>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div>
-						<button type="button" class="mui-btn deal-delBtn">删除</button>
-					</div>
-					<div>
-						<h3>共计<span>1</span>件商品，合计：<span>￥98.99</span></h3>
-					</div>
-				</div>
-			</div>
-			<div class="mui-card">
-				<div class="mui-card-content">
-					<div class="mui-card-content-inner">
-						<h3><span class="myDeal-number">物流编号：3696365896</span><span class="myDeal-status">交易成功</span></h3>
-						<div class="myDeal-box">
-							<img src="../../images/shopList.png" />
-							<div class="myDeal-boxFont">
-								<h2>普通高等教育国家重点级教材·外国教育史教程</h2>
-								<h5>订单编号：3696365896</h5>
-							</div>
-							<div class="myDeal-boxMoney">
-								<h1>￥98.99</h1>
-								<del>￥128.98</del>
-								<h5>×<span>1</span></h5>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="mui-card-footer">
-					<div>
-						<button type="button" class="mui-btn deal-delBtn">删除</button>
-					</div>
-					<div>
-						<h3>共计<span>1</span>件商品，合计：<span>￥98.99</span></h3>
-					</div>
-				</div>
-			</div>
+		<div class="mui-content">
+		    <div id="myDeal-list"></div>
 		</div>
 	</body>
 	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
 	<script src="../../js/mui.min.js"></script>
 	<script type="text/javascript">
-		mui.init();
 		mui.plusReady(function() {
+			mui.init({
+				pullRefresh: {
+					container: '#myDeal-list',
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					},
+				    down: {
+						style:'circle',
+						auto: true,
+						range:'100px',
+						color:'#0099ff',
+						callback: pulldownRefresh
+					}
+				}
+			});
 			
+			var URLs = localStorage.getItem("$url");
+			var AllUrl = URLs.substring(1,URLs.length-1);
+			var message = JSON.parse(localStorage.getItem("$userMess"));
+			var count = 1;
+			var buyAgain = '';
+			//下拉刷新
+			function pulldownRefresh(){
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/list",
+					async:true,
+					data:{
+						"userId":message.id,
+						pageSze:8,
+						pageNo:1
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(JSON.stringify(data));
+						$("#myDeal-list").html("");
+						if(data.count == 0){
+							var noList = document.createElement("div");
+							$(noList).attr("id","nodealList");
+							$(noList).html('<div class="mui-card-content"><div class="mui-card-content-inner"><img src="../../images/nodealList.png"><h3>您还没有购买过物品喔！</h3></div></div>')
+							$(noList).appendTo($("#myDeal-list"));
+							mui('#myDeal-list').pullRefresh().endPulldownToRefresh();
+						}else{
+							data.list.forEach(function(val,idx){
+								//状态判断
+								if(val.status == '0'){
+									status = "待支付";
+									buyAgain = '<button type="button" class="mui-btn deal-buyAgain">继续支付</button>';
+								}else if(val.status == '1'){
+									status = "交易成功";
+									buyAgain = '';
+								}else{
+									status = "交易关闭";
+									buyAgain = '';
+								}
+								//物流编号判断
+								if(val.signelNumber == undefined){
+									signelNumber = ''
+								}else{
+									signelNumber ='物流编号：'+ val.signelNumber;
+								}
+								var newList = document.createElement("div");
+								$(newList).addClass("mui-card").attr("dealId",val.id);;
+								var goodsNum = val.listOrderGoodsInfo.length;//商品数量
+								
+								var allMoney = 0;
+								var newListDetail = '<div class="mui-card-content"><div class="mui-card-content-inner"><h3><span class="myDeal-number">'+signelNumber+'</span><span class="myDeal-status">'+status+'</span></h3></div></div>';
+								val.listOrderGoodsInfo.forEach(function(vals,idxs){
+									var valsPic = vals.goodsInfo.gImg.split("|")[1];//图片处理
+									if(vals.goodsInfo.isDiscount == 0){
+										sellMoyNow = vals.goodsInfo.gDiscount; //现价
+										lastMoy = "<del>￥"+vals.goodsInfo.gPrice+"</del>";
+									}else{
+										sellMoyNow = vals.goodsInfo.gPrice;
+										lastMoy = "";
+									} //价格处理
+									allMoney += sellMoyNow*vals.num;
+									newListDetail += '<div class="mui-card-content"><div class="mui-card-content-inner"><div class="myDeal-box"><img src="'+AllUrl+valsPic+'" /><div class="myDeal-boxFont"><h2 class="mui-ellipsis-2">'+vals.goodsInfo.gName+'</h2>'+
+									'<h5>订单编号：'+val.orderNumber+'</h5></div><div class="myDeal-boxMoney"><h1>￥'+sellMoyNow+'</h1>'+lastMoy+'<h5>×<span>'+vals.num+'</span></h5></div></div></div></div>';
+								})
+								newListDetail += '<div class="mui-card-footer"><div><button type="button" class="mui-btn deal-delBtn">删除</button>'+buyAgain+'</div><div><h3>共计<span>'+goodsNum+'</span>件商品，合计：<span>￥'+allMoney+'</span></h3></div></div></div>'
+								$(newList).html(newListDetail);
+								$(newList).appendTo($("#myDeal-list"));
+							})
+							mui('#myDeal-list').pullRefresh().endPulldownToRefresh();
+						}
+					},
+					error:function(){
+						plus.nativeUI.toast("获取订单列表失败")
+					}
+				})
+			}
+			//上拉加载
+			function pullupRefresh(){
+				count +=1;
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/list",
+					async:true,
+					data:{
+						"userId":message.id,
+						pageSze:8,
+						pageNo:count
+					},
+					dataType:"jsonp",
+					success:function(data){
+						
+						data.list.forEach(function(val,idx){
+							//状态判断
+							if(val.status == '0'){
+								status = "待支付";
+								buyAgain = '<button type="button" class="mui-btn deal-buyAgain">继续支付</button>';
+							}else if(val.status == '1'){
+								status = "交易成功";
+								buyAgain = '';
+							}else{
+								status = "交易关闭";
+								buyAgain = '';
+							}
+							//物流编号判断
+							if(val.signelNumber == undefined){
+								signelNumber = ''
+							}else{
+								signelNumber ='物流编号：'+ val.signelNumber;
+							}
+							var newList = document.createElement("div");
+							$(newList).addClass("mui-card").attr("dealId",val.id);
+							var goodsNum = val.listOrderGoodsInfo.length;//商品数量
+							
+							var allMoney = 0;
+							var newListDetail = '<div class="mui-card-content"><div class="mui-card-content-inner"><h3><span class="myDeal-number">'+signelNumber+'</span><span class="myDeal-status">'+status+'</span></h3></div></div>';
+							val.listOrderGoodsInfo.forEach(function(vals,idxs){
+								var valsPic = vals.goodsInfo.gImg.split("|")[1];//图片处理
+								if(vals.goodsInfo.isDiscount == 0){
+									sellMoyNow = vals.goodsInfo.gDiscount; //现价
+									lastMoy = "<del>￥"+vals.goodsInfo.gPrice+"</del>";
+								}else{
+									sellMoyNow = vals.goodsInfo.gPrice;
+									lastMoy = "";
+								} //价格处理
+								allMoney += sellMoyNow*vals.num;
+								newListDetail += '<div class="mui-card-content"><div class="mui-card-content-inner"><div class="myDeal-box"><img src="'+AllUrl+valsPic+'" /><div class="myDeal-boxFont"><h2 class="mui-ellipsis-2">'+vals.goodsInfo.gName+'</h2>'+
+								'<h5>订单编号：'+val.orderNumber+'</h5></div><div class="myDeal-boxMoney"><h1>￥'+sellMoyNow+'</h1>'+lastMoy+'<h5>×<span>'+vals.num+'</span></h5></div></div></div></div>';
+							})
+							newListDetail += '<div class="mui-card-footer"><div><button type="button" class="mui-btn deal-delBtn">删除</button>'+buyAgain+'</div><div><h3>共计<span>'+goodsNum+'</span>件商品，合计：<span>￥'+allMoney+'</span></h3></div></div></div>'
+							$(newList).html(newListDetail);
+							$(newList).appendTo($("#myDeal-list"));
+						})
+						if(data.length == 0){
+							mui('#myDeal-list').pullRefresh().endPullupToRefresh();
+						}else{
+							mui('#myDeal-list').pullRefresh().endPullupToRefresh(true);
+						}
+					},
+					error:function(){
+						plus.nativeUI.toast("获取订单列表失败")
+					}
+				})
+			}
+			$("#myDeal-list").on("tap",".deal-delBtn",function(){
+				var nodeP = $(this).parents(".mui-card");
+				var dealId = nodeP.attr("dealId");
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/delete",
+					async:true,
+					data:{
+						id:dealId
+					},
+					dataType:"jsonp",
+					success:function(data){
+						if(data.status == "false"){
+							plus.nativeUI.toast("删除失败，请重试");
+						}else{
+							nodeP.remove();
+							plus.nativeUI.toast("删除成功");
+						}
+					},
+					error:function(){
+						plus.nativeUI.toast("删除失败，请重试")
+					}
+				});
+			})
+			$("#myDeal-list").on("tap",".deal-buyAgain",function(){
+				var dealId = $(this).parents(".mui-card").attr("dealId");
+				mui.openWindow({
+					url:"toDeal.html",
+					id:"toDeal.html",
+					extras:{
+				       dealId:dealId
+				    }
+				})
+			})
 		})
 	</script>
 </html>
