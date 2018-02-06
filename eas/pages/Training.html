@@ -75,7 +75,7 @@
 		                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
 		                    <h5>2018-01-29</h5>
 		                </li>
-		                <li class="mui-table-view-cell traAct-footer">
+		                <li class="mui-table-view-cell traAct-footer" id="getActMore">
 		                    <h3>查看更多<i class="iconfont icon-arrow-right"></i></h3>
 		                </li>
 		            </ul>
@@ -268,8 +268,8 @@
 	<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
-		mui.init()
-		//mui.plusReady({
+		mui.init();
+		mui.plusReady(function(){
 			$(".traInAct-font p").each(function(idx,val){
 				var pHeight = $(val).height();
 				var pLineH = parseInt($(val).css("line-height"));
@@ -288,13 +288,13 @@
 					$(this).text("收起内容");
 				}
 			})
-			$("#text").on("tap",function(){
-				//alert(1);
-				/*mui.openWindow({
-					url:"http://61.190.90.210:909";
-				})*/
-				//location.href=" http://61.190.90.210:909"
+			//跳转到最新活动列表页
+			$("#getActMore").on("tap",function(){
+				mui.openWindow({
+					url:"training/trainAct.html",
+					id:"training/trainAct.html"
+				})
 			})
-		//})
+		})
 	</script>
 </html>
