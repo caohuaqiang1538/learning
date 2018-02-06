@@ -14,6 +14,16 @@
 			.mui-content>.mui-table-view:first-child {
 				margin-top: -1px;
 			}
+			.title-right{
+				line-height: 44px;
+    			color: #fff;
+			}
+			.title-right img{
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+				margin-right: 5px;
+			}
 			#pullrefresh{
 				margin-top: 15px;
 			}
@@ -69,6 +79,7 @@
 		<header class="mui-bar mui-bar-nav">
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		    <h1 class="mui-title">培训机构</h1>
+		    <a class="mui-pull-right title-right"><img src="../images/chooseCity.png" />筛选</a>
 		</header>
 		<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content">
@@ -200,7 +211,13 @@
 					id:"training/Training.html"
 				})
 			})
-
+			//筛选进入
+			$(".title-right").on("tap",function(){
+				mui.openWindow({
+					url:"training/JG-cityChoose.html",
+					id:"training/JG-cityChoose.html"
+				})
+			})
 		</script>
 	</body>
 
