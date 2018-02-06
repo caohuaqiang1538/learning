@@ -21,7 +21,7 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		    <h1 class="mui-title">爱思维教育培训学校</h1>
+		    <h1 class="mui-title"></h1>
 		</header>
 		<div class="mui-content">
 		    <div class="train-Banner">
@@ -32,52 +32,38 @@
 	                	<div class="traContact-logoBox">
 	                   		<img src="../images/bgLogo.png"/>
 	                    </div>
-	                    <h3>爱思维教育培训学校</h3>
+	                    <h3 id="depName"></h3>
 		            </li>
 		            <li class="mui-table-view-cell mui-clearfix">
 		            	<div class="trainTipPic" >
 		            		<img src="../images/trainPeople.png"/>
 		            	</div>
-		                <h4>联系人：李老师</h4>
+		                <h4>联系人：<span id="contact"></span></h4>
 		            </li>
 		            <li class="mui-table-view-cell mui-clearfix">
 		            	<div class="trainTipPic" >
 		            		<img src="../images/trainTel.png"/>
 		            	</div>
-		                <h4>联系电话：18935874152</h4>
+		                <h4>联系电话：<span id="contactPhone"></span></h4>
 		            </li>
 		            <li class="mui-table-view-cell mui-clearfix">
 		            	<div class="trainTipPic" >
 		            		<img src="../images/trainAddr.png"/>
 		            	</div>
-		                <h4>联系地址：陕西省西安市广场北路张家村社区3号楼</h4>
+		                <h4>联系地址：<span id="contactAddress"></span></h4>
 		            </li>
 		            <li class="mui-table-view-cell mui-clearfix">
 		            	<div class="trainTipPic" >
 		            		<img src="../images/trainSchool.png"/>
 		            	</div>
-		                <h4>简介：陕西省西安市广场北路张家村社区3号楼陕西省西安市社区3号楼陕西省西安市广场北路张家村社区3号楼</h4>
+		                <h4>简介：<span id="contactProfile"></span></h4>
 		            </li>
 		        </ul>
 		    <ul class="mui-table-view" id="traAct-box">
-		                <li class="mui-table-view-cell traAct-title">
+		                <li class="mui-table-view-cell traAct-title" id="traActUpdate">
 		                    <h3>最新活动<span class="isNew">今日已更新<i class="iconfont icon-arrow-top"></i></span></h3>
 		                </li>
-		                <li class="mui-table-view-cell">
-		                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
-		                    <h5>2018-01-29</h5>
-		                </li>
-		                <li class="mui-table-view-cell">
-		                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
-		                    <h5>2018-01-29</h5>
-		                </li>
-		                <li class="mui-table-view-cell">
-		                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
-		                    <h5>2018-01-29</h5>
-		                </li>
-		                <li class="mui-table-view-cell traAct-footer" id="getActMore">
-		                    <h3>查看更多<i class="iconfont icon-arrow-right"></i></h3>
-		                </li>
+		                
 		            </ul>
 		    <ul class="mui-table-view" id="traAct-news">
 		                <li class="mui-table-view-cell traAct-title">
@@ -260,7 +246,7 @@
                    </div>
                 </li>
                 <li class="mui-table-view-cell traAct-footerMore">
-                    <h3>为您推荐精品课程<span>去看<i class="iconfont icon-arrow-right"></i></span></h3>
+                    <h3>为您推荐精品课程<span>去看0000<i class="iconfont icon-arrow-right"></i></span></h3>
                 </li>
             </ul>
 		</div>
@@ -268,8 +254,160 @@
 	<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
 	<script src="../js/mui.min.js"></script>
 	<script type="text/javascript">
-		mui.init();
+		mui.init()
 		mui.plusReady(function(){
+			//json格式判断
+			function isJSON(str) {
+			        if (typeof str == 'string') {
+			            try {
+			                var obj=JSON.parse(str);
+			                if(str.indexOf('{')>-1){
+			                    return true;
+			                }else{
+			                    return false;
+			                }
+			
+			            } catch(e) {
+			                return false;
+			            }
+			        }
+			        return false;
+			}
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				//var self = plus.webview.currentWebview();//获取父页面传递的值
+				//测试
+				var ids="be81d0b06dc4435d920edee89c70717a";
+				//1.机构详情
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/appDepInfo/form",
+					async:true,
+					data:{
+						id:ids
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(JSON.stringify(data));
+						$(".mui-title").text(data.depName);
+						$(".train-Banner").find("img").attr("src",AllUrl+data.depShowimage);
+						$(".traContact-logoBox").find("img").attr("src",AllUrl+data.depLogo);
+						$("#depName").text(data.depName);
+						$("#contact").text(data.depContact);
+						$("#contactPhone").text(data.depTel);
+						$("#contactAddress").text(data.depAddress);
+						$("#contactProfile").text(data.depProfile);
+					},
+					error:function(){
+						alert("机构");
+					}
+				})
+				//2.最新活动
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/activityInfo/list",
+					async:false,
+					data:{ 
+					   'depId.id':ids,
+						pageNo:1,
+						pageSize:3
+					},
+					dataType:"jsonp",
+					success:function(data){
+						var dataList = data.list;
+						var newLis;
+						if(dataList == undefined || dataList.length == 0){
+							
+						}else{
+							dataList.forEach(function(val,idx){
+								newLis = document.createElement("li");
+								$(newLis).addClass("mui-table-view-cell").attr("id",val.id);
+								$(newLis).html("<h4 class='mui-ellipsis'>"+val.actTitle+"</h4>"+"<h5>"+val.actDate+"</h5>");
+								$(newLis).appendTo($("#traAct-box"));
+							});
+							var moreLis = document.createElement("li");
+							$(moreLis).addClass("mui-table-view-cell traAct-footer").attr("id",ids);
+							$(moreLis).html( "<h3>"+"查看更多"+"<i class='iconfont icon-arrow-right'>"+"</i></h3>");
+							$(moreLis).appendTo($(newLis));
+		                   $(moreLis).on("tap",function(){
+		                   	alert(1);
+		                   })
+						
+						}
+					},
+					error:function(){
+						alert(12467);
+					}
+				})
+				//3.新闻资讯
+				/*$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/index/depinfo/content/articalContentApp/list",
+					async:false,
+					data:{ 
+					    columnInfoId:ids,
+						pageNo:1, 
+						pageSize:4
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(JSON.stringify(data));
+					},
+					error:function(){
+						alert(12467);
+					}
+				})*/
+				//4.活动报名
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/activityInfo/list",
+					async:false,
+					data:{ 
+					   'depId.id':ids,
+						pageNo:1,
+						pageSize:3
+					},
+					dataType:"jsonp",
+					success:function(data){
+						console.log(JSON.stringify(data));
+						var dataList = data.list;
+						var newLis;
+						if(dataList == undefined || dataList.length == 0){
+							
+						}else{
+							dataList.forEach(function(val,idx){
+								newLis = document.createElement("li");
+								$(newLis).addClass("mui-table-view-cell").attr("id",val.id);
+								$(newLis).html("<h4 class='mui-ellipsis'>"+val.actTitle+"</h4>"+"<h5>"+val.actDate+"</h5>");
+								$(newLis).appendTo($("#traAct-box"));
+							});
+							var moreLis = document.createElement("li");
+							$(moreLis).addClass("mui-table-view-cell traAct-footer").attr("id",ids);
+							$(moreLis).html( "<h3>"+"查看更多"+"<i class='iconfont icon-arrow-right'>"+"</i></h3>");
+							$(moreLis).appendTo($(newLis));
+		                   $(moreLis).on("tap",function(){
+		                   	alert(1);
+		                   })
+						
+						}
+					},
+					error:function(){
+						alert(12467);
+					}
+				})
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			$(".traInAct-font p").each(function(idx,val){
 				var pHeight = $(val).height();
 				var pLineH = parseInt($(val).css("line-height"));
@@ -294,6 +432,12 @@
 					url:"training/trainAct.html",
 					id:"training/trainAct.html"
 				})
+			$("#text").on("tap",function(){
+				//alert(1);
+				/*mui.openWindow({
+					url:"http://61.190.90.210:909";
+				})*/
+				//location.href=" http://61.190.90.210:909"
 			})
 		})
 	</script>
