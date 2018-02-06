@@ -3,11 +3,11 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>最新活动</title>
+		<title>Hello MUI</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link href="../../css/main.css"/>
 		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<style type="text/css">
@@ -69,7 +69,7 @@
 		<!--下拉刷新容器-->
 		<div id="pullrefresh" class="mui-content">
 			<!--数据列表-->
-			<ul class="mui-table-view mui-table-view-chevron">
+			<ul class="mui-table-view mui-table-view-chevron" id="activityDataList">
 				<li>
 					<h3>本周（01/29~~02/04）</h3>
 				</li>
@@ -117,7 +117,6 @@
 					container: '#pullrefresh',
 					down: {
 						style:'circle',
-						color:"#0099ff",
 						callback: pulldownRefresh
 					},
 					up: {
@@ -128,9 +127,10 @@
 				}
 			});
 			
-			var count = 0;
+			var count = 1;
 			function pullupRefresh() {
-				mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+				/*暂时取消了该模块*/
+				//mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
 			}
 
 			function addData() {

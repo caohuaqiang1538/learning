@@ -57,7 +57,7 @@
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
 			//初始化缓存       http://202.100.185.85:8888     192.168.31.240:8080   http://192.168.10.132:8080
-			localStorage.setItem("$url",JSON.stringify("http://202.100.185.85:8888"));
+			localStorage.setItem("$url",JSON.stringify("http://192.168.31.239:8080"));
 			mui.init({
 				statusBarBackground: '#0099ff',
 			});
@@ -148,8 +148,7 @@
 		                        function(event){
 		                            if(event.index ==0){
 		                                var downUrl = AllUrl +"/asw-eas/"+ json.versionUrl;
-		                               // downWgt(downUrl); //下载更新版的地址
-		                               location.href = "http://202.100.185.85:8888/asw-eas/app/asw103.apk";
+		                                downWgt(downUrl); //下载更新版的地址
 		                            }                        
 		                        } ,'系统消息',['马上升级','下次再说']);   
 		                } else{  
