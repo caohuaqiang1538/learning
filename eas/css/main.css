@@ -215,10 +215,10 @@
 	display: none;
 }
 .mui-bar-nav{
-	background: #0099ff;
+	background: #0099ff!important;
 }
 .mui-title{
-	color: #fff;
+	color: #fff!important;
 }
 .mui-action-back{
 	color: #fff;
