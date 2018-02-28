@@ -1,0 +1,335 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			#myDeal-list ul{
+				background: #EEEEEE;
+			}
+			#myDeal-list li{
+				margin-bottom: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">我的订单</h1>
+		</header>
+		<!--下拉刷新容器-->
+		<div id="myDeal-list" class="mui-content">
+			<!--数据列表-->
+			<ul class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+			mui.init({
+				pullRefresh: {
+					container: '#myDeal-list',
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					},
+				    down: {
+						style:'circle',
+						auto: true,
+						range:'100px',
+						color:'#0099ff',
+						callback: pulldownRefresh
+					}
+				}
+			});
+			var wxs = plus.webview.getWebviewById("toDeal.html");
+			if(wxs !== undefined){
+				plus.webview.close(wxs);
+			}
+			var URLs = localStorage.getItem("$url");
+			var AllUrl = URLs.substring(1,URLs.length-1);
+			var message = JSON.parse(localStorage.getItem("$userMess"));
+			var count = 1;
+			var buyAgain = '';
+			var isDelete = '';
+			//下拉刷新
+			function pulldownRefresh(){
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/list",
+					async:true,
+					data:{
+						"userId":message.id,
+						pageSze:8,
+						pageNo:1
+					},
+					dataType:"jsonp",
+					success:function(data){
+						$("#myDeal-list ul").html("");
+						count = 1;
+						if(data.list == undefined || data.list.length == 0){
+							$("#myDeal-list").html("");
+							mui('#myDeal-list').pullRefresh().disablePullupToRefresh();
+							var noList = document.createElement("li");
+							$(noList).attr("id","nodealList");
+							$(noList).html('<div class="carNone"><img src="../../images/nodealList.png" /><h5>亲，您还没有订单哦~</h5></div>')
+							$(noList).appendTo($("#myDeal-list"));
+							mui('#myDeal-list').pullRefresh().endPulldownToRefresh();
+						}else{
+							data.list.forEach(function(val,idx){
+								//状态判断
+								if(val.status == '0'){
+									status = "待支付";
+									buyAgain = '<button type="button" class="mui-btn deal-buyAgain">继续支付</button>';
+									isDelete = '<button type="button" class="mui-btn deal-delBtn">删除</button>';
+								}else if(val.status == '1'){
+									status = "支付成功，待发货";
+									buyAgain = '';
+									isDelete='';
+								}else if(val.status == '3'){
+									status = "已发货";
+									if(val.orderType == '1'){
+										status = "支付成功，待提取";
+									}
+									buyAgain = '<button type="button" class="mui-btn deal-haveGoods">确认收货</button>';
+									isDelete='';
+								}else if(val.status == '4'){
+									status = "交易完成";
+									buyAgain = '';
+									isDelete = '<button type="button" class="mui-btn deal-delBtn">删除</button>';
+								}else{
+									status = "交易关闭";
+									buyAgain = '';
+									isDelete = '<button type="button" class="mui-btn deal-delBtn">删除</button>';
+								}
+								//物流编号判断
+								if(val.orderType!='0'){
+									if(val.bootstrapNum == undefined){
+										signelNumber = ''
+									}else{
+										signelNumber ='自提码：'+ val.bootstrapNum;
+									}
+								}else{
+									if(val.signelNumber == undefined){
+										signelNumber = ''
+									}else{
+										signelNumber ='物流编号：'+ val.signelNumber;
+									}
+								}
+								var newList = document.createElement("li");
+								$(newList).addClass("mui-card").attr("dealId",val.id);
+								if(val.listOrderGoodsInfo !== undefined){
+									var goodsNum = val.listOrderGoodsInfo.length;//商品数量
+									var allMoney = 0;
+									var newListDetail = '<div class="mui-card-content"><div class="mui-card-content-inner"><h3><span class="myDeal-number">'+signelNumber+'</span><span class="myDeal-status">'+status+'</span></h3></div></div>';
+									val.listOrderGoodsInfo.forEach(function(vals,idxs){
+										//var valsPic = vals.goodsInfo.gImg.split("|")[1];//图片处理
+										var valsPic = vals.goodsInfo.iAmges;
+										if(vals.goodsInfo.isDiscount == 0){
+											sellMoyNow = vals.price; //现价
+											//lastMoy = "<del>￥"+vals.goodsInfo.gPrice+"</del>";
+											lastMoy = "";
+											if(sellMoyNow == undefined){
+												sellMoyNow = vals.goodsInfo.gDiscount;
+											}
+										}else{
+											sellMoyNow = vals.price;
+											lastMoy = "";
+											if(sellMoyNow == undefined){
+												sellMoyNow = vals.goodsInfo.gPrice;
+											}
+										} //价格处理
+										allMoney += sellMoyNow*vals.num;
+										newListDetail += '<div class="mui-card-content" id="'+vals.goodsInfo.id+'"><div class="mui-card-content-inner"><div class="myDeal-box"><img src="'+AllUrl+valsPic+'" /><div class="myDeal-boxFont"><h2 class="mui-ellipsis-2">'+vals.goodsInfo.gName+'</h2>'+
+										'<h5>订单编号：'+val.orderNumber+'</h5></div><div class="myDeal-boxMoney"><h1>￥'+sellMoyNow+'</h1>'+lastMoy+'<h5>×<span>'+vals.num+'</span></h5></div></div></div></div>';
+									})
+									newListDetail += '<div class="mui-card-footer"><div>'+isDelete+buyAgain+'</div><div><h3>共计<span>'+goodsNum+'</span>件商品，合计：<span>￥'+allMoney+'</span></h3></div></div></div>';
+									$(newList).html(newListDetail);
+									$(newList).appendTo($("#myDeal-list ul"));
+									}
+								})
+							mui('#myDeal-list').pullRefresh().endPulldownToRefresh();
+						}
+					},
+					error:function(){
+						mui('#myDeal-list').pullRefresh().endPulldownToRefresh();
+					}
+				})
+			}
+			//上拉加载
+			function pullupRefresh(){
+				count +=1;
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/list",
+					async:true,
+					data:{
+						"userId":message.id,
+						pageSze:8,
+						pageNo:count
+					},
+					dataType:"jsonp",
+					success:function(data){
+						if(data.list == undefined || data.list.length == 0){
+							mui('#myDeal-list').pullRefresh().endPullupToRefresh(true);
+						}else{
+							data.list.forEach(function(val,idx){
+								//状态判断
+								if(val.status == '0'){
+									status = "待支付";
+									buyAgain = '<button type="button" class="mui-btn deal-buyAgain">继续支付</button>';
+									isDelete = '<button type="button" class="mui-btn deal-delBtn">删除</button>';
+								}else if(val.status == '1'){
+									status = "支付成功，待发货";
+									buyAgain = '';
+									isDelete='';
+								}else if(val.status == '3'){
+									status = "已发货";
+									buyAgain = '<button type="button" class="mui-btn deal-haveGoods">确认收货</button>';
+									isDelete='';
+								}else if(val.status == '4'){
+									status = "交易完成";
+									buyAgain = '';
+									isDelete = '<button type="button" class="mui-btn deal-delBtn">删除</button>';
+								}else{
+									status = "交易关闭";
+									buyAgain = '';
+									isDelete = '<button type="button" class="mui-btn deal-delBtn">删除</button>';
+								}
+								//物流编号判断
+								if(val.orderType!='0'){
+									if(val.bootstrapNum == undefined){
+										signelNumber = ''
+									}else{
+										signelNumber ='自提码：'+ val.bootstrapNum;
+									}
+								}else{
+									if(val.signelNumber == undefined){
+										signelNumber = ''
+									}else{
+										signelNumber ='物流编号：'+ val.signelNumber;
+									}
+								}
+								var newList = document.createElement("li");
+								$(newList).addClass("mui-card").attr("dealId",val.id);
+								var goodsNum = val.listOrderGoodsInfo.length;//商品数量
+								
+								var allMoney = 0;
+								var newListDetail = '<div class="mui-card-content"><div class="mui-card-content-inner"><h3><span class="myDeal-number">'+signelNumber+'</span><span class="myDeal-status">'+status+'</span></h3></div></div>';
+								val.listOrderGoodsInfo.forEach(function(vals,idxs){
+									//var valsPic = vals.goodsInfo.gImg.split("|")[1];//图片处理
+									var valsPic = vals.goodsInfo.iAmges;
+									if(vals.goodsInfo.isDiscount == 0){
+										sellMoyNow = vals.goodsInfo.gDiscount; //现价
+										lastMoy = "<del>￥"+vals.goodsInfo.gPrice+"</del>";
+									}else{
+										sellMoyNow = vals.goodsInfo.gPrice;
+										lastMoy = "";
+									} //价格处理
+									allMoney += sellMoyNow*vals.num;
+									newListDetail += '<div class="mui-card-content" id="'+vals.goodsInfo.id+'"><div class="mui-card-content-inner"><div class="myDeal-box"><img src="'+AllUrl+valsPic+'" /><div class="myDeal-boxFont"><h2 class="mui-ellipsis-2">'+vals.goodsInfo.gName+'</h2>'+
+									'<h5>订单编号：'+val.orderNumber+'</h5></div><div class="myDeal-boxMoney"><h1>￥'+sellMoyNow+'</h1>'+lastMoy+'<h5>×<span>'+vals.num+'</span></h5></div></div></div></div>';
+								})
+								newListDetail += '<div class="mui-card-footer"><div>'+isDelete+buyAgain+'</div><div><h3>共计<span>'+goodsNum+'</span>件商品，合计：<span>￥'+allMoney+'</span></h3></div></div></div>'
+								$(newList).html(newListDetail);
+								$(newList).appendTo($("#myDeal-list ul"));
+								mui('#myDeal-list').pullRefresh().endPullupToRefresh();
+							})
+						}
+					},
+					error:function(){
+						plus.nativeUI.toast("获取订单列表失败")
+					}
+				})
+			}
+			$("#myDeal-list").on("tap",".deal-delBtn",function(){
+				var nodeP = $(this).parents(".mui-card");
+				var dealId = nodeP.attr("dealId");
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/delete",
+					async:true,
+					data:{
+						id:dealId
+					},
+					dataType:"jsonp",
+					success:function(data){
+						if(data.status == "false"){
+							plus.nativeUI.toast("删除失败，请重试");
+						}else{
+							nodeP.remove();
+							if($("#myDeal-list").find("li").length == 0){
+								$("#myDeal-list").html("");
+								mui('#myDeal-list').pullRefresh().disablePullupToRefresh();
+								var noList = document.createElement("li");
+								$(noList).attr("id","nodealList");
+								$(noList).html('<div class="mui-card-content"><div class="mui-card-content-inner"><img src="../../images/nodealList.png"><h3>您还没有购买过物品喔！</h3></div></div>')
+								$(noList).appendTo($("#myDeal-list"));
+							}
+							plus.nativeUI.toast("删除成功");
+						}
+					},
+					error:function(){
+						plus.nativeUI.toast("删除失败，请重试")
+					}
+				});
+			})
+			//进入商品详情
+			$("#myDeal-list").on("tap",".mui-card-content",function(){
+				mui.openWindow({
+					url:"goodsDetail.html",
+            		id:"goodsDetail.html",
+            		extras:{
+						ids:$(this).attr("id")
+					}
+				})
+			})
+			$("#myDeal-list").on("tap",".deal-haveGoods",function(){
+				var nodeP = $(this).parents(".mui-card");
+				var dealId = nodeP.attr("dealId");
+				var btnArray = ['确定', '取消'];
+				mui.confirm('请确认是否收货', '', btnArray, function(e) {
+					if (e.index == 1) {
+						return;
+					} else {
+						$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/updateStatusByorderId",
+							async:true,
+							data:{
+								id:dealId
+							},
+							dataType:"jsonp",
+							success:function(data){
+								if(data.status){
+									location.reload();
+									plus.nativeUI.toast("已确认收货");
+								}else{
+									plus.nativeUI.toast("确认收货失败，请重试")
+								}
+							},
+							error:function(){
+								plus.nativeUI.toast("确认收货失败，请重试")
+							}
+						});
+					}
+				})
+			})
+			$("#myDeal-list").on("tap",".deal-buyAgain",function(){
+				var dealId = $(this).parents(".mui-card").attr("dealId");
+				mui.openWindow({
+					url:"toDeal.html",
+					id:"toDeal.html",
+					extras:{
+				       dealId:dealId
+				    }
+				})
+			})
+		})
+	</script>
+</html>

@@ -1,0 +1,352 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../font/iconfont.css" rel="stylesheet"/>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/main.css" rel="stylesheet" />
+		<style type="text/css">
+			body{
+				background-color:#ffffff ;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				width: 80%;
+				height: 50px;
+			}
+			.mui-input-row label{
+				width: 20%;
+				height: 50px;
+				line-height: 28px;
+			}
+			.mui-input-row label>i{
+				color: #b6b6b6;
+				font-size: 20px;
+			}
+			.mui-input-group .mui-input-row{
+				height: 50px;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 15px;
+			}
+			.mui-input-group:after{
+				display: none;
+			}
+			.reg-btn{
+				background: #0099ff;
+				color: #ffffff;
+				width: 100%;
+				height: 50px;
+				font-size: 18px;
+			}
+			.mui-button-row{
+				padding: 0 15px;
+				margin-top: 25px;
+			}
+			#val-step{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: #0099ff;
+				padding:20px 15px 0 15px;
+				height: 125px;
+			}
+			#val-step h5{
+				font-size: 16px;
+			    color: #fff;
+			    line-height: 25px;
+			}
+			#val-step>div{
+				display: inherit;
+				flex: 1;
+				flex-direction: column;
+			    justify-content: center;
+			    align-items: center;
+			}
+			#val-step>div i{
+				font-size: 36px;
+				line-height: 50px;
+				color: #fff;
+			}
+			#val-step>div .activeStep i{
+				color: #0099ff;
+			}
+			.val-stepI{
+				padding: 5px;
+			    border-radius: 50%;
+			}
+			.activeStep{
+			    border: 1px solid #b7dbff;
+			}
+			.val-stepI>div{
+				width: 50px;
+			    height: 100%;
+			    background: #b7dbff;
+			    text-align: center;
+			    border-radius: 50%;
+			}
+			.mui-bar-nav{
+				box-shadow: none;
+			}
+			#val-step>div.nextStep{
+				flex-direction: row;
+			    height: 62px;
+			    align-items: flex-start;
+				justify-content: flex-end;
+			}
+			.nextStep>span{
+				font-size: 34px;
+				margin-left: -20px;
+			}
+			span:nth-of-type(1){
+				color: #90c9ff;
+				animation:colorChange 1s linear 0s infinite ;
+			}
+			span:nth-of-type(2){
+				color: #b4d9ff;
+				animation:colorChange 1s linear 0.3s infinite ;
+			}
+			span:nth-of-type(3){
+				color: #d3e9ff;
+				animation:colorChange 1s linear 0.6s infinite ;
+			}
+			@keyframes colorChange{
+				0%{
+					color:#d3e9ff;
+				}
+				50%{
+					color:#b4d9ff;
+				}
+				100%{
+					color:#90c9ff ;
+				}
+			}
+			input[type="date"]:before{
+			    color:#A9A9A9;
+			    content:attr(placeholder);
+			}
+			input[type="date"].full:before {
+			    color:black;
+			    content:""!important;
+			}
+			#date{
+				overflow: hidden;
+				height: 50px;
+			}
+			#IDtype{
+				width: 80%;
+				padding-left: 0;
+			}
+			#tipBox{
+				position: fixed;
+				top: 0;
+				left: 0;
+				width:100%;
+				height:100%;
+				background: rgba(0,0,0,0.6);
+				z-index: 10;
+				display: none;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			#tipBox>div{
+				width: 80%;
+				min-height: 180px;
+				height: auto;
+				background: #fff;
+				border-radius: 10px;
+			}
+			#tipBox>img{
+				width: 35px;
+				margin-top: 15px;
+			}
+			#tipBox>div img{
+				width: 100%;
+				height: 110px;
+				margin-top: -55px;
+			}
+			#errorTip{
+				min-height: 120px;
+				height: auto;
+				padding:35px 25px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">实名认证</h1>
+		</header>
+		<div id="tipBox">
+			<div>
+				<img src="../images/validate.png">
+				<div id="errorTip" class="mui-ellipsis-5"></div>
+			</div>
+			<img src="../images/closeTip.png"  id="closeTip"/>
+		</div>
+		<div class="mui-content" id="validate">
+			<div id="val-step">
+				<div>
+					<div class="val-stepI activeStep">
+						<div>
+							<i class="iconfont icon-renzhengxinxi"></i>
+						</div>
+					</div>
+					<h5>认证信息</h5>
+				</div>
+				<div class="nextStep">
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+				</div>
+				<div>
+					<div class="val-stepI">
+						<div>
+							<i class="iconfont icon-ico_zhengjianleixing"></i>
+						</div>
+					</div>
+					<h5>证件正面</h5>
+				</div>
+				<div class="nextStep">
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+				</div>
+				<div>
+					<div class="val-stepI">
+						<div>
+							<i class="iconfont icon-ico_zhengjianleixing"></i>
+						</div>
+					</div>
+					<h5>证件反面</h5>
+				</div>
+			</div>
+		    <form class="mui-input-group">
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-xingming"></i></label>
+					<input type="text" data-des="真实姓名" id="userName" class="mui-input-clear" placeholder="请输入真实姓名">
+				</div>
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-chushengriqi"></i></label>
+					<input type="date" data-des="出生日期" id="date" class="mui-input-clear" placeholder="请输入出生日期">
+				</div>
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-ico_zhengjianleixing"></i></label>
+					<select data-des="证件类型" id="IDtype"  class="mui-btn mui-btn-block">
+						<option style="color: #a9a9a9;" value="">请输入证件类型</option>
+						<option v-for="item in selectData" :value="item.value" v-text="item.label"></option>
+					</select>
+				</div>
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-zjh"></i></label>
+					<input type="text" data-des="证件号" id="IDnumber" class="mui-input-clear" placeholder="请输入证件号">
+				</div>
+				<div class="mui-button-row">
+					<button type="button" id="nextBtn" class="mui-btn reg-btn" onclick="return false;">下一步</button>&nbsp;&nbsp;
+				</div>
+			</form>
+		</div>  
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/jquery-2.1.0.js"></script>
+		<script src="../js/vue.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true,
+				statusBarBackground: '#0099ff',
+			})
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				if(self.showTip){
+					$("#tipBox").css("display","flex");
+					if(self.tip == ""){
+						$("#errorTip").html("很抱歉，您的实名认证未通过审核！");	
+					}else{
+						$("#errorTip").html("很抱歉，您的实名认证未通过审核！<br>驳回原因："+self.tip);
+					}
+					var frontPhoto = self.frontPhoto;
+					var reversePhoto = self.reversePhoto;
+					var allId = self.allId;
+					var oneId = self.oneId;
+					var fkId = self.fkId;
+				}else{
+					var frontPhoto = "";
+					var reversePhoto = "";
+					var allId = "";
+					var oneId = "";
+					var fkId = "";
+				}
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/DictApp/getDictList",
+					async:true,
+					data:{
+						type:"credentials_type"
+					},
+					dataType:"jsonp",
+					success:function(data){
+						var selectData = data;
+						new Vue({
+							el:"#IDtype",
+							data:{
+								selectData:selectData
+							}
+						})
+						if(self.showTip){
+							$("#userName").val(self.name);
+							$("#date").val(self.bornDate);
+							$("#date").addClass("full");
+							$("#IDtype").val(self.idType);
+							$("#IDnumber").val(self.idNumber);
+						}
+					}
+				});
+				$("#date").on("input",function(){
+				   if($(this).val().length>0){
+					   $(this).addClass("full");
+					}else{
+				  		$(this).removeClass("full");
+				  	}
+				});
+				$("#closeTip").on("tap",function(){
+					$("#tipBox").fadeOut();
+				})
+				$("#nextBtn").on("tap",function(){
+					$("input").each(function(idx,val){
+						if($(val).val().trim() == ''){
+							plus.nativeUI.toast($(val).data("des")+"不能为空");
+							return false;
+						}else if(idx == 2){
+							if($("#IDtype").val() == ""){
+								plus.nativeUI.toast("请选择证件类型");
+							}else{
+								var name = encodeURI($("#userName").val()),bornDate = $("#date").val(),idType = $("#IDtype").val(),idNumber = $("#IDnumber").val();
+								mui.openWindow({
+									url:"validate_step2.html",
+									id:"validate_step2.html",
+									extras:{
+								        name:name,
+								        bornDate:bornDate,
+								        idType:idType,
+								        idNumber:idNumber,
+								        frontPhoto:frontPhoto,
+								        reversePhoto:reversePhoto,
+								        allId:allId,
+								        oneId:oneId,
+								        fkId:fkId
+								    }
+								})
+							}
+						}
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

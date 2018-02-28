@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<style type="text/css">
+			html,body{
+				width: 100%;
+				height: 100%;
+			}
+			#shop-chooseBox{
+				display: block;
+				margin-top: 0;
+			}
+			.mui-bar-nav~.mui-content{
+				height: 100%;
+			}
+			#shop-chooseBox{
+				background: #fff;
+			}
+			#shop-chooseBox>ul{
+				height: 100%;
+			}
+			#shop-tabDetail{
+				height: 100%;
+			}
+			#shop-chooseBox>ul>li {
+			    height: 55px;
+			    line-height: 55px;
+			    padding-left: 15px;
+			    font-size: 16px;
+			}
+			#shop-tabDetail ul{
+				display: none;
+			}
+			#shop-tabDetail li {
+			    height: 55px;
+			    line-height: 55px;
+			    list-style: none;
+			    font-size: 16px;
+			}
+			.selectLis{
+				color:#0099ff;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">选择地区</h1>
+		</header>
+		<div class="mui-content">
+		    <div id="shop-chooseBox">
+				    <ul id="JG-city"></ul>
+				    <div id="shop-tabDetail"></div>
+				</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script type="text/javascript" src="../../js/JGcity.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+			mui.init()
+			var self = plus.webview.currentWebview();//获取父页面传递的值
+			$(JGcityData).each(function(idx,val){
+				var newLis = document.createElement("li");
+				if(idx == 0){
+					$(newLis).addClass("tabListAct");
+				}
+				/*if(val.id == self.city){
+					$(newLis).addClass("tabListAct");
+				}*/
+				$(newLis).addClass("mui-ellipsis")
+				$(newLis).text(val.name).attr("id",val.id);
+				$(newLis).appendTo($("#JG-city"));
+				var newUls = document.createElement("ul");
+				var newUlsData = '';
+				var isShow = "";
+				$(newUls).addClass(isShow);
+				$(val.children).each(function(idxs,vals){
+					/*if(vals.id == self.citys){
+						var selectLi = "selectLis";
+					}else{
+						var selectLi = "";
+					}*/
+					newUlsData += '<li id="'+vals.id+'" class="mui-ellipsis" pId="'+val.id+'">'+vals.name+'</li>';
+				})
+				$(newUls).html(newUlsData);
+				$(newUls).appendTo($("#shop-tabDetail"));
+			})
+			$(".isShow").css("display","block").siblings().css("display","none");
+			$("#shop-chooseBox").on("tap","li",function(){
+				if($(this).hasClass("tabListAct")){
+					return;
+				}else{
+					var tabIdx = $(this).index();
+					$(this).addClass("tabListAct").siblings().removeClass("tabListAct");
+					$("#shop-tabDetail>ul").eq(tabIdx).fadeIn().siblings().css("display","none");
+				}
+			})
+			$("#shop-tabDetail").on("tap","li",function(){
+				var city = $(this).attr("pId");
+				var citys = $(this).attr("id");
+				var main=plus.webview.getWebviewById("JGmain.html");
+				mui.fire(main,'addrData',{city:city,citys:citys});
+                mui.back();
+			})
+		})
+	</script>
+</html>

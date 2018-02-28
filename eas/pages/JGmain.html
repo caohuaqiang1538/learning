@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>机构主页</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../font/iconfont.css"/>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style type="text/css">
+			.mui-content>.mui-table-view:first-child {
+				margin-top: -1px;
+			}
+			.title-right{
+				line-height: 44px;
+    			color: #fff;
+			}
+			.title-right img{
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+				margin-right: 5px;
+			}
+			#pullrefresh{
+				margin-top: 15px;
+			}
+			#pullrefresh li{
+				overflow: hidden;
+			}
+			#pullrefresh li>div{
+				padding: 12px 15px;
+				width: 100%;
+				display: -webkit-flex;
+				display: flex;
+				border-bottom: 1px solid #EEEEEE;
+			}
+			#pullrefresh li .orderByJg{
+				width: 10%;
+			}
+			.orderByJg img{
+				width: 25px;
+    			height: 25px;
+			}
+			.JG-font{
+				width: 50%;
+				padding: 0 10px 0 5px;
+			}
+			.JG-font h3{
+				margin: 0;
+				font-size: 18px;
+				line-height: 25px;
+			}
+			.JG-font p{
+				margin-top: 5px;
+				line-height: 22px;
+				height: 66px;
+				font-size: 16px;
+				color: #535353;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				overflow: hidden;
+			}
+			.JG-pic{
+				width:40% ;
+			}
+			.JG-pic img{
+				width: 125px;
+			    height: 95px;
+			    border-radius: 6px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">培训机构</h1>
+		    <a class="mui-pull-right title-right"><img src="../images/chooseCity.png" />筛选</a>
+		</header>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content">
+			<!--数据列表-->
+			<ul class="mui-table-view mui-table-view-chevron"></ul>
+		</div>
+		<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
+		<script src="../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.plusReady(function(){
+				var city = 0;//默认省
+				var citys = 00; //默认市
+				var cityId = "";
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							style:'circle',
+							color:"#0099ff",
+							auto:true,
+							callback: pulldownRefresh
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: pullupRefresh
+						}
+					}
+				});
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				var count = 1;
+				function pullupRefresh() {
+					count +=1;
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/appDepInfo/list",
+						async:true,
+						data:{
+							pageSize:8,
+							pageNo:count,
+							"depArea.id":cityId
+						},
+						dataType:"jsonp",
+						success:function(data){
+							if(data.list == undefined || data.list.length == 0){
+								mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+							}else{
+								data.list.forEach(function(val,idx){
+									var newLis = document.createElement("li");
+									/*if(val.depShowimage !== "" || val.depShowimage !== undefined){
+										var lisimg = val.depShowimage.split("|")[1];
+									}else{
+										var lisimg = '';
+									}*/
+									var lisimg = val.depImg;
+									var order ='<div class="orderByJg" ></div>'
+									$(newLis).attr("id",val.id);
+									$(newLis).html('<div>'+order+'<div class="JG-font"><h3 class="mui-ellipsis">'+val.depName+'</h3><p>'+val.depProfile+'</p></div><div class="JG-pic"><img src="'+AllUrl+lisimg+'"/></div></div>');
+									$(newLis).appendTo($("#pullrefresh ul"));
+								})
+								mui('#pullrefresh').pullRefresh().endPullup(); 
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍后再试");
+							mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+						}
+					});
+				}
+				/**
+				 * 下拉刷新具体业务实现
+				 */
+				function pulldownRefresh() {
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/appDepInfo/list",
+						async:true,
+						data:{
+							pageSize:8,
+							pageNo:1,
+							"depArea.id":cityId
+						},
+						dataType:"jsonp",
+						success:function(data){
+							$("#pullrefresh ul").html("");
+							count = 1;
+							if(data.list == undefined || data.list.length == 0){
+								$("#pullrefresh ul").html("<li data-have='0' style='padding: 15px;'>暂无培训机构入驻哦！</li>")
+								mui('#pullrefresh').pullRefresh().endPulldown();
+							}else{
+								data.list.forEach(function(val,idx){
+									var newLis = document.createElement("li");
+									$(newLis).data("have",1);
+									/*if(val.depShowimage !== "" || val.depShowimage !== undefined){
+										var lisimg = val.depShowimage.split("|")[1];
+									}else{
+										var lisimg = '';
+									}*/
+									var lisimg = val.depImg;
+									if(idx<5){
+										var idxs = idx+1;
+										var order = '<div class="orderByJg" ><img src="../images/'+idxs+'.png"/></div>'
+									}else{
+										var order ='<div class="orderByJg" ></div>'
+									}
+									$(newLis).attr("id",val.id);
+									$(newLis).html('<div>'+order+'<div class="JG-font"><h3 class="mui-ellipsis">'+val.depName+'</h3><p>'+val.depProfile+'</p></div><div class="JG-pic"><img src="'+AllUrl+lisimg+'"/></div></div>');
+									$(newLis).appendTo($("#pullrefresh ul"));
+								})
+								mui('#pullrefresh').pullRefresh().endPulldown();
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍后再试");
+						}
+					});
+				}
+				window.addEventListener('addrData', function(e){
+					city = e.detail.city;
+					citys = e.detail.citys;
+					cityId = e.detail.citys;
+					if(cityId == 00){
+						cityId = "";
+					}
+					pulldownRefresh(cityId);
+				});
+				//单击进入详情
+				$("#pullrefresh").on("tap","li",function(){
+					if($(this).data("have") == 1){
+						var lisId = $(this).attr("id");
+						mui.openWindow({
+							url:"training/Training.html",
+							id:"training/Training.html",
+							extras:{
+								ids:lisId
+							}
+						})
+					}
+				})
+				//筛选进入
+				$(".title-right").on("tap",function(){
+					mui.openWindow({
+						url:"training/JG-cityChoose.html",
+						id:"training/JG-cityChoose.html",
+						extras:{
+							city:city,
+							citys:citys
+						}
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

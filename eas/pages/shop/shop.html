@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">
+		    <div class="mui-input-row mui-search">
+		        <input type="search" id="searchGoods" class="mui-input-clear" placeholder="教材名称">
+		    </div>
+		    </h1>
+		</header>
+		<div id="shop-tab">
+			    <ul id="shop-order">
+			    	<li class="orderBydefalt actChoose">默认</li>
+			    	<li class="orderBySell">销量</li>
+			    	<li class="orderByMoy">价格<img src="../../images/moneyDefault.png" /></li>
+			    	<li id="shop-choose"><i class="iconfont icon-shaixuan"></i>筛选</li>
+			    </ul>
+			    <!--筛选弹出框-->
+			    <div id="shop-chooseBox">
+				    <ul id="shop-schoolLv"></ul>
+				    <div id="shop-tabDetail">
+				    </div>
+				</div>
+			</div>
+		<div class="mui-content" id="pullrefresh">
+		    <ul class="mui-table-view" id="shop-list"></ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.plusReady(function(){
+			window.addEventListener('refreshs', function(e){//执行刷新
+			    location.reload();
+			    var wobj = plus.webview.getWebviewById("pages/my.html");
+				wobj.reload(true);
+			});
+			//获取父页面传递的值
+			var self = plus.webview.currentWebview();
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var chooseShow = false;
+			var count = 1;//页码
+			var hasMoreData = false;//是否没列表数据了
+			var moyChoose = true;
+			var chooseByType = [];
+			var searchName = "";//商品名称
+			var haveChooseIf = false;
+			if(self.types == undefined){
+				self.types = "";
+			}
+			if(self.ids == undefined){
+				self.ids = "";
+			}
+			function isJSON(str) {
+			        if (typeof str == 'string') {
+			            try {
+			                var obj=JSON.parse(str);
+			                if(str.indexOf('{')>-1){
+			                    return true;
+			                }else{
+			                    return false;
+			                }
+			
+			            } catch(e) {
+			                return false;
+			            }
+			        }
+			        return false;
+			}
+			var message = localStorage.getItem("$userMess");
+			if(isJSON(message)){
+				var userMess = JSON.parse(message);
+			}else{
+				var userMess = {};
+			}
+			if(JSON.stringify(userMess) == "{}"){
+				$("#shop-list").on("tap",".addBuyCar",function(e){
+					e.stopPropagation();
+					mui.openWindow({
+						url:"../login.html",
+						id:"../login.html",
+						show:{
+							aniShow:"slide-in-bottom"
+						}
+					})
+				})
+			}else{
+				$("#shop-list").on("tap",".addBuyCar",function(e){
+					e.stopPropagation();
+					var idxs = $(this).parents("li").attr("id");
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/ shoppingCart/save",
+						async:true,
+						data:{
+							"uId.id":userMess.id,
+							"gId.id":idxs,
+							num:"1"
+						},
+						dataType:"jsonp",
+						success:function(data){
+							if(data.status == 'true'){
+								plus.nativeUI.toast("已成功加入购物车");
+							}else{
+								plus.nativeUI.toast("添加购物车失败，请稍后再试");
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("添加购物车失败，请稍后再试")
+						}
+					});
+				})
+			}
+			$("#shop-list").on("tap","li",function(e){
+				//进入商品详情页
+				e.stopPropagation();
+				mui.openWindow({
+					url:"goodsDetail.html",
+            		id:"goodsDetail.html",
+            		extras:{
+						ids:$(this).attr("id")
+					}
+				})
+			})
+			var chooseIds = [self.ids];
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					},
+				    down: {
+						style:'circle',
+						auto: true,
+						range:'100px',
+						color:'#0099ff',
+						callback: pulldownRefresh
+					}
+				}
+			})
+			
+			function pullupRefresh() {
+				count += 1;
+				gerNextList(self.types+chooseByType.toString(),chooseIds.toString(),count,searchName);
+			}
+			//上拉刷新
+			function pulldownRefresh(){
+				gerNewList(self.types+chooseByType.toString(),chooseIds.toString(),1,searchName);
+				hasMoreData = false;
+				count = 1;
+			}
+			$("#shop-choose").on("tap",function(){
+				if(!chooseShow){
+					$(this).css("color","#0099ff");
+					$("#shop-chooseBox").css("display","block");
+					$("#shop-tab").css("height","100%");
+				    document.body.classList.add("model-open");
+				}else{
+					if(haveChooseIf){
+						$(this).css("color","#0099ff");
+						$("#shop-chooseBox").css("display","none");
+						document.body.classList.remove("model-open");
+		      			$("#shop-tab").css("height","auto");
+					}else{
+						$(this).css("color","#000");
+						$("#shop-chooseBox").css("display","none");
+						document.body.classList.remove("model-open");
+		      			$("#shop-tab").css("height","auto");
+					}
+					
+				}
+				chooseShow = !chooseShow;
+			})
+			//gerNewList(self.types,chooseIds.toString(),1);
+			function gerNewList(types,gtypes,num,names){
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:false,
+					data:{
+						pageNo:num,
+						pageSize:8,
+						gType:gtypes,
+						type:types,
+						gName:names
+					},
+					dataType:"jsonp",
+					success:function(data){
+						var dataList = data.page.list;
+						if(dataList == undefined || dataList.length == 0){
+							$("#shop-list").html("");
+							var newLis = document.createElement("li");
+							$(newLis).addClass("mui-table-view-cell mui-media");
+							$(newLis).text("抱歉，暂无该类商品！");
+							$(newLis).appendTo($("#shop-list"));
+							hasMoreData = true;
+						}else{
+							$("#shop-list").html("");
+							dataList.forEach(function(val,idx){
+								var newLis = document.createElement("li");
+								$(newLis).addClass("mui-table-view-cell mui-media").attr("id",val.id);
+								//var picSrc = val.gImg.split("|")[1];
+								var picSrc = val.iAmges;
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								$(newLis).html("<a href='javascript:;'><img class='mui-media-object mui-pull-left' src='"+AllUrl+picSrc+"'>"+
+				                "<div class='mui-media-body' style='width: 100%;'>"+
+				                    "<h4>"+val.gName+"</h4>"+
+				                    "<div class='shop-sellMess'><div>"+
+				                    		"<p class='mui-ellipsis'>"+val.gAuthor+"编译</p>"+
+				                    		"<h3><span class='shop-nowMoney'>￥"+nowMoy+"</span><del>"+lastMoy+"</del></h3>"+
+				                    		"<h5>"+val.gSelfNum+"人购买过此书</h5></div><div>"+
+				                    		"<span class='addBuyCar'><i class='iconfont icon-gouwuche'></i></span>"+
+				                    	"</div></div></div></a>");
+								$(newLis).appendTo($("#shop-list"));
+							})
+						}
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					},
+					error:function(){
+						plus.nativeUI.toast("服务器暂无响应，请稍后再试!");
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					}
+				});
+			}
+			function searchNewList(types,gtypes,num,names){
+				mui('#pullrefresh').pullRefresh().refresh(true);
+				var wt=plus.nativeUI.showWaiting();
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:false,
+					data:{
+						pageNo:num,
+						pageSize:8,
+						gType:gtypes,
+						type:types,
+						gName:names
+					},
+					dataType:"jsonp",
+					success:function(data){
+						var dataList = data.page.list;
+						if(dataList == undefined || dataList.length == 0){
+							$("#shop-list").html("");
+							var newLis = document.createElement("li");
+							$(newLis).addClass("mui-table-view-cell mui-media");
+							$(newLis).text("抱歉，暂无该类商品！");
+							$(newLis).appendTo($("#shop-list"));
+							hasMoreData = true;
+							wt.close(); 
+						}else{
+							$("#shop-list").html("");
+							dataList.forEach(function(val,idx){
+								var newLis = document.createElement("li");
+								$(newLis).addClass("mui-table-view-cell mui-media").attr("id",val.id);
+								//var picSrc = val.gImg.split("|")[1];
+								var picSrc = val.iAmges;
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								$(newLis).html("<a href='javascript:;'><img class='mui-media-object mui-pull-left' src='"+AllUrl+picSrc+"'>"+
+				                "<div class='mui-media-body' style='width: 100%;'>"+
+				                    "<h4>"+val.gName+"</h4>"+
+				                    "<div class='shop-sellMess'><div>"+
+				                    		"<p class='mui-ellipsis'>"+val.gAuthor+"编译</p>"+
+				                    		"<h3><span class='shop-nowMoney'>￥"+nowMoy+"</span><del>"+lastMoy+"</del></h3>"+
+				                    		"<h5>"+val.gSelfNum+"人购买过此书</h5></div><div>"+
+				                    		"<span class='addBuyCar'><i class='iconfont icon-gouwuche'></i></span>"+
+				                    	"</div></div></div></a>");
+								$(newLis).appendTo($("#shop-list"));
+								wt.close(); 
+							})
+						}
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					},
+					error:function(){
+						plus.nativeUI.toast("服务器暂无响应，请稍后再试!");
+						mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+						wt.close(); 
+					}
+				});
+			}
+			function gerNextList(types,gtypes,num,names){
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/goodsInfo/list",
+					async:false,
+					data:{
+						pageNo:num,
+						pageSize:8,
+						gType:gtypes,
+						type:types,
+						gName:names
+					},
+					dataType:"jsonp",
+					success:function(data){
+						var dataList = data.page.list;
+						if(dataList == undefined ||dataList.length == 0){
+							hasMoreData = true;
+						}else{
+							dataList.forEach(function(val,idx){
+								var newLis = document.createElement("li");
+								$(newLis).addClass("mui-table-view-cell mui-media").attr("id",val.id);
+								var picSrc = val.gImg.split("|")[1];
+								if(val.isDiscount == 0){
+									var nowMoy = val.gDiscount;
+									var lastMoy = "￥"+val.gPrice;
+								}else{
+									var nowMoy = val.gPrice;
+									var lastMoy = "";
+								}
+								$(newLis).html("<a href='javascript:;'><img class='mui-media-object mui-pull-left' src='"+AllUrl+picSrc+"'>"+
+				                "<div class='mui-media-body' style='width: 100%;'>"+
+				                    "<h4>"+val.gName+"</h4>"+
+				                    "<div class='shop-sellMess'><div>"+
+				                    		"<p class='mui-ellipsis'>"+val.gAuthor+"编译</p>"+
+				                    		"<h3><span class='shop-nowMoney'>￥"+nowMoy+"</span><del>"+lastMoy+"</del></h3>"+
+				                    		"<h5>"+val.gSelfNum+"人购买过此书</h5></div><div>"+
+				                    		"<span class='addBuyCar'><i class='iconfont icon-gouwuche'></i></span>"+
+				                    	"</div></div></div></a>");
+								$(newLis).appendTo($("#shop-list"));
+							})
+						}
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(hasMoreData);
+					},
+					error:function(){
+						plus.nativeUI.toast("服务器暂无响应，请稍后再试!");
+					}
+				});
+			}
+			//获取筛选信息
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/sysAppmdict/sysMdict/list",
+				async:true,
+				data:{
+					"parent.id":"1c5337a0e843430196ffa3474232a591"
+				},
+				dataType:"jsonp",
+				success:function(data){
+					data.forEach(function(val,idx){
+						var newSchoolLv = document.createElement("li");
+						if(idx == 0){
+							$(newSchoolLv).addClass("tabListAct");
+						}
+						$(newSchoolLv).attr("id",val.id);
+						$(newSchoolLv).text(val.name);
+						$(newSchoolLv).appendTo($("#shop-schoolLv"));
+						$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/sysAppmdict/sysMdict/list",
+							async:true,
+							data:{
+								"parent.id":val.id
+							},
+							dataType:"jsonp",
+							success:function(data){
+								var chooseDet = document.createElement("ul");
+								$(chooseDet).attr("parentId",data[0].parentId);
+								data.forEach(function(vals,idxs){
+									var chooseDetLi = document.createElement("li");
+									$(chooseDetLi).text(vals.name).attr({"id":vals.id,"pId":vals.parentId});
+									$(chooseDetLi).appendTo($(chooseDet));
+								})
+								$(chooseDet).appendTo($("#shop-tabDetail"));
+								$("#shop-tabDetail").find("ul").css("display","none");
+								$("#shop-tabDetail").find("ul").eq(0).css("display","block");
+							}
+						});
+					})
+				},
+				error:function(){
+					
+				}
+			});
+			$("#shop-schoolLv").on("tap","li",function(){
+				if($(this).hasClass("tabListAct")){
+					return;
+				}else{
+					var tabIdx = $(this).attr("id");
+					var tabUl = $("#shop-tabDetail")[0].children;
+					$(this).addClass("tabListAct").siblings().removeClass("tabListAct");
+					for(var i=0;i<tabUl.length;i++){
+						if($(tabUl[i]).attr("parentId") == tabIdx){
+							$(tabUl[i]).css({"display":"block"});
+						}else{
+							$(tabUl[i]).css({"display":"none"});
+						}
+					}
+				}
+			})
+			//筛选条件查询
+			$("#shop-tabDetail").on("tap","li",function(){
+				haveChooseIf = true;
+				$("#shop-tabDetail").find("li").removeClass("actDetailChoose");
+				$(this).addClass("actDetailChoose");
+				chooseIds = [self.ids];
+				var newChooseIds = $(this).attr("id");
+				chooseIds.unshift(newChooseIds);
+				searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+				hasMoreData = false;
+				count = 1;
+				$(".orderBydefalt").removeClass("actChoose");
+				$("#shop-choose").css("color","#0099ff");
+				$("#shop-chooseBox").css("display","none");
+				document.body.classList.remove("model-open");
+      			$("#shop-tab").css("height","auto");	
+      			chooseShow = !chooseShow;
+			})
+			$("#shop-order").on("tap","li",function(){
+				//默认排序判断
+				if($(this).hasClass("orderBydefalt")){
+					if($(this).hasClass("actChoose")){
+						return;
+					}else{
+						$(".orderByMoy").find("img").attr("src","../../images/moneyDefault.png");
+						chooseByType = [];
+						$("#shop-choose").css("color","#000");
+						$("#shop-tabDetail li").removeClass("actDetailChoose");
+						chooseIds = [self.ids];
+						searchNewList(self.types,chooseIds.toString(),1,searchName);
+						hasMoreData = false;
+						count = 1;
+						$(this).siblings().removeClass("actChoose");
+						$(this).addClass("actChoose");
+					}
+				}
+				//销量排序
+				if($(this).hasClass("orderBySell")){
+					if($(this).hasClass("actChoose")){
+						return;
+					}else{
+						chooseByType.push("AelfNumDesc");
+						searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+						hasMoreData = false;
+						count = 1;
+						$(".orderBydefalt").removeClass("actChoose");
+						$(this).addClass("actChoose");
+					}
+				}
+				//价格排序
+				if($(this).hasClass("orderByMoy")){
+					if($(this).hasClass("actChoose")){
+						if(!moyChoose){
+							//价格由低到高
+							$(this).find("img").attr("src","../../images/moneyUp.png");
+							if(chooseByType.indexOf("gprice")<0){
+								chooseByType.push("gprice")
+							}
+							if(chooseByType.indexOf("ApriceDesc") !== -1){
+								var index = chooseByType.indexOf("ApriceDesc");
+								chooseByType.splice(index,1)
+							}
+							searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+							hasMoreData = false;
+							count = 1;
+							moyChoose = !moyChoose;
+						}else{
+							//价格由高到低
+							$(this).find("img").attr("src","../../images/moneyDown.png");
+							if(chooseByType.indexOf("ApriceDesc ")<0){
+								chooseByType.push("ApriceDesc ")
+							}
+							if(chooseByType.indexOf("gprice") !== -1){
+								var index = chooseByType.indexOf("gprice");
+								chooseByType.splice(index,1)
+							}
+							searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+							hasMoreData = false;
+							count = 1;
+							moyChoose = !moyChoose;
+						}
+					}else{
+						$(".orderBydefalt").removeClass("actChoose");
+						$(this).find("img").css("transform","rotate(0deg)");
+						$(this).addClass("actChoose");
+						//价格由高到低
+						$(this).find("img").attr("src","../../images/moneyDown.png");
+						if(chooseByType.indexOf("ApriceDesc")<0){
+							chooseByType.push("ApriceDesc")
+						}
+						if(chooseByType.indexOf("gprice") !== -1){
+							var index = chooseByType.indexOf("gprice");
+							chooseByType.splice(index,1)
+						}
+						searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+						hasMoreData = false;
+						count = 1;
+						moyChoose = !moyChoose;
+					}
+				}
+			})
+			//商品搜索
+			$("#searchGoods").on("keypress",function(e){
+				var keycode = e.keyCode;  
+				searchName = $(this).val();  
+				if(keycode=='13') { 
+				e.preventDefault();  
+				searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+				hasMoreData = false;
+				count = 1;
+				wt.close(); 
+				}         
+			})
+			$("#searchGoods").on("blur",function(){				
+				searchName = $(this).val();  				
+				searchNewList(chooseByType.toString(),chooseIds.toString(),1,searchName);
+				hasMoreData = false;
+				count = 1;
+				wt.close();      
+			})
+		})
+	</script>
+</html>

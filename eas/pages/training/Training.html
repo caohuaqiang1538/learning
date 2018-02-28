@@ -1,0 +1,558 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/main.css" />
+		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/training.css"/>
+		<style type="text/css">
+			#traAct-classTips h3>span{
+				float: right;
+				background: transparent;
+				color: #B4B4B4;
+			}
+			.addPadding{
+				padding: 11px 15px 0px;
+			}
+			#traContact-box #tipTraining{
+				white-space: nowrap;
+				line-height: 30px;
+			}
+			#tipTraining span{
+				word-wrap:break-word;
+				white-space:normal;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title"></h1>
+		</header>
+		<div class="mui-content">
+		    <div class="train-Banner">
+		    	<img src=""/>
+		    </div>
+		    <ul class="mui-table-view" id="traContact-box">
+		            <li class="mui-table-view-cell">
+	                	<div class="traContact-logoBox">
+	                   		<img src=""/>
+	                    </div>
+	                    <h3 id="depName"></h3>
+		            </li>
+		            <li class="mui-table-view-cell mui-clearfix">
+		            	<div class="trainTipPic" >
+		            		<img src="../../images/trainPeople.png"/>
+		            	</div>
+		                <h4>联系人：<span id="contact"></span></h4>
+		            </li>
+		            <li class="mui-table-view-cell mui-clearfix">
+		            	<div class="trainTipPic" >
+		            		<img src="../../images/trainTel.png"/>
+		            	</div>
+		                <h4>联系电话：<span id="contactPhone"></span></h4>
+		            </li>
+		            <li class="mui-table-view-cell mui-clearfix">
+		            	<div class="trainTipPic" >
+		            		<img src="../../images/trainAddr.png"/>
+		            	</div>
+		                <h4>联系地址：<span id="contactAddress"></span></h4>
+		            </li>
+		            <li class="mui-table-view-cell mui-clearfix">
+		            	<div class="trainTipPic" >
+		            		<img src="../../images/trainSchool.png"/>
+		            	</div>
+		                <h4 id="tipTraining">简介：<span id="contactProfile"></span></h4>
+		            </li>
+		        </ul>
+		   <!-- <ul class="mui-table-view" id="traAct-box">
+                <li class="mui-table-view-cell traAct-title">
+                    <h3>最新活动<span class="isNew">今日已更新<i class="iconfont icon-arrow-top"></i></span></h3>
+                </li>
+                <li class="mui-table-view-cell">
+                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
+                    <h5>2018-01-29</h5>
+                </li>
+                <li class="mui-table-view-cell">
+                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
+                    <h5>2018-01-29</h5>
+                </li>
+                <li class="mui-table-view-cell">
+                    <h4 class="mui-ellipsis">爱思维教育培训学校线上教育培训平台</h4>
+                    <h5>2018-01-29</h5>
+                </li>
+            </ul>-->
+		    <ul class="mui-table-view" id="traAct-news">
+		                <li class="mui-table-view-cell traAct-title">
+		                    <h3><img src="../../images/newsTip.png" />新闻资讯</h3>
+		                </li>
+		            </ul>
+		    <ul class="mui-table-view" id="traAct-InAct">
+                <li class="mui-table-view-cell traAct-title">
+                    <h3><img src="../../images/actives.png" />活动报名</h3>
+                </li>
+            </ul>
+			<ul class="mui-table-view" id="traAct-classTips">
+                <li class="mui-table-view-cell traAct-title">
+                    <h3><img src="../../images/classSay.png" />课程介绍<span id="toJG-Ins">查看全部<i class="iconfont icon-sanjiaoright"></i></span></h3>
+                </li>
+            </ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init();
+		mui.plusReady(function(){
+			window.addEventListener('refresh', function(e){//执行刷新
+			    location.reload();
+			});
+			//json格式判断
+			function isJSON(str) {
+			        if (typeof str == 'string') {
+			            try {
+			                var obj=JSON.parse(str);
+			                if(str.indexOf('{')>-1){
+			                    return true;
+			                }else{
+			                    return false;
+			                }
+			
+			            } catch(e) {
+			                return false;
+			            }
+			        }
+			        return false;
+			}
+			var message = localStorage.getItem("$userMess");
+			var userId ="";
+			if(isJSON(message)){
+				var userMess = JSON.parse(message);
+				userId=userMess.id;
+				
+			}else{
+				var userMess = {};
+			}
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var self = plus.webview.currentWebview();//获取父页面传递的值
+			var ids = self.ids;
+			//1.机构详情
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/appDepInfo/form",
+				async:true,
+				data:{
+					id:ids
+				},
+				dataType:"jsonp",
+				success:function(data){
+					$(".mui-title").text(data.depName);
+					var trainBanner = data.depShowimage.split("|")[1];
+					$(".train-Banner").find("img").attr("src",AllUrl+trainBanner);
+					$(".traContact-logoBox").find("img").attr("src",AllUrl+data.depLogo);
+					$("#depName").text(data.depName);
+					$("#contact").text(data.depContact);
+					$("#contactPhone").text(data.depTel);
+					$("#contactAddress").text(data.depAddress);
+					$("#contactProfile").text(data.depProfile);
+				},
+				error:function(){
+					plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+				}
+			})
+			//2.最新活动
+			/*$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/activityInfo/list",
+				async:false,
+				data:{ 
+				   'depId.id':ids,
+					pageNo:1,
+					pageSize:3
+				},
+				dataType:"jsonp",
+				success:function(data){
+					var dataList = data.list;
+					var newLis;
+					if(dataList == undefined || dataList.length == 0){
+						$(moreLis).html("<li class='mui-table-view-cell'>暂无活动</li>")
+					}else{
+						dataList.forEach(function(val,idx){
+							newLis = document.createElement("li");
+							$(newLis).addClass("mui-table-view-cell").attr("id",val.id);
+							$(newLis).html("<h4 class='mui-ellipsis'>"+val.actTitle+"</h4>"+"<h5>"+val.actDate+"</h5>");
+							$(newLis).appendTo($("#traAct-box"));
+						});
+					}
+					var moreLis = document.createElement("li");
+					$(moreLis).addClass("mui-table-view-cell traAct-footer").attr("id",ids);
+					//$(moreLis).html( "<h3>"+"查看更多"+"<i class='iconfont icon-arrow-right'>"+"</i></h3>");
+					$(moreLis).appendTo($(newLis));
+				},
+				error:function(){
+					plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+				}
+			})*/
+			//3.新闻资讯
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/index/depinfo/columninfo/columnInfoApp/list",
+				async:false,
+				data:{ 
+				    depInfoId:ids,
+					pageNo:1, 
+					pageSize:1
+				},
+				dataType:"jsonp",
+				success:function(data){ 
+					var dataList = data.list;
+					var newLis;
+					if(dataList == undefined || dataList.length == 0){
+						
+					}else{
+						dataList.forEach(function(val,idx){
+							var columnInfoId =val.id;
+							$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/index/depinfo/content/articalContentApp/list",
+							async:false,
+							data:{ 
+							    'columnInfo.id':columnInfoId,
+								pageNo:1, 
+								pageSize:4
+							},
+							dataType:"jsonp",
+							success:function(datas){
+								var dataLists = datas.list;
+								var newList;
+								if(dataLists == undefined || dataLists.length == 0){
+									  
+								}else{
+									dataLists.forEach(function(val,idx){
+										if(idx == dataLists.length -1){
+											var styles = "addPadding";
+										}else{
+											var styles = "";
+										}
+										newList = document.createElement("li");
+										$(newList).addClass(styles);
+										$(newList).addClass("mui-table-view-cell").attr("id",val.id); 
+										$(newList).html(" <div class='traNew-box'><img src='"+AllUrl+val.image+"'/><div><h2 class='mui-ellipsis'>"+val.title+"</h2>"+
+										"<h4 class='mui-ellipsis-2'>"+val.abstracts+"</h4><h5>"+val.pubDate+"</h5>");
+										$(newList).appendTo($("#traAct-news"));
+										$(newList).on("tap",function(){
+											var lisIds = $(this).attr("id");
+											mui.openWindow({
+												url:"JG-detail.html",
+												id:"JG-detail.html",
+												extras:{
+													ids:lisIds
+												}
+											})
+										})
+									});
+									var moreLis = document.createElement("li");
+									$(moreLis).addClass("mui-table-view-cell traAct-footerMore").attr("id",ids);
+									$(moreLis).html( "<h3 id='toJG-news' data-ids='"+columnInfoId+"'>"+"查看更多"+"<i class='iconfont icon-arrow-right'>"+"</i></h3>");
+									$(moreLis).appendTo($("#traAct-news")); 
+								}
+							}, 
+							error:function(){
+								plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+							}
+						})
+							
+						});
+						
+					}
+				},
+				error:function(){
+					plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+				}
+			})
+			/**/
+			//4.活动报名
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/activityInfo/list",
+				async:false,
+				data:{ 
+				   'depId.id':ids,
+					pageNo:1,
+					pageSize:3,
+					userId:userId
+				},
+				dataType:"jsonp",
+				success:function(data){ 
+					var dataList = data.list;
+					var newLis;
+					if(dataList == undefined || dataList.length == 0){
+						
+					}else{ 
+						dataList.forEach(function(val,idx){
+							if(idx == dataList.length -1){
+								var styles = "addPadding";
+							}else{
+								var styles = "";
+							}
+							var newImgStr = "";
+							var allImg = val.actImg.split("|");
+							allImg.forEach(function(vals){
+								if(vals !== ""){
+									newImgStr += "<img src='"+AllUrl+vals+"' />";
+								}
+							})
+							newLis = document.createElement("li");
+							$(newLis).addClass(styles);
+							$(newLis).addClass("mui-table-view-cell").attr("id",val.id); 
+							$(newLis).html(" <div class='traInAct-box'><div class='traInAct-pic'><img src='"+AllUrl+val.createBy.photo+"'/>"+"</div><div class='traInAct-font'>"+
+               				"<div class='traInAct-fontTitle'><div><h2 class='mui-ellipsis'>"+val.actTitle+"</h2>"+"<h5>"+val.actDate+"</h5></div>"+
+               				"<a href='javascript:;' data-ids= '"+val.id+"' data-types ='"+val.isFee+"'><span>+报名</span></a></div>"+
+               				"<div style='position: relative;'><p>"+val.actProfile+"</p><span class='showAllFont'>展开全文</span></div><div class='traInAct-fontPic'>"+newImgStr+"</div></div></div>");
+							$(newLis).appendTo($("#traAct-InAct"));
+							if(val.countIsSign!=0){
+								$(newLis).find("a").find("span").text("已报名");
+							}
+						});
+						//未登录检测
+						$("#traAct-InAct a").on("tap",function(){
+							var nodeName = this;
+							if(JSON.stringify(userMess) == "{}"){
+								mui.openWindow({
+									url:"../login.html",
+									id:"../login.html",
+									show:{
+										aniShow:"slide-in-bottom"
+									}
+								})
+							}else{
+								var ids = $(this).attr("data-ids");
+								var types = $(this).attr("data-types");
+						  	    if(types!=0){
+						  	    	$.ajax({
+							  	    	type:"post",
+							  	    	url:AllUrl+"/asw-eas/f/activityInfo/save",
+							  	    	async:true,
+							  	    	data:{
+											actId:ids,
+											userId:userMess.id
+										},
+										dataType:"jsonp",
+										success:function(data){
+											if(data.status=="2"){
+												$(nodeName).find("span").text("已报名");
+											}else{
+												plus.nativeUI.toast(data.message);
+											}
+											
+										},
+										error:function(data){
+											plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+										}
+						  	    	
+						  	    	});
+						  	    }else{
+						  	    	
+						  	    	var channel=null;
+									// 1. 获取支付通道
+								    // 获取支付通道
+								    plus.payment.getChannels(function(channels){
+								        channel=channels[0];
+								    },function(e){
+								        plus.nativeUI.toast("获取支付通道失败："+e.message);
+								    });
+									
+									var ALIPAYSERVER=AllUrl+"/asw-eas/f/actAlipay/createOrder";
+									// 2. 发起支付请求
+									function pay(id){
+									    // 从服务器请求支付订单
+									    var PAYSERVER='';
+									    if(id=='alipay'){
+									        PAYSERVER=ALIPAYSERVER;
+									    }else if(id=='wxpay'){
+									        PAYSERVER=WXPAYSERVER;
+									    }else{
+									        plus.nativeUI.alert("不支持此支付通道！",null,"捐赠");
+									        return;
+									    }
+									    $.ajax({
+									    	type:"post",
+									    	url:PAYSERVER,
+									    	async:false,
+									    	dataType:"jsonp",
+									    	data:{
+									    		"userId":userMess.id,//用户Id
+									    		"actId":ids//活动id
+									    	},
+									    	success:function(data){
+									    		if(data.status !== "2"){
+									    			plus.nativeUI.alert(data.message);
+									    		}else{
+									    			var datas = data.result;
+									    		 	plus.payment.request(channel,datas,function(datas){
+									                    plus.nativeUI.alert("支付成功！",function(){
+									                    	$(nodeName).find("span").text("已报名");
+									                    });
+									                },function(error){
+									                	plus.nativeUI.alert("支付失败：未成功支付" );
+									                });
+									    		}
+									    	},
+									    	error:function(){
+									    		plus.nativeUI.toast("获取订单信息失败！");
+									    	}
+									    });
+									}
+						  	    	pay("alipay");
+						  	    	
+						  	    }
+						  	    
+							}
+						})
+						$(".traInAct-font p").each(function(idx,val){
+							var pHeight = $(val).height();
+							var pLineH = parseInt($(val).css("line-height"));
+							if(Math.ceil(pHeight/pLineH)>3){
+								$(val).addClass("fontHidden3").attr("showAll",false);
+								$(".showAllFont").eq(idx).css("display","block");
+							}
+						})
+						$(".showAllFont").on("tap",function(){
+							var nodeP = $(this).parents(".traInAct-font");
+							if($(nodeP).find("p").attr("showAll") == 'true'){
+								$(nodeP).find("p").addClass("fontHidden3").removeClass("showAllFonts").attr("showAll",false);
+								$(this).text("展开全文");
+							}else{
+								$(nodeP).find("p").removeClass("fontHidden3").addClass("showAllFonts").attr("showAll",true);
+								$(this).text("收起内容");
+								$(".traInAct-fontPic").css("margin-top","35px");
+							}
+						})
+						var moreLis = document.createElement("li");
+						$(moreLis).addClass("mui-table-view-cell traAct-footerMore").attr("id",ids);
+						$(moreLis).html( "<h3 id='toBming'>"+"查看更多"+"<i class='iconfont icon-arrow-right'>"+"</i></h3>");
+						$(moreLis).appendTo($("#traAct-InAct")); 
+					}
+				},
+				error:function(){
+					plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+				}
+			})
+			//5.课程介绍
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/coursedescriptionAppController/findPage", 
+				async:false,
+				data:{ 
+				    depId:ids, 
+					pageNo:1,
+					pageSize:4
+				},
+				dataType:"jsonp",
+				success:function(data){ 
+           			var dataList = data.list;
+					var newLis;
+					if(dataList == undefined || dataList.length == 0){
+						
+					}else{ 
+						dataList.forEach(function(val,idx){
+							if(idx == dataList.length -1){
+								var styles = "addPadding";
+							}else{
+								var styles = "";
+							}
+							newLis = document.createElement("li");
+							$(newLis).addClass(styles);
+							$(newLis).addClass("mui-table-view-cell").attr("id",val.id);
+							$(newLis).html(" <div class='traInAct-box'><div class='traAct-classTipsPic'><img src='"+AllUrl+val.courseImages+"' /></div><div class='traAct-classTipsFont'><h2 class='mui-ellipsis'>"+
+							val.courseName+"</h2><p class='mui-ellipsis-2'>"+val.courseProfile+"</p><h4>￥"+val.coursePrice+"</h4></div></div>");
+							$(newLis).appendTo($("#traAct-classTips"));
+							//跳转到课程详情
+							$(newLis).on("tap",function(){
+								var lisId = $(this).attr("id");
+								mui.openWindow({
+									url:"JG-classDetail.html",
+									id:"JG-classDetail.html",
+									extras:{
+										ids:lisId
+									}
+								})
+							})
+						});
+					}
+					var moreLis = document.createElement("li");
+					$(moreLis).addClass("mui-table-view-cell traAct-footerMore toClassList").attr("id",ids);
+					$(moreLis).html( "<h3>"+"为您推荐精品课程<span id='toJG-class'>去看"+"<i class='iconfont icon-arrow-right'>"+"</i></h3>");
+					$(moreLis).appendTo($("#traAct-classTips")); 
+	                $("#toJG-class").on("tap",function(){ 
+	                	if(JSON.stringify(userMess) == "{}"){
+							mui.openWindow({
+								url:"../login.html",
+								id:"../login.html",
+								show:{
+									aniShow:"slide-in-bottom"
+								}
+							})
+						}else{
+							mui.openWindow({
+								url:"JG-Class.html",
+								id:"JG-Class.html",
+								extras:{
+					                depId:ids
+					              }
+							})
+						}
+	                })
+				},
+				error:function(){
+					plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+				}
+			})
+			//跳转到最新活动列表页
+			/*$("#getActMore").on("tap",function(){
+				mui.openWindow({
+					url:"trainAct.html",
+					id:"trainAct.html"
+				})
+			})*/
+			//跳转到新闻资讯页
+			$("#traAct-news").on("tap","#toJG-news",function(){
+				var idss = $(this).attr("data-ids");
+				mui.openWindow({
+					url:"JG-news.html",
+					id:"JG-news.html",
+					extras:{
+						ids:idss
+					}
+				})
+			})
+			//跳转到报名列表
+			$("#traAct-InAct").on("tap","#toBming",function(){
+				mui.openWindow({
+					url:"JG-Bming.html",
+					id:"JG-Bming.html",
+					extras:{
+						ids:ids
+					}
+				})
+			})
+
+			//跳转到课程介绍
+		      $("#toJG-Ins").on("tap",function(){
+		        mui.openWindow({
+		          url:"JG-instruction.html",
+		          id:"JG-instruction.html",
+		          extras:{
+		            depId:ids
+		          }
+		        })
+		      })
+		})
+	</script>
+</html>

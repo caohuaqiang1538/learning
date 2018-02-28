@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>爱思维</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<style>
+			html,
+			body {
+				background:url(../images/loginBg.png);
+				background-size: cover;
+			}
+			.mui-bar-nav{
+				background: transparent;
+    			box-shadow: none;
+			}
+			.mui-bar-nav.mui-bar .mui-icon{
+				color: #fff;
+			}
+			.mui-content{
+				background: transparent;
+				text-align: center;
+			}
+			#log-box{
+				width: 100%;
+			    display: flex;
+			    height: 425px;
+			    padding: 0 15px;
+			    justify-content: flex-start;
+			    flex-direction: column;
+			}
+			.log-choose{
+				width: 110px;
+			    height: 45px;
+			    line-height: 45px;
+			    border-radius: 45px;
+			    font-size: 20px;
+			    margin: 0 30px;
+			    background: transparent;
+			    color: #fff;
+			    position: relative;
+			}
+			.log-chooseAct{
+				background: #fff;
+			    color: #0099ff;
+			}
+			.log-chooseAct:after{
+				content: "";
+				display: block;
+				width: 85px;
+				height: 85px;
+				position: absolute;
+				left: 12.5px;
+				top:45px;
+				background: url(../images/dog.png);
+				background-size: 100% 100%;
+			}
+			.log-chooseBox{
+				display: inherit;
+			}
+			#log-iptBox{
+				display: inherit;
+				width: 100%;
+				flex-direction: column;
+				margin-top: 68px;
+				padding: 0 15px;
+			}
+			.mui-input-group .mui-input-row{
+				height: 80px;
+			}
+			.mui-input-group input, .mui-input-group textarea{
+				margin-top: 25px;
+				height: 50px;
+			}
+			.mui-input-group .mui-input-row:after{
+				left: 0;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 40px;
+			}
+			.log-tip{
+				display: inherit;
+    			justify-content: space-between;
+    			line-height: 40px;
+    			color: #fff;
+    			margin-top: 10px;
+			}
+			.mui-checkbox.mui-left input[type=checkbox], .mui-radio.mui-left input[type=radio]{
+				left: 0;
+			}
+			.mui-checkbox.mui-left label, .mui-radio.mui-left label{
+				padding-left: 35px;
+			}
+			#log-box .loginBtn{
+				width: 75px;
+			    height: 75px;
+			    margin: 0 auto;
+			    border-radius: 50%;
+			    border: none;
+			    outline: none;
+			    background: #b6e2ff;
+			    margin-top: 25px;
+			}
+			.loginBtn>img{
+				display: block;
+			    width: 55px;
+			    height: 55px;
+			    margin: 0 auto;
+			}
+			#log-regBox{
+				display: inherit;
+				margin-top: 68px;
+			    position: relative;
+			    flex-direction: column;
+			    display: none;
+			}
+			#log-regBox>div{
+				display: flex;
+				background: #ffffff;
+				border-radius: 10px;
+				flex-direction: column;
+				overflow: hidden;
+			}
+			#log-regBox span{
+				padding: 15px 0;
+    			border-bottom: 1px solid #e5e5e5;
+			}
+			#log-regBox span:nth-of-type(3){
+				border: none;
+			}
+			.log-regAct{
+				background: #0099ff;
+    			color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		</header>
+		<div class="mui-content">
+		    <img src="../images/logo.png" />
+		    <div id="divload"></div>
+		    <div id="log-box">
+		    	<div class="log-chooseBox">
+		    		<a href="javascript:;" data-box="iptBox" class="log-choose log-chooseAct">登录</a>
+		    		<a href="javascript:;" data-box="regBox" class="log-choose">注册</a>
+		    	</div>
+		    	<div id="log-iptBox">
+		    		<form id='login-form' class="mui-input-group" style="border-radius: 10px;overflow: hidden;">
+						<div class="mui-input-row">
+							<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+						</div>
+						<div class="mui-input-row" style="border-radius: 10px;">
+							<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+						</div>
+					</form>
+					<div class="log-tip">
+						<div class="mui-input-row mui-checkbox mui-left">
+							<!--<label>记住密码</label>
+							<input name="checkbox" value="Item 2" type="checkbox" checked>-->
+						</div>
+						<div class="">
+							<span id="log-fot">忘记密码？</span>
+						</div>
+					</div>
+					<button id='login' class="mui-btn mui-btn-block mui-btn-primary loginBtn"><img src="../images/right.png"></button>
+		    	</div>
+		   		<div id="log-regBox">
+		   			<div>
+			   			<span data-type="1">老师</span>
+			   			<span data-type="2">家长</span>
+			   			<span class="log-regAct" data-type="0">学生</span>
+			   		</div>
+		   			<button id="regs" data-type="0" class="mui-btn mui-btn-block mui-btn-primary loginBtn"><img src="../images/right.png"></button>
+		   		</div>
+		    </div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-2.1.0.js" ></script>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/login.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		mui.init({
+			swipeBack:true,
+			statusBarBackground: '#0099ff',
+			beforeback: function() {
+		　　　　 //获得父页面的webview
+		        var my = plus.webview.currentWebview().opener();
+		　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+		        mui.fire(my, 'refresh');
+		        mui.fire(my, 'refreshs');
+		        //返回true,继续页面关闭逻辑
+		        return true;
+		    }
+		})
+		window.addEventListener('refresh', function(e){
+			$(".log-choose").eq(0).addClass("log-chooseAct").siblings(".log-choose").removeClass("log-chooseAct");
+		    $("#log-regBox").css("display","none");
+			$("#log-iptBox").css("display","flex");
+		});
+		$(".log-choose").each(function(idx,val){
+			val.addEventListener("tap",function(){
+				if(!$(this).hasClass("log-chooseAct")){
+					$(this).addClass("log-chooseAct").siblings(".log-choose").removeClass("log-chooseAct");
+					if($(this).data("box") == 'iptBox'){
+						$("#log-regBox").css("display","none");
+						$("#log-iptBox").css("display","flex");
+					}else{
+						$("#log-regBox").css("display","flex");
+						$("#log-iptBox").css("display","none");
+					}
+				}else{
+					return;
+				}
+			})
+		})
+		//点击选择角色（家长暂时注掉）
+		$("#log-regBox span").each(function(idx,val){
+			val.addEventListener("tap",function(){
+				$(this).addClass("log-regAct").siblings().removeClass("log-regAct");
+				$("#regs").data("type",$(this).data("type"));
+			})
+		})
+		$("#regs").on("tap",function(){
+			if($(this).data("type") == "2"){
+				plus.nativeUI.toast("暂未开放家长注册");
+				return;
+			}else{
+				var type = $(this).data("type");
+				mui.openWindow({
+					url:"reg/register.html",
+					id:"reg",
+					extras:{
+				        type:type
+				    }
+				})
+			}
+		})
+		$("#log-fot").on("tap",function(){
+			mui.openWindow({
+				url:"reg/forget.html",
+				id:"forget"
+			})
+		})
+		$("#login").on("tap",function(){
+			var accountBox = $("#account")[0],
+				passwordBox = $("#password")[0];
+			var loginInfo = {
+					loginName: accountBox.value,
+					password: passwordBox.value
+				};
+			if(app.login(loginInfo)){
+				var wt=plus.nativeUI.showWaiting();
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				$.ajax({
+					type:"post",
+					url:AllUrl+"/asw-eas/f/UserApp/loginUser",
+					async:true,
+					data:loginInfo,
+					dataType:"jsonp",
+					success:function(data){
+						wt.close(); 
+						if(data.loginBoolean == "true"){
+							app.setState(loginInfo);
+							localStorage.setItem("$userMess",JSON.stringify(data.user));
+							var wobj = plus.webview.getWebviewById("pages/my.html");
+							wobj.reload(true);
+							mui.back();
+							
+						}else{
+							plus.nativeUI.toast("您的用户名或密码错误");
+						}
+					},
+					error:function(){
+						plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+						wt.close(); 
+					}
+				});
+			} /*本地输入格式验证*/
+		})
+	</script>
+</html>

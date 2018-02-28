@@ -1,0 +1,285 @@
+.mui-table-view-cell:after{
+				display: none;
+			}
+			.mui-active{
+				background: transparent!important;
+			}
+			.train-Banner{
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				height: 180px;
+			}
+			.train-Banner img{
+				width: 100%;
+				height: 100%;
+			}
+			#traContact-box{
+				padding: 0 0 10px;
+			}
+			#traContact-box .traContact-logoBox{
+				border-radius: 6px;
+				display: table;
+				position: absolute;
+				top: -22.5px;
+				background: #fff;
+			}
+			#traContact-box li{
+				position: relative;
+				overflow: initial;
+			}
+			#traContact-box li:nth-of-type(n+2){
+				padding:10px 15px;
+			}
+			#traContact-box li:nth-of-type(1){
+				padding-bottom:0 ;
+			}
+			#traContact-box .traContact-logoBox img{
+				width: 55px;
+    			height: 55px;
+			}
+			#traContact-box h3{
+				text-indent: 65px;
+			    font-weight: normal;
+			    font-size: 18px;
+			    line-height: 18px;
+			    border-bottom: 1px solid #E5E5E5;
+			    padding-bottom: 20px;
+			}
+			.trainTipPic{
+				display: table;
+				padding: 4px;
+				background: #EEEEEE;
+				border-radius: 50%;
+				float: left;
+			}
+			.trainTipPic img{
+				width:35px;
+				height: 35px;
+				vertical-align: middle;
+			}
+			#traContact-box h4{
+				font-size: 16px;
+			    font-weight: normal;
+			    line-height: 40px;
+			    margin: 0 0 0 55px;
+			}
+			#traAct-box,#traAct-news,#traAct-classTips,#traAct-InAct{
+				margin-top: 15px;
+			}
+			.traAct-title h3{
+				font-size: 20px;
+			    height: 50px;
+			    line-height: 35px;
+			    border-bottom: 1px solid #E5E5E5;
+			    padding-bottom: 15px;
+			}
+			.traAct-title img{
+				width: 25px;
+				height: 25px;
+				vertical-align: middle;
+				margin-right: 15px;
+			}
+			.traAct-title h3 span{
+				display: inline-block;
+			    background: #FF3600;
+			    height: 100%;
+			    color: #fff;
+			    font-weight: normal;
+			    font-size: 16px;
+			    line-height: 35px;
+			    margin-left: 15px;
+			    padding: 0px 10px;
+			    border-radius: 25px;
+			    vertical-align: middle;
+			}
+			.traAct-footer h3{
+				text-align: center;
+				border-top: 1px solid #EEEEEE;
+				padding-top: 15px;
+				font-size: 16px;
+			    height: 40px;
+			    line-height: 25px;
+			    font-weight: normal;
+			    color: #6E6E6E;
+			}
+			.traAct-footerMore h3{
+				text-align: center;
+				font-size: 16px;
+			    height: 25px;
+			    line-height: 25px;
+			    font-weight: normal;
+			    color: #6E6E6E;
+			}
+			#traAct-box h4,#traAct-box h5{
+				display: inline-block;
+			}
+			#traAct-box h4{
+				width: calc(65% - 15px);
+				font-size: 16px;
+				font-weight: normal;
+			}
+			#traAct-box h5{
+				width: 25%;
+			    font-size: 14px;
+			    float: right;
+			}
+			.traNew-box{
+				display: -webkit-flex;
+				display: flex;
+				border-bottom: 1px solid #eee;
+    			padding-bottom: 15px;
+			}
+			.traNew-box img{
+				width: 40%;
+				height: 110px;
+				border-radius: 4px;
+			}
+			.traNew-box>div{
+				width: 58%;
+				margin-left: 2%;
+			}
+			.traNew-box h2{
+				font-size: 18px;
+				height: 30px;
+				line-height: 30px;
+			}
+			.traNew-box h4{
+				font-size: 16px;
+				font-weight: normal;
+				line-height: 20px;
+				height: 40px;
+				color: #B5B5B5;
+			}
+			.traNew-box h5{
+				margin-top: 10px;
+				color: #B5B5B5;
+			}
+			.traInAct-box{
+				display: -webkit-flex;
+				display: flex;
+				border-bottom: 1px solid #eee;
+    			padding-bottom: 15px;
+    			width: 100%;
+			}
+			.traInAct-box>.traInAct-pic{
+				width: 25%;
+				display: inherit;
+			}
+			.traInAct-box>.traInAct-pic img{
+				width: 65px;
+				height: 65px;
+				border-radius: 50%;
+			}
+			.traInAct-box>.traInAct-font{
+				padding: 0 0 0 10px;
+				/*position: relative;*/
+				width: calc(100% - 65px);
+				min-width: calc(100% - 65px);
+			}
+			.traInAct-fontTitle{
+				display: -webkit-flex;
+				display: flex;
+				width: 100%;
+			}
+			.traInAct-fontTitle>div{
+				width: 75%;
+			}
+			.traInAct-fontTitle h2{
+				font-size: 18px;
+				line-height: 20px;
+			}
+			.traInAct-fontTitle h5{
+				line-height: 15px;
+			}
+			.traInAct-fontTitle>a{
+				width: 25%;
+				display: inherit;
+				justify-content: center;
+				align-items: center;
+			}
+			.traInAct-fontTitle>a>span{
+				display: table;
+				height: 30px;
+				padding: 5px 10px;
+				background: #EEEEEE;
+				border-radius: 30px;
+				color: #0099ff;
+				font-weight: bold;
+				font-size: 14px;
+			}
+			.traInAct-font p{
+				font-size: 16px;
+				color: #000;
+				line-height: 22px;
+				letter-spacing: 0.5px;
+			}
+			.fontHidden3{
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 3;
+				overflow: hidden;
+				margin-bottom: 35px!important;
+			}
+			.showAllFont{
+				display: none;
+			    position: absolute;
+			    color: #0099ff;
+			    font-weight: bold;
+			    line-height: 25px;
+			    bottom: -30px;
+    			left: 0px;
+    			font-size: 14px;
+			}
+			.traInAct-fontPic{
+				margin-top: 10px;
+			}
+			.traInAct-fontPic img{
+				width: 48%;
+				height: 95px;
+				margin: 3px 0 3px 1%;
+			}
+			.traInAct-fontPic img:nth-child(odd){
+				margin: 3px 1% 3px 0;
+			}
+			.showAllFonts{
+				
+			}
+			.traAct-classTipsPic{
+				width: 45%;
+			}
+			.traAct-classTipsPic img{
+				width: 130px;
+				height: 130px;
+				border-radius: 4px;
+			}
+			.traAct-classTipsFont{
+				width: 60%;
+			}
+			.traAct-classTipsFont h2{
+				font-size: 18px;
+				line-height: 20px;
+			}
+			.traAct-classTipsFont p{
+				color: #000;
+				font-size: 16px;
+				margin-top: 15px;
+				line-height: 22px;
+				height: 44px;
+			}
+			.traAct-classTipsFont h4{
+				line-height: 30px;
+				font-size: 20px;
+				color: #FF3600;
+				margin-top: 10px;
+			}
+			#traAct-classTips .traAct-footerMore h3{
+				text-align: left;
+				color: #000;
+			}
+			#traAct-classTips .traAct-footerMore h3>span{
+				color: #000;
+			}
+			#traAct-classTips .traAct-footerMore h3>span>i{
+				color: #BBBBBB;
+			}

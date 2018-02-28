@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>课程介绍</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/training.css"/>
+		<style type="text/css">
+			.mui-content>.mui-table-view:first-child {
+				margin-top: -1px;
+			}
+			#pullrefresh{
+				margin-top: 15px;
+			}
+			.mui-table-view-chevron .mui-table-view-cell{
+				padding-right: 15px;
+			}
+			.nodata{
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">课程介绍</h1>
+		</header>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content">
+			<!--数据列表-->
+			<ul class="mui-table-view mui-table-view-chevron" id="courseInfoList"></ul>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.plusReady(function(){
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							style:'circle',
+							color:"#0099ff",
+							auto:true,
+							callback: pulldownRefresh
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: pullupRefresh
+						}
+					}
+				});
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				var self = plus.webview.currentWebview();
+				var depId = self.depId;
+				var count = 1;
+				function pullupRefresh() {
+					count +=1;
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/coursedescriptionAppController/findPage",
+						async:true,
+						data:{
+							'depId':depId,
+							pageSize:8,
+							pageNo:count
+						},
+						dataType:"jsonp",
+						success:function(data){
+							if(data.list == undefined || data.list.length == 0){
+								mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+							}else{
+								data.list.forEach(function(val,idx){
+									var newLis = document.createElement("li");
+									if(val.img !== "" || val.img !== undefined){
+										var lisimg = val.img;
+									}else{
+										var lisimg = '';
+									}
+									var htmlData = '';
+									$(newLis).addClass("mui-table-view-cell").attr("id",val.id);
+									htmlData += "<div class='traInAct-box'>"+
+												"<div class='traAct-classTipsPic'><img src='"+AllUrl+lisimg+"' /></div>"+
+												"<div class='traAct-classTipsFont'><h2 class='mui-ellipsis'>"+val.courseName+"</h2><p class='mui-ellipsis-2'>"+val.courseProfile+"</p><h4>￥"+val.coursePrice+"</h4></div>"+
+												"</div>";
+									$(newLis).html(htmlData);
+									$(newLis).appendTo($("#courseInfoList"));
+								})
+								mui('#pullrefresh').pullRefresh().endPullup(); 
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍后再试");
+							mui('#pullrefresh').pullRefresh().endPullup(true); //参数为true代表没有更多数据了。
+						}
+					});
+				}
+				/**
+				 * 下拉刷新具体业务实现
+				 */
+				function pulldownRefresh() {
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/coursedescriptionAppController/findPage",
+						async:true,
+						data:{
+							'depId':depId,
+							pageSize:8,
+							pageNo:1
+						},
+						dataType:"jsonp",
+						success:function(data){
+							$("#pullrefresh ul").html("");
+							count = 1;
+							if(data.list == undefined || data.list.length == 0){
+								$("#courseInfoList").html("<div class='nodata'>该机构暂无课程哦！</div>");
+								mui('#pullrefresh').pullRefresh().endPulldown();
+							}else{
+								data.list.forEach(function(val,idx){
+									var newLis = document.createElement("li");
+									if(val.img !== "" || val.img !== undefined){
+										var lisimg = val.img;
+									}else{
+										var lisimg = '';
+									}
+									var htmlData = '';
+									$(newLis).addClass("mui-table-view-cell").attr("id",val.id);
+									htmlData += "<div class='traInAct-box'>"+
+												"<div class='traAct-classTipsPic'><img src='"+AllUrl+lisimg+"' /></div>"+
+												"<div class='traAct-classTipsFont'><h2 class='mui-ellipsis'>"+val.courseName+"</h2><p class='mui-ellipsis-2'>"+val.courseProfile+"</p><h4>￥"+val.coursePrice+"</h4></div>"+
+												"</div>";
+									$(newLis).html(htmlData);
+									$(newLis).appendTo($("#courseInfoList"));
+								})
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+								mui('#pullrefresh').pullRefresh().endPulldown();
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍后再试");
+						}
+					});
+				}
+				//单击进入详情
+				$("#pullrefresh").on("tap","li",function(){
+					var lisId = $(this).attr("id");
+					mui.openWindow({
+						url:"JG-classDetail.html",
+						id:"JG-classDetail.html",
+						extras:{
+							ids:lisId
+						}
+					})
+				})
+			})
+
+		</script>
+	</body>
+
+</html>

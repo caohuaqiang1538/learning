@@ -1,0 +1,340 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../font/iconfont.css" rel="stylesheet"/>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/main.css" rel="stylesheet" />
+		<style type="text/css">
+        <style> 
+        	html,body{
+        		height: 100%;
+        	}
+        	body{
+				background-color:#ffffff ;
+			}
+			.mui-content{
+				background-color:#ffffff ;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				width: 80%;
+				height: 50px;
+			}
+			.mui-input-row label{
+				width: 20%;
+				height: 50px;
+				line-height: 28px;
+			}
+			.mui-input-row label>i{
+				color: #b6b6b6;
+				font-size: 20px;
+			}
+			.mui-input-group .mui-input-row{
+				height: 50px;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 15px;
+			}
+			.mui-input-group:after{
+				display: none;
+			}
+			.reg-btn{
+				background: #0099ff;
+				color: #ffffff;
+				width: 100%;
+				height: 50px;
+				font-size: 18px;
+			}
+			.mui-button-row{
+				padding: 0 15px;
+				margin-top: 25px;
+			}
+			#val-step{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: #0099ff;
+				padding:20px 15px 0 15px;
+				height: 125px;
+			}
+			#val-step h5{
+				font-size: 16px;
+			    color: #fff;
+			    line-height: 25px;
+			}
+			#val-step>div{
+				display: inherit;
+				flex: 1;
+				flex-direction: column;
+			    justify-content: center;
+			    align-items: center;
+			}
+			#val-step>div i{
+				font-size: 36px;
+				line-height: 50px;
+				color: #fff;
+			}
+			#val-step>div .activeStep i{
+				color: #0099ff;
+			}
+			.val-stepI{
+				padding: 5px;
+			    border-radius: 50%;
+			}
+			.activeStep{
+			    border: 1px solid #b7dbff;
+			}
+			.val-stepI>div{
+				width: 50px;
+			    height: 100%;
+			    background: #b7dbff;
+			    text-align: center;
+			    border-radius: 50%;
+			}
+			.mui-bar-nav{
+				box-shadow: none;
+			}
+			#val-step>div.nextStep{
+				flex-direction: row;
+			    height: 62px;
+			    align-items: flex-start;
+				justify-content: flex-end;
+			}
+			.nextStep>span{
+				font-size: 34px;
+				margin-left: -20px;
+			}
+			span:nth-of-type(1){
+				color: #90c9ff;
+				animation:colorChange 1s linear 0s infinite ;
+			}
+			span:nth-of-type(2){
+				color: #b4d9ff;
+				animation:colorChange 1s linear 0.3s infinite ;
+			}
+			span:nth-of-type(3){
+				color: #d3e9ff;
+				animation:colorChange 1s linear 0.6s infinite ;
+			}
+			@keyframes colorChange{
+				0%{
+					color:#d3e9ff;
+				}
+				50%{
+					color:#b4d9ff;
+				}
+				100%{
+					color:#90c9ff ;
+				}
+			}
+			input[type="date"]:before{
+			    color:#A9A9A9;
+			    content:attr(placeholder);
+			}
+			input[type="date"].full:before {
+			    color:black;
+			    content:""!important;
+			}
+			#date{
+				overflow: hidden;
+				height: 50px;
+			}
+			#IDtype{
+				width: 80%;
+				padding-left: 0;
+			}
+        	
+            .imageup{     
+            	width: 75%;
+			    height: 100%;
+			    position: absolute;
+			    top: 0;
+			    left: 12.5%;
+			    margin: 0;
+			    display: flex;
+			    align-items: center;
+			    justify-content: center;
+			    font-size: 38px;
+			} 
+            #headimg{
+            	display: block;
+            	width: 75%;
+            	height:auto;
+            	min-height: 200px;
+            	max-height: 350px;
+            	margin: 15px auto 0;
+            	border: 1px dashed #A0A0A0;
+            }
+        </style> 
+    </head> 
+    <body> 
+    	<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">实名认证</h1>
+		</header>
+		<div class="mui-content" id="validate">
+			<div id="val-step">
+				<div>
+					<div class="val-stepI">
+						<div>
+							<i class="iconfont icon-renzhengxinxi" style="color: #0099ff;"></i>
+						</div>
+					</div>
+					<h5>认证信息</h5>
+				</div>
+				<div class="nextStep">
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+				</div>
+				<div>
+					<div class="val-stepI activeStep">
+						<div>
+							<i class="iconfont icon-ico_zhengjianleixing"></i>
+						</div>
+					</div>
+					<h5>证件正面</h5>
+				</div>
+				<div class="nextStep">
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+					<span class="iconfont icon-zuoyoujiantou-copy"></span>
+				</div>
+				<div>
+					<div class="val-stepI">
+						<div>
+							<i class="iconfont icon-ico_zhengjianleixing"></i>
+						</div>
+					</div>
+					<h5>证件反面</h5>
+				</div>
+			</div>
+			<div style="position: relative;">
+                 <img id="headimg" class="headimg" src='' >
+                <p class="imageup iconfont icon-jia"></p>
+        	</div>
+        	<div class="mui-button-row">
+				<button type="button" id="nextBtn" class="mui-btn reg-btn">下一步</button>&nbsp;&nbsp;
+			</div>
+	       </div>
+        <script src="../js/jquery-2.1.0.js"></script>
+        <script type="text/javascript" src="../js/mui.min.js" ></script>
+        <script> 
+        	mui.plusReady(function() {
+                var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+                var self = plus.webview.currentWebview();
+                if(self.frontPhoto !== ''){
+                	$("#headimg").attr("src",AllUrl+self.frontPhoto);
+                }
+                var allId = self.allId;
+				var oneId = self.oneId;
+				var fkId = self.fkId;
+                 //扩展API完成后执行的操作
+
+                    $(".imageup").on("tap",function(){
+                     page.imgUp();
+                    })
+             
+                //弹出系统按钮选择框
+                var page=null; 
+                page={ 
+                    imgUp:function(){ 
+                        var m=this; 
+                        plus.nativeUI.actionSheet({cancel:"取消",buttons:[ 
+                            {title:"拍照"}, 
+                            {title:"从相册中选择"} 
+                        ]}, function(e){//1 是拍照  2 从相册中选择 
+                            switch(e.index){ 
+                                case 1:appendByCamera();break; 
+                                case 2:appendByGallery();break; 
+                            } 
+                        }); 
+                    } 
+                } 
+               
+            // 拍照添加文件
+            function appendByCamera(){
+                plus.camera.getCamera().captureImage(function(e){
+                    plus.io.resolveLocalFileSystemURL(e, function(entry) {
+                        var path = entry.toLocalURL();
+                        $(".headimg")[0].src = path;                
+                    }, function(e) {
+                        mui.toast("读取拍照文件错误：" + e.message);
+                    });
+     
+                });   
+            }
+            // 从相册添加文件
+            function appendByGallery(){
+                plus.gallery.pick(function(path){
+                    $(".headimg")[0].src = path;
+                });
+            }
+             
+               
+            //服务端接口路径
+            var server = AllUrl+"/asw-eas/servlet/FileUploadController";
+            //获取图片元素
+            var files = document.getElementById('headimg');
+            
+            // 上传文件
+            function upload(){
+            	var imgsrc = $("#headimg").attr("src");
+            	if(imgsrc == ""){
+            		plus.nativeUI.toast("请先选择图片");
+            	}else if(imgsrc == AllUrl+self.frontPhoto){
+            		 mui.openWindow({
+						url:"validate_step3.html",
+						id:"validate_step3.html",
+						extras:{
+					        allData:self,
+					        reversePhoto:self.reversePhoto,
+					        allId:allId,
+					        oneId:oneId,
+					        fkId:fkId,
+					    }
+					})
+            	}else{
+            		var wt=plus.nativeUI.showWaiting();
+                var task=plus.uploader.createUpload(server,
+                    {method:"POST"},
+                    function(t,status){ //上传完成
+                        if(status==200){
+                            plus.nativeUI.toast("上传成功");
+                            var imasrc = JSON.parse(t.responseText).name;
+                            self.frontPhoto = imasrc;
+                            wt.close(); //关闭等待提示按钮
+                            mui.openWindow({
+								url:"validate_step3.html",
+								id:"validate_step3.html",
+								extras:{
+							        allData:self,
+							        reversePhoto:self.reversePhoto,
+							        allId:allId,
+							        oneId:oneId,
+							        fkId:fkId
+							    }
+							})
+                        }else{
+                            aplus.nativeUI.toast("上传失败："+status);
+                            wt.close();//关闭等待提示按钮
+                        }
+                    }
+                );  
+               //添加其他参数
+                task.addData("name","test");
+                task.addFile(files.src,{key:"dddd"});
+                task.start();
+            	}  
+            } 
+            $("#nextBtn").on("tap",function(){
+	          	upload();
+	          })
+          })
+        </script> 
+    </body>  
+</html>

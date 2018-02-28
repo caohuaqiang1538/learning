@@ -1,0 +1,261 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../font/iconfont.css" rel="stylesheet"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body{
+				background-color:#ffffff ;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				width: 80%;
+				height: 50px;
+			}
+			.mui-input-row label{
+				width: 20%;
+				height: 50px;
+				line-height: 28px;
+			}
+			.mui-input-row label>i{
+				color: #b6b6b6;
+				font-size: 20px;
+			}
+			.mui-input-group .mui-input-row{
+				height: 50px;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 15px;
+			}
+			.mui-input-group:after{
+				display: none;
+			}
+			.reg-btn{
+				background: #0099ff;
+				color: #ffffff;
+				width: 100%;
+				height: 50px;
+				font-size: 18px;
+			}
+			.mui-button-row{
+				padding: 0 15px;
+				margin-top: 25px;
+			}
+			#validate input{
+				width: 50%;
+    			float: left;
+			}
+			#validate span{
+				right: 30%;
+				vertical-align: middle;
+			}
+			#validate button{
+				height: 100%;
+			    border: none;
+			    color: #0099ff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+		    <form class="mui-input-group">
+		    	<div class="mui-input-row">
+					<label><i class="iconfont icon-shouji"></i></label>
+					<input type="text" id="niname" data-des="昵称" class="mui-input-clear" placeholder="请输入昵称">
+				</div>
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-shouji"></i></label>
+					<input type="number" id="userName" data-des="手机号" class="mui-input-clear" placeholder="请输入手机号">
+				</div>
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-suo"></i></label>
+					<input type="password" id="pass" data-des="密码" class="mui-input-clear" placeholder="请输入密码">
+				</div>
+
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-suo"></i></label>
+					<input type="password" id="relPass" data-des="确认密码" class="mui-input-clear" placeholder="请再次输入密码">
+				</div>
+				<div class="mui-input-row" id="validate">
+					<label><i class="iconfont icon-anquan"></i></label>
+					<input type="text" id="val-code" data-des="验证码" class="mui-input-clear" placeholder="请输入验证码">
+					<button type="button" id="getValCode" data-loading-text="发送中">获取验证码</button>
+				</div>
+				<div class="mui-button-row">
+					<button type="button" disabled="disabled" id="regBtn" class="mui-btn reg-btn">确认</button>
+				</div>
+			</form>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-2.1.0.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true,
+				statusBarBackground: '#0099ff',
+				beforeback: function() {
+			　　　　 //获得父页面的webview
+			        var my = plus.webview.currentWebview().opener();
+			　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+			        mui.fire(my, 'refresh');
+			        //返回true,继续页面关闭逻辑
+			        return true;
+			    }
+			})
+			/*设置全局地址*/
+			mui.plusReady(function() {
+				var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var validateCodes = "";
+			//检测昵称是否重复
+			$("#niname").on("blur",function(){
+				var niname = $(this).val().trim();
+				if(niname == ""||niname == null){
+					return false;
+				}else{
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/UserApp/checkName",
+						data:{
+							name:niname
+						},
+						dataType:"jsonp",
+						async:true,
+						success:function(data){
+							if(data.code == "false"){
+								plus.nativeUI.toast("该昵称已被使用，换一个试试吧");
+								$("#niname").val("");
+							}
+						}
+					});
+				}
+			})
+			var self = plus.webview.currentWebview();
+			var autprtype = self.type;
+			
+			$("#regBtn").on("tap",function(){
+				$("input").each(function(idx,val){
+					if($(val).val().trim() == ''){
+						plus.nativeUI.toast($(val).data("des")+"不能为空");
+						return false;
+					}else if($("#niname").val().length >9){
+						plus.nativeUI.toast("昵称最多为八位");
+						return false;
+					}else if($("#pass").val().length <6){
+						plus.nativeUI.toast("密码最少为六位");
+						return false;
+					}else if($("#pass").val() !== $("#relPass").val()){
+						plus.nativeUI.toast("两次密码不一致，请重新输入");
+						return false;
+					}else if($("#val-code").val() !== validateCodes){
+						if(validateCodes == "验证码已过期"){
+							plus.nativeUI.toast("验证码有误");
+						}else{
+							plus.nativeUI.toast("验证码有误");
+						}
+						return false;
+					}else if(idx == 3){
+						var loginName = $("#userName").val(),password = $("#pass").val(),niname = encodeURI($("#niname").val());
+						$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/UserApp/savephoneregister",
+							async:true,
+							data:{
+								name:niname,
+								loginName:loginName,
+								autprtype:autprtype,
+								password:password
+							},
+							dataType:"jsonp",
+							success:function(data){
+								if(data.status == false){
+									plus.nativeUI.toast(data.message);
+								}else{
+									plus.nativeUI.toast("恭喜您注册成功");
+									mui.back();
+								}
+							},
+							error:function(){
+								plus.nativeUI.toast("服务器暂无响应，请稍后再试")
+							}
+						});
+					}
+				})
+			})
+			//注：手机格式验证放在点击验证码时进行
+			$("#getValCode").one("tap",valideCode);
+				function valideCode(){
+				    var sMobile = $("#userName").val().trim();
+				    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))){ 
+				    	$("#getValCode").one("tap",valideCode);
+				        plus.nativeUI.toast("您的手机格式有误，请重新输入");
+					}else{
+						$.ajax({
+							type:"post",
+							url:AllUrl+"/asw-eas/f/UserApp/checkphoneLoginName",
+							data:{
+								loginName:sMobile
+							},
+							dataType:"jsonp",
+							async:false,
+							success:function(data){
+								if(data.code == "false"){
+									plus.nativeUI.toast("该手机号已注册");
+									$("#userName").val("");
+									$("#getValCode").one("tap",valideCode);
+								}else{
+									mui("#getValCode").button('loading');
+									 $.ajax({
+									 	type:"post",
+									 	url:AllUrl+"/asw-eas/f/smsSendApp/sendSms",
+									 	async:false,
+									 	dataType:"jsonp",
+									 	data:{
+									 		phone:sMobile,
+									 		type:"1"
+									 	},
+									 	success:function(data){
+									 		mui("#getValCode").button('reset');
+									 		validateCodes = data.code;
+									 		setTimeout(function(){
+									 			validateCodes = "验证码已过期";
+									 		},120000)
+											var i = 60;
+											var newValide = setInterval(function(){
+											 	i--;
+											 	$("#getValCode").text("重新获取("+i+")");
+											 	if(i == 0){
+											 		$("#getValCode").text("重新获取");
+											 		clearInterval(newValide);
+											 		$("#getValCode").one("tap",valideCode);
+											 	}
+											},1000)
+											$("#regBtn").removeAttr("disabled");
+											plus.nativeUI.toast("已成功发送验证码，请注意查收");
+									 	},
+									 	error:function(){
+									 		$("#getValCode").one("tap",valideCode);
+									 		plus.nativeUI.toast("服务器未响应，请稍后再试");
+									 	}
+									 });
+								}
+							},
+							error:function(){
+				        		$("#getValCode").one("tap",valideCode);
+								plus.nativeUI.toast("服务器暂无响应，请稍后再试");
+							}
+						});
+					}
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>新闻资讯</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" type="text/css" href="../../css/main.css"/>
+		<link rel="stylesheet" type="text/css" href="../../font/iconfont.css"/>
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/training.css"/>
+		<style type="text/css">
+			.mui-content>.mui-table-view:first-child {
+				margin-top: -1px;
+			}
+			#pullrefresh{
+				margin-top: 15px;
+			}
+			.mui-table-view-chevron .mui-table-view-cell{
+				padding-right: 15px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">新闻资讯</h1>
+		</header>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content">
+			<!--数据列表-->
+			<ul class="mui-table-view mui-table-view-chevron" id="listBox"></ul>
+		</div>
+		<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+		<script src="../../js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			
+			mui.plusReady(function(){
+				mui.init({
+					pullRefresh: {
+						container: '#pullrefresh',
+						down: {
+							style:'circle',
+							color:"#0099ff",
+							callback: pulldownRefresh,
+							auto:true
+						},
+						up: {
+							contentrefresh: '正在加载...',
+							callback: pullupRefresh
+						}
+					}
+				});
+				var URL = localStorage.getItem("$url");
+				var AllUrl = URL.substring(1,URL.length-1);
+				var self = plus.webview.currentWebview();
+				var ids = self.ids;
+				var count = 1;
+				function pullupRefresh() {
+					count++;
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/index/depinfo/content/articalContentApp/",
+						async:true,
+						data:{
+							'columnInfo.id':ids,
+							pageSize:8,
+							pageNo:count,
+						},
+						dataType:"jsonp",
+						success:function(data){
+							if(data.list !== undefined && data.list.length !== 0 ){
+								var data = data.list;
+								for(var i = 0;i<data.length;i++){
+									var lis = document.createElement("li");
+									var lisData = "";
+									$(lis).addClass("mui-table-view-cell").attr("id",data[i].id);
+									lisData += 	"<div class='traNew-box'>"+
+													"<img src='"+AllUrl+data[i].image+"'>"+
+													"<div>"+
+														"<h2 class='mui-ellipsis'>"+data[i].title+"</h2>"+
+														"<h4 class='mui-ellipsis-2'>"+data[i].abstracts+"</h4>"+
+														"<h5>"+data[i].createDate+"</h5>"+
+													"</div></div>";
+									$(lis).html(lisData);
+									$("#listBox").append(lis);
+								}
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+							}else{
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍候重试!");
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+					})
+				}
+	
+				/**
+				 * 下拉刷新具体业务实现
+				 */
+				function pulldownRefresh() {
+					$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/index/depinfo/content/articalContentApp/",
+						async:true,
+						data:{
+							'columnInfo.id':ids,
+							pageSize:8,
+							pageNo:1,
+						},
+						dataType:"jsonp",
+						success:function(data){
+							$("#listBox").html("");
+							count = 1;
+							var data = data.list;
+							if(data == undefined ||data.length == 0){
+								var lis = document.createElement("div");
+								$(lis).text("暂无新闻动态哦");
+								$(lis).css("padding","15px");
+								$("#listBox").append(lis);
+								mui('#pullrefresh').pullRefresh().endPulldown();
+							}else{
+								for(var i = 0;i<data.length;i++){
+									var lis = document.createElement("li");
+									var lisData = "";
+									$(lis).addClass("mui-table-view-cell").attr("id",data[i].id);
+									lisData += 	"<div class='traNew-box'>"+
+													"<img src='"+AllUrl+data[i].image+"'>"+
+													"<div>"+
+														"<h2 class='mui-ellipsis'>"+data[i].title+"</h2>"+
+														"<h4 class='mui-ellipsis-2'>"+data[i].abstracts+"</h4>"+
+														"<h5>"+data[i].createDate+"</h5>"+
+													"</div></div>";
+									$(lis).html(lisData);
+									$("#listBox").append(lis);
+								}
+								mui('#pullrefresh').pullRefresh().endPulldown();
+							}
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍候重试!");
+							mui('#pullrefresh').pullRefresh().endPulldown();
+						}
+					})
+				}
+				$("#pullrefresh").on("tap","li",function(){
+					var lisIds = $(this).attr("id");
+					mui.openWindow({
+						url:"JG-detail.html",
+						id:"JG-detail.html",
+						extras:{
+							ids:lisIds
+						}
+					})
+				})
+			})
+			
+
+		</script>
+	</body>
+
+</html>

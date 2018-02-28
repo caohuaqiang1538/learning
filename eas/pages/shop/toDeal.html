@@ -1,0 +1,306 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/shop.css"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			.mui-bar-nav~.mui-content {
+			    height: 100%;
+			    overflow: scroll;
+			}
+			/*.mui-popup-title+.mui-popup-text{
+				font-size: 18px!important;
+			}*/
+		</style>
+	</head>
+
+	<body style="padding-bottom: 55px;">
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">提交订单</h1>
+		</header>
+		<div class="mui-content">
+			<div class="deal-border"></div>
+		    <div class="mui-input-row" id="deal-uMess">
+		    	<div class="mui-input-row">
+		    		<label>收货人：</label>
+			    	<div>
+			    		<h5><span class="uAddrNames"></span></h5>
+			    	</div>
+		    	</div>
+		    	<div class="mui-input-row">
+		    		<label>联系电话：</label>
+			    	<div>
+			    		<h5><span class="uAddrPhone"></span></h5>
+			    	</div>
+		    	</div>
+		    	<div class="mui-input-row" style="margin-top: 10px;">
+			    	<label id="goodsAddress" style="line-height: 20px;">收货地址：</label>
+			    	<div>
+			    		<p class="uAddrStreet" style="height: auto;word-break:break-all;"></p>
+			    	</div>
+			    </div>
+			    <span class="mui-pull-right mui-navigate-right" style="color: #000;font-size: 22px;font-weight: bold;"></span>
+		    </div>
+		    <div class="mui-input-row" id="deal-noMess" style="display: none;">
+		     	请您点击此处添加收货地址
+		    </div>
+		    <div class="deal-border"></div>
+		    <ul class="mui-table-view" id="todeal-Mess"></ul>
+			<ul class="mui-table-view" id="todealAllMoy">
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"><span>支付方式</span><span class="mui-pull-right">支付宝</span></a>
+				</li>
+				<li class="mui-table-view-cell">
+					<a href="javascript:;"><span>商品总金额</span><span class="mui-pull-right">￥<span class="allMoys"></span></span></a>
+				</li>
+			</ul>
+		</div>
+		<footer id="todeal-buyNow">
+			<div class="todealMoney">
+	    		合计：<span>￥<span class="allMoys"></span></span>
+	    	</div>
+	    	<div class="todealBuyBtn">
+	    		<a class="mui-tab-item">去支付</a>
+	    	</div>
+	   </footer>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		$("#deal-uMess,#deal-noMess").on("tap",function(){
+			mui.openWindow({
+				url:"myChooseAddress.html",
+				id:"myAddress.html"
+			})
+		})
+		mui.init({
+			beforeback: function() {
+		　　　　 //获得父页面的webview
+		        var my = plus.webview.currentWebview().opener();
+		　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+		        mui.fire(my, 'refresh');
+		        //返回true,继续页面关闭逻辑
+		        return true;
+		    }
+		})
+		mui.plusReady(function(){
+			var dealAddr = '';//地址Id
+			var orderType = 0;//是否自提
+			 window.addEventListener("addrData", function(e) {
+			 	$("#deal-noMess").css("display","none");
+			 	$("#deal-uMess").css("display","block");
+                $(".uAddrStreet").text(e.detail.uAddrStreet);
+                $(".uAddrNames").text(e.detail.uAddrNames);
+                $(".uAddrPhone").text(e.detail.uAddrPhone);
+                dealAddr = e.detail.uAddrId;
+                orderType = e.detail.orderType;
+                $("#goodsAddress").css("height",$("#goodsAddress").siblings("div").css("height"));
+                hasDefaultAddr = true;
+            });
+            var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var self = plus.webview.currentWebview();
+			var message = JSON.parse(localStorage.getItem("$userMess"));
+			var allMoneys = 0;
+			var hasDefaultAddr = false;
+			var orderDate = "";
+			var orderNumbers = "";
+			var orderStatus = "";
+			var signelNumber = "";//物流单号
+			var orderAllIds;
+            //获取订单详情
+            $.ajax({
+            	type:"post",
+            	url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/form",
+            	async:false,
+            	data:{
+            		id:self.dealId,
+            	},
+            	dataType:"jsonp",
+            	success:function(data){
+            		if(data.status){
+            			//基本信息添加
+            			orderDate = data.orderInfo.orderDate;
+            			orderNumbers = data.orderInfo.orderNumber;
+            			orderStatus = data.orderInfo.status;
+            			orderType = 0 ;//订单类型 
+            			signelNumber = "";//物流单号
+            			//设置默认地址
+	            		if(data.orderInfo.addressInfo == undefined){
+	            			$("#deal-noMess").css("display","block");
+	            			$("#deal-uMess").css("display","none");
+	            			$("#goodsAddress").css("height",$("#goodsAddress").siblings("div").css("height"));
+	            			hasDefaultAddr = false;
+	            		}else{
+	            			$(".uAddrNames").text(data.orderInfo.addressInfo.addContact);
+	            			$(".uAddrStreet").text(data.orderInfo.addressInfo.addArea.name + data.orderInfo.addressInfo.addDetail);
+			                $(".uAddrPhone").text(data.orderInfo.addressInfo.addTel);
+			                dealAddr = data.orderInfo.addressInfo.id;
+			                $("#goodsAddress").css("height",$("#goodsAddress").siblings("div").css("height"));
+			                hasDefaultAddr = true;
+	            		}
+	            		//获取购买商品信息
+	            		data.orderInfo.listOrderGoodsInfo.forEach(function(val,idx){
+	            			//价格判断
+	            			if(val.goodsInfo.isDiscount == "0"){
+	            				var prices = val.goodsInfo.gDiscount;
+	            			}else{
+	            				var prices = val.goodsInfo.gPrice;
+	            			}
+	            			var newGoodsDetail = document.createElement("li");//商品信息
+	            			var newGoodsAddRow = document.createElement("li");//添加数量
+	            			//var newGoodsPic = val.goodsInfo.gImg.split("|")[1];
+	            			var newGoodsPic = val.goodsInfo.iAmges;
+	            			$(newGoodsAddRow).addClass("mui-table-view-cell").attr({"dataGids":val.gid,"oneMoy":prices});
+	            			$(newGoodsDetail).addClass("mui-table-view-cell mui-media todeal-goodPic").attr({"dataGids":val.gid,"listOrderGoodsInfoId":val.id});
+			        		$(newGoodsDetail).html('<a href="javascript:;">'+
+			            '<img class="mui-media-object mui-pull-left" src="'+AllUrl+newGoodsPic+'">'+
+			            '<div class="mui-media-body"><h3>'+val.goodsInfo.gName+'</h3>'+
+			            '<h2>￥<i style="font-style: initial;" goodsMoneys="'+prices*val.num+'" class="goodsNowmoy">'+prices+'</i><span>×<span class="buyNumber">'+val.num+'</span></span></h2></div></a>');
+	            			$(newGoodsAddRow).html('<a href="javascript:;"><span style="line-height: 35px;">购买数量</span>'+
+						'<div class="mui-numbox" data-numbox-min="1" style="float: right;">'+
+						'<button class="mui-btn mui-btn-numbox-minus" type="button">-</button>'+
+						'<input  class="mui-input-numbox" type="number" value="'+val.num+'" />'+
+						'<button class="mui-btn mui-btn-numbox-plus" type="button">+</button></div></a>')
+	            			$(newGoodsDetail).appendTo($("#todeal-Mess"));
+	            			$(newGoodsAddRow).appendTo($("#todeal-Mess"));
+	            			allMoneys += prices*val.num //计算总价
+	            		})
+	            		$(".allMoys").text(allMoneys);
+	            		mui('.mui-numbox').numbox();
+            		}else{
+            			plus.nativeUI.toast("获取订单信息失败，请重试")
+            		}
+            	},
+            	error:function(){
+            		plus.nativeUI.toast("获取订单信息失败，请重试")
+            	}
+            });
+            //购买数量监控
+			$("#todeal-Mess").on("change",".mui-input-numbox",function(){
+				var buyNum = $(this).val();
+				var buyGoodsAdd = $(this).parents(".mui-table-view-cell");
+				var buyGoodsAddIds = buyGoodsAdd.attr("dataGids");
+				var oneMoy = buyGoodsAdd.attr("oneMoy");
+				var buyGoods = buyGoodsAdd.siblings("[dataGids="+buyGoodsAddIds+"]");
+				if(isNaN(buyNum) || buyNum<1){
+					buyNum = 1;
+				}else{
+					buyNum = Math.floor(buyNum);
+				}
+				buyGoods.find(".goodsNowmoy").attr("goodsMoneys",oneMoy*buyNum);
+				buyGoods.find(".buyNumber").text(buyNum);
+				allMoneys = 0;
+				$(".mui-table-view-cell .goodsNowmoy").each(function(idx,val){
+					allMoneys += Number($(val).attr("goodsMoneys"));
+				})
+				$(".allMoys").text(allMoneys);
+			})
+			var channel=null;
+			// 1. 获取支付通道
+			    // 获取支付通道
+			    plus.payment.getChannels(function(channels){
+			        channel=channels[0];
+			    },function(e){
+			        plus.nativeUI.toast("获取支付通道失败："+e.message);
+			    });
+			
+			var ALIPAYSERVER=AllUrl+"/asw-eas/f/alipay/createOrder";
+			// 2. 发起支付请求
+			function pay(id){
+			    // 从服务器请求支付订单
+			    var PAYSERVER='';
+			    if(id=='alipay'){
+			        PAYSERVER=ALIPAYSERVER;
+			    }else if(id=='wxpay'){
+			        PAYSERVER=WXPAYSERVER;
+			    }else{
+			        plus.nativeUI.alert("不支持此支付通道！",null,"捐赠");
+			        return;
+			    }
+			    $.ajax({
+			    	type:"post",
+			    	url:PAYSERVER,
+			    	async:false,
+			    	dataType:"jsonp",
+			    	data:{
+			    		"orderId":orderAllIds.orderInfoId,//订单Id
+			    		"gId":orderAllIds.orderNumber
+			    	},
+			    	success:function(data){
+			    		var datas = data.result;
+			    		 plus.payment.request(channel,datas,function(datas){
+			                   // plus.nativeUI.toast("支付成功！");
+			                   	mui.currentWebview.opener().show();
+			                    var btnArray = ['查看订单', '继续逛逛'];
+								mui.confirm('您已成功购买', '系统消息', btnArray, function(e) {
+									if (e.index == 1) {
+										mui.back();
+									} else {
+										mui.openWindow({
+											url:"myDealList.html",
+											id:"myDealList.html"
+										})
+									}
+								})
+			                },function(error){
+			                	plus.nativeUI.toast("支付失败：未成功支付" );
+			                });
+			    	},
+			    	error:function(){
+			    		plus.nativeUI.toast("获取订单信息失败！");
+			    	}
+			    });
+			}
+			
+			//去支付
+			var aliChannel = null; // 支付宝支付 
+			$(".todealBuyBtn").on("tap",function(){
+				//判断地址是否填写
+				if(hasDefaultAddr){
+					//更新订单信息
+					var dealDetail = "";
+					$(".todeal-goodPic").each(function(idx,val){
+						var nodeDataGids = $(val).attr("dataGids");
+						var nodeBuyNum = $(val).find(".buyNumber").text();
+						var listOrderGoodsInfoId = $(val).attr("listOrderGoodsInfoId");
+						dealDetail += listOrderGoodsInfoId+','+nodeDataGids+','+nodeBuyNum+"/";
+					})
+					$.ajax({
+				    	type:"post",
+				    	url:AllUrl+"/asw-eas/f/orderinfo/orderInfoApp/save",
+				    	async:false,
+				    	dataType:"jsonp",
+				    	data:{
+				    		id:self.dealId,
+				    		goodsInfos:dealDetail,//商品信息
+							"user.id":message.id,//用户ID
+							"addressInfo.id":dealAddr,//地址ID
+							orderNumber:orderNumbers,//订单号
+							orderDate:orderDate,//订单日期    
+							status:orderStatus,//订单状态  
+							orderType:orderType,//订单类型   
+							signelNumber:signelNumber//物流单号
+				    	},
+				    	success:function(data){
+				    		orderAllIds = data;
+				    		pay('alipay');
+				    	},
+				    	error:function(){
+				    		plus.nativeUI.toast("订单信息有误");
+				    	}
+				  })
+				}else{
+					plus.nativeUI.alert("请您先选择收货地址");
+				}
+			})
+		})
+	</script>
+</html>

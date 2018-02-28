@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+   	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+   <title></title>
+    <script src="../js/mui.min.js"></script>
+    <link href="../css/mui.min.css" rel="stylesheet"/>
+    <link href="../css/main.css" rel="stylesheet"/>
+    <link href="../font/iconfont.css" rel="stylesheet"/>
+    <style>
+    	html,body{
+    		height:100%;
+    		background: #fff;
+    	}
+    	#myMessage{
+    		height: 100%;
+    		overflow: scroll;
+    	}
+    	.mui-bar-nav{
+    		box-shadow: none;
+    		background: #fff;
+    	}
+    	.mui-content>.mui-table-view:first-child{
+    		margin-top: 0px;
+    	}
+    	.mui-table-view-cell{
+    		padding: 15px 15px;
+    	}
+    	.spanMargin{
+    		margin-right: 20px;
+    	}
+    	.my-photo{
+    		width: 100px;
+    		height: 100px;
+    		border-radius: 50%;
+    		border: 2px solid #0099ff;
+    	}
+    	.my-photoBox{
+    		height: auto;
+		    display: table;
+		    position: relative;
+		    margin: 0 auto;
+    	}
+    	.my-photoBox>span{
+    		position: absolute;
+		    bottom: 0px;
+		    right: 5px;
+    	}
+    	#changePhoto{
+    		background: #0099FF;
+    		border-radius: 50%;
+			width: 35px;
+			height:35px;  
+			color: #fff; 
+			text-align: center;
+			line-height: 35px; 		
+    	}
+    	.my-photoBox>span>i{
+    		font-size: 20px;
+    	}
+    	#my-photoCont .mui-active{
+    		background: #ffffff;
+    	}
+    	.mui-bar-nav{
+    		background: #0099ff;
+    	}
+    	.mui-title{
+    		color: #fff;
+    	}
+    	.mui-action-back{
+    		color: #fff;
+    	}
+    </style>
+</head>
+<body>
+	<header class="mui-bar mui-bar-nav">
+		<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">我的资料</h1>
+	</header>
+	<div class="mui-content" id="myMessage">
+		<ul class="mui-table-view" id='my-photoCont'>
+			<li class="mui-table-view-cell">
+					<span class="my-photoBox">
+						<img class="my-photo mui-action-preview" id="headimg"  src=""/>
+						<span id="changePhoto"  @click="changePic"><i class="iconfont icon-bianji"></i></span>
+					</span>
+				</a>
+			</li>
+		</ul>
+	    <ul class="mui-table-view">
+			<!--<li class="mui-table-view-cell" >
+				<a href="#changeMessage" id="mess-name"><span>姓名</span><span class="mui-pull-right mui-navigate-right spanMargin" v-text="userMess.name"></span></a>
+			</li>-->
+			<li class="mui-table-view-cell" data-names="name" data-icon="icon-xingmingyonghumingnicheng" @tap="changeUserMess($event)">
+				<a href="javascript:;"  id="mess-name"><span>昵称</span><span class="mui-pull-right mui-navigate-right  spanMargin" v-text="userMess.name"></span></a>
+			</li>
+			<li class="mui-table-view-cell" @tap="changeUserPhone" >
+				<a href="javascript:;" id="mess-phone"><span>用户名</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.loginName"></span></a>
+			</li>
+			<li class="mui-table-view-cell" @tap="tochangeSex">
+				<a href="javascript:;"  id="mess-sex" ><span>性别</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="sexs"></span></a>
+			</li>
+			<li class="mui-table-view-cell" @tap="tochangeData">
+				<a href="javascript:;"  id="mess-born"><span>出生日期</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.bormBate"></span></a>
+			</li>
+			<li class="mui-table-view-cell" @tap="tochangeArea">
+				<a href="javascript:;"  id="mess-area"><span>地区</span><span id="mess-city" class="mui-pull-right mui-navigate-right  spanMargin" v-text="userMess.area.name"></span></a>
+			</li>
+			<li class="mui-table-view-cell" @tap="tochangeSchool">
+				<a href="javascript:;"  id="mess-schooll"><span>学校</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.company.name"></span></a>
+			</li>
+			<li class="mui-table-view-cell" @tap="tochangeClass">
+				<a href="javascript:;"  id="mess-class"><span>年级</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.grade.gradeName"></span></a>
+			</li>
+			<li class="mui-table-view-cell" data-names="email" data-icon="icon-youxiangbangding"  @tap="changeUserMess($event)">
+				<a href="javascript:;"  id="mess-email"><span>邮箱</span><span class="mui-pull-right  mui-navigate-right spanMargin" v-text="userMess.email"></span></a>
+			</li>
+		</ul>
+	</div>
+</body>
+<script src="../js/vue.js"></script>
+<script type="text/javascript" src="../js/mui.min.js"></script>
+<script src="../js/jquery-2.1.0.js"></script>
+<script type="text/javascript">
+	mui.init({
+      		statusBarBackground: '#0099ff',
+      		swipeBack:true,
+      		beforeback: function() {
+		　　　　 //获得父页面的webview
+		        var my = plus.webview.currentWebview().opener();
+		　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+		        mui.fire(my, 'refresh');
+		        //返回true,继续页面关闭逻辑
+		        return true;
+		    }
+      });
+      window.addEventListener('refresh', function(e){//执行刷新
+	    location.reload();
+	});
+mui.plusReady(function() {
+		var wt=plus.nativeUI.showWaiting();
+		setTimeout(function(){
+			wt.close(); 
+		},800)
+    	var URL = localStorage.getItem("$url");
+		var AllUrl = URL.substring(1,URL.length-1);
+	    var userMess = JSON.parse(localStorage.getItem("$userMess"));
+	    if(userMess.gender == 1){
+	    	var sexs = "男";
+	    }else{
+	    	var sexs = "女";
+	    }
+	    if(userMess.photo == ""){
+	    	userMess.photo = "../images/pic.png";
+	    }else{
+	    	userMess.photo = AllUrl + userMess.photo;
+	    }
+	    $("#headimg").attr("src",userMess.photo);
+	    new Vue({
+	    	el:"#myMessage",
+	    	data:{
+	    		userMess:userMess,
+	    		urls:AllUrl,
+	    		sexs:sexs
+	    	},
+	    	methods:{
+				tochangeArea:function(){
+					mui.openWindow({
+						url:"reg/changeUserArea.html",
+						id:"reg/changeUserArea.html"
+					})
+				},
+				tochangeClass:function(){
+					mui.openWindow({
+						url:"reg/changeUserClass.html",
+						id:"reg/changeUserClass.html"
+					})
+				},
+				tochangeSchool:function(){
+					mui.openWindow({
+						url:"reg/changeUserSchool.html",
+						id:"reg/changeUserSchool.html"
+					})
+				},
+				changeUserMess:function(e){
+							var changeTitle = e.currentTarget.children[0].children[0].innerText;
+							var changeIcon = e.currentTarget.getAttribute("data-icon");
+							var changeName = e.currentTarget.getAttribute("data-names");
+							mui.openWindow({
+								url:"reg/changeUserMess.html",
+								id:"reg/changeUserMess.html",
+								extras:{
+							        title:changeTitle,
+							        icon:changeIcon,
+							        changeName:changeName
+							    }
+							})
+				},
+				tochangeSex:function(){
+					mui.openWindow({
+						url:"reg/changeUserSex.html",
+						id:"reg/changeUserSex.html"
+					})
+				},
+				changeUserPhone:function(){
+					mui.openWindow({
+						url:"reg/changeUserPhone.html",
+						id:"reg/changeUserPhone.html"
+					})
+				},
+				tochangeData:function(){
+					mui.openWindow({
+						url:"reg/changeUserData.html",
+						id:"reg/changeUserData.html"
+					})
+				},
+				changePic:function(){
+					page.imgUp();
+				}
+	    	}
+	    })
+	    
+	    
+	    //弹出系统按钮选择框
+                var page=null; 
+                page={ 
+                    imgUp:function(){ 
+                        var m=this; 
+                        plus.nativeUI.actionSheet({cancel:"取消",buttons:[ 
+                            {title:"拍照"}, 
+                            {title:"从相册中选择"} 
+                        ]}, function(e){//1 是拍照  2 从相册中选择 
+                            switch(e.index){ 
+                                case 1:appendByCamera();break; 
+                                case 2:appendByGallery();break; 
+                            } 
+                        }); 
+                    } 
+                } 
+               
+            // 拍照添加文件
+            function appendByCamera(){
+                plus.camera.getCamera().captureImage(function(e){
+                    plus.io.resolveLocalFileSystemURL(e, function(entry) {
+                        var path = entry.toLocalURL();
+                        $("#headimg")[0].src = path; 
+                        upload()
+                    }, function(e) {
+                        mui.toast("读取拍照文件错误：" + e.message);
+                    });
+     
+                });   
+            }
+            // 从相册添加文件
+            function appendByGallery(){
+                plus.gallery.pick(function(path){
+                    $("#headimg")[0].src = path;
+                    upload()
+                });
+            }
+             
+               
+            //服务端接口路径
+            var server = AllUrl+"/asw-eas/servlet/FileUploadController";
+            //获取图片元素
+            var files = document.getElementById('headimg');
+            
+            // 上传文件
+            function upload(){
+            	var wt=plus.nativeUI.showWaiting();
+                var task=plus.uploader.createUpload(server,
+                    {method:"POST"},
+                    function(t,status){ //上传完成
+                        if(status==200){
+                            var imasrc = JSON.parse(t.responseText).name;
+                            $.ajax({
+                            	type:"post",
+                            	url:AllUrl+"/asw-eas/f/UserApp/savephone",
+                            	data:{
+									id:userMess.id,
+									photo:imasrc
+								},
+								async:true,
+								dataType:"jsonp",
+								success:function(data){
+									plus.nativeUI.toast("头像更换成功");
+									userMess["photo"] = imasrc;
+									localStorage.setItem("$userMess",JSON.stringify(userMess));
+									wt.close();
+								},
+								error:function(){
+									plus.nativeUI.toast("头像更换失败，服务器未响应");
+									wt.close();
+								}
+                            });
+                            wt.close();
+                        }else{
+                            aplus.nativeUI.toast("上传失败："+status);
+                            wt.close();//关闭等待提示按钮
+                        }
+                    }
+                );  
+               //添加其他参数
+                task.addData("name","test");
+                task.addFile(files.src,{key:"dddd"});
+                task.start(); 
+            }
+})
+</script>
+</html>

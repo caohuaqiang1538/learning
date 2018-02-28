@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="font/iconfont.css" rel="stylesheet"/>
+		<link rel="stylesheet" href="css/mui.min.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			.mui-bar-tab{
+				height:55px;
+			}
+			.mui-bar-tab .mui-tab-item .mui-icon{
+				font-size: 18px;
+    			height: auto;
+			}
+			.mui-bar-tab .mui-tab-item .mui-icon~.mui-tab-label{
+				font-size: 14px;
+			}
+			nav a.mui-active span{
+				color: #000;
+			}
+			/*nav a span{
+				color: #fff;;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		<!--<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="title" class="mui-title">首页</h1>
+		</header>-->
+		<nav class="mui-bar mui-bar-tab">
+			<a id="defaultTab" class="mui-tab-item mui-active" href="pages/main.html">
+				<span class="mui-icon iconfont icon-iconfontshouye"></span>
+				<span class="mui-tab-label">首页</span>
+			</a>
+			<a class="mui-tab-item" href="pages/building.html">
+				<span class="mui-icon iconfont icon-tongjifenxi"></span>
+				<span class="mui-tab-label">联考分析</span>
+			</a>
+			<a class="mui-tab-item" href="pages/my.html">
+				<span class="mui-icon iconfont icon-wo"></span>
+				<span class="mui-tab-label">我&nbsp;</span>
+			</a>
+		</nav>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" charset="utf-8">
+			 //mui初始化
+			//初始化缓存       http://202.100.185.85:8888  http://www.tatpworkers.com:8080   192.168.31.240:8080   http://192.168.10.132:8080
+			localStorage.setItem("$url",JSON.stringify("http://202.100.185.85:8888"));
+			mui.init({
+				statusBarBackground: '#0099ff',
+			});
+			var subpages = ['pages/main.html', 'pages/building.html', 'pages/my.html'];
+			var subpage_style = {
+				top: '0',
+				bottom: '56px'
+			};
+			
+			var aniShow = {};
+			
+			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				for (var i = 0; i < 3; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if (i > 0) {
+						sub.hide();
+					}else{
+						temp[subpages[i]] = "true";
+						mui.extend(aniShow,temp);
+					}
+					self.append(sub);
+				}
+			
+			 //当前激活选项
+			var activeTab = subpages[0];
+			var title = document.getElementById("title");
+			 //选项卡点击事件
+			mui('.mui-bar-tab').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				//更换标题
+				/*title.innerHTML = this.querySelector('.mui-tab-label').innerHTML;*/
+				//显示目标选项卡
+				//若为iOS平台或非首次显示，则直接显示
+				if(mui.os.ios||aniShow[targetTab]){
+					plus.webview.show(targetTab);
+				}else{
+					//否则，使用fade-in动画，且保存变量
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow,temp);
+					plus.webview.show(targetTab,"fade-in",300);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+			});
+			 //自定义事件，模拟点击“首页选项卡”
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("defaultTab");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector(".mui-bar-tab>.mui-tab-item.mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			
+			//版本检测
+			//需要传递当前的版本
+			var wgtWaiting = null;
+			var URLs = localStorage.getItem("$url");
+			var AllUrl = URLs.substring(1,URLs.length-1);
+			var checkUrl = AllUrl+"/asw-eas/f/appVersion/getAppVersion";
+			function checkUpdate(wgtVer){
+			 //   plus.nativeUI.showWaiting("检测更新...");
+			    $.ajax({
+			    	type:"post",
+			    	url:checkUrl,
+			    	async:true,
+			    	data:{
+			    		versionNumber:wgtVer
+			    	},
+			    	dataType:"jsonp",
+			    	success : function(json){
+			    		var newStrs = json.versionNumber.split(".");
+			    		var newStrsName = "";
+			    		for(var i = 0;i<newStrs.length;i++){
+			    			newStrsName += newStrs[i]
+			    		}
+			    		newversions = "asw"+newStrsName;
+	                plus.nativeUI.closeWaiting();
+		                if( json.status == "false" ){                   
+		                    //可以升级
+		                    plus.nativeUI.confirm("检查到当前版本有最新更新，下载升级？",
+		                        function(event){
+		                            if(event.index ==0){
+		                                var downUrl = AllUrl +"/asw-eas/"+ json.versionUrl;
+		                               // downWgt(downUrl); //下载更新版的地址
+		                               location.href = "http://202.100.185.85:8888/asw-eas/app/"+newversions+".apk";
+		                            	//location.href = "http://www.tatpworkers.com:8080/asw-eas/app/"+newversions+".apk";
+		                            }
+		                        } ,'系统消息',['马上升级','下次再说']);   
+		                } else{  
+		                    //plus.nativeUI.toast("无新版本可更新！");
+		                    return;
+		                }
+		            },
+		            error : function(xhr, error){ 
+		              //  plus.nativeUI.closeWaiting();
+		                //plus.nativeUI.toast('检测更新失败！') ;
+		            }
+			    }); 
+			}
+			// 下载wgt文件
+			function downWgt(wgtUrl){
+			    wgtWaiting = plus.nativeUI.showWaiting("开始下载");
+			    var task = plus.downloader.createDownload( wgtUrl, {filename:"_doc/update/"}, function(d,status){
+			        if ( status == 200 ) { 
+			            wgtWaiting.setTitle("开始安装");
+			            installWgt(d.filename); // 安装wgt包
+			        } else {
+			            plus.nativeUI.alert("下载更新失败！");
+			             wgtWaiting.close();
+			        }
+			    });
+			    task.addEventListener("statechanged", function (download, status) {
+                    switch (download.state) {
+                        case 2:
+                            wgtWaiting.setTitle("已连接到服务器");
+                            break;
+                        case 3:
+                            var percent = download.downloadedSize / download.totalSize * 100;
+                            wgtWaiting.setTitle("已下载 " + parseInt(percent) + "%");
+                            break;
+                        case 4:
+                            wgtWaiting.setTitle("下载完成");
+                            break;
+                    }
+                });
+                task.start();
+			}
+			// 更新应用资源  
+			function installWgt(path){
+			    plus.nativeUI.showWaiting("安装更新文件...");
+			    plus.runtime.install(path,{},function(){
+			        wgtWaiting.close();     
+			        plus.nativeUI.alert("应用资源更新完成！",function(){
+			            plus.runtime.restart();
+			        });
+			    },function(e){
+			        wgtWaiting.close();      
+			        plus.nativeUI.alert("安装更新文件失败["+e.code+"]："+e.message);
+			    });
+			}
+			plus.runtime.getProperty(plus.runtime.appid,function(inf){ 
+		        checkUpdate(inf.version)
+		    });  
+			});
+		</script>
+	</body>
+
+</html>

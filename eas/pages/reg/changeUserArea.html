@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../font/iconfont.css" rel="stylesheet"/>
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../css/mui.picker.min.css"/>
+    	<link rel="stylesheet" type="text/css" href="../../css/mui.poppicker.css"/>
+		<style type="text/css">
+			body{
+				background-color:#ffffff ;
+			}
+			.mui-input-row label~input, .mui-input-row label~select, .mui-input-row label~textarea{
+				width: 80%;
+				height: 60px;
+			}
+			.mui-input-row label{
+				width: 20%;
+				height: 60px;
+				line-height: 40px;
+			}
+			.mui-input-row label>i{
+				color: #b6b6b6;
+				font-size: 20px;
+			}
+			.mui-input-group .mui-input-row{
+				height: 60px;
+			}
+			.mui-input-row .mui-input-clear~.mui-icon-clear, .mui-input-row .mui-input-password~.mui-icon-eye, .mui-input-row .mui-input-speech~.mui-icon-speech{
+				top: 15px;
+			}
+			.mui-input-group:after{
+				display: none;
+			}
+			.reg-btn{
+				background: #0099ff;
+				color: #ffffff;
+				width: 100%;
+				height: 50px;
+				font-size: 18px;
+			}
+			.mui-button-row{
+				padding: 0 15px;
+				margin-top: 25px;
+			}
+			#validate input{
+				width: 50%;
+    			float: left;
+			}
+			#validate span{
+				right: 30%;
+				vertical-align: middle;
+			}
+			#validate button{
+				height: 100%;
+			    border: none;
+			    color: #0099ff;
+			}
+			.mess-save{
+				height: 44px;
+				line-height: 44px;
+			}
+			#mess-Title{
+				font-size: 17px;
+			    line-height: 44px;
+			    margin: 0;
+			    padding: 0;
+			    font-weight: normal;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">修改地区</h1>
+		    <a class="mui-pull-right mess-save">保存</a>
+		</header>
+		<div class="mui-content">
+		    <form class="mui-input-group">
+				<div class="mui-input-row">
+					<label><i class="iconfont icon-diqu"></i></label>
+					<input type="text" readonly="readonly"  id="area" class="mui-input-clear" placeholder="请选择地区">
+				</div>
+			</form>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-2.1.0.js"></script>
+		<script type="text/javascript" src="../../js/cityData.js" ></script>
+		<script type="text/javascript" src="../../js/mui.picker.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.poppicker.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true,
+				statusBarBackground: '#0099ff',
+				beforeback: function() {
+		　　　　 //获得父页面的webview
+		        var my = plus.webview.currentWebview().opener();
+		　　　　 //触发父页面的自定义事件(refresh),从而进行刷新
+		        mui.fire(my, 'refresh');
+		        //返回true,继续页面关闭逻辑
+		        return true;
+		    }
+			})
+			mui.plusReady(function() {
+			 //地区选择
+		    var cityPicker3 = new mui.PopPicker({
+				layer: 3
+			});
+			var _getParam = function(obj, param) {
+				return obj[param] || '';
+			};
+			var areaval = "";
+			cityPicker3.setData(cityData);
+			var showCityPickerButton = document.getElementById('area');
+			var cityResult3 = document.getElementById('area');
+			showCityPickerButton.addEventListener('tap', function(event) {
+				cityPicker3.show(function(items) {
+					$(cityResult3).val(_getParam(items[0], 'text') + _getParam(items[1], 'text') + _getParam(items[2], 'text'));
+					$(cityResult3).attr("data-id",_getParam(items[2], 'value'));
+					areaval = $(cityResult3).val();
+				});
+			}, false);
+			/*设置全局地址*/
+				$(".mess-save").on("tap",function(){
+					var wt=plus.nativeUI.showWaiting();
+					var userMess = JSON.parse(localStorage.getItem("$userMess"));
+					var URL = localStorage.getItem("$url");
+					var AllUrl = URL.substring(1,URL.length-1);
+					var areaIds = $(cityResult3).attr("data-id");
+					if(areaval == "" || areaval == null){
+						plus.nativeUI.toast("地区不能为空");
+						wt.close(); 
+					}else{
+						$.ajax({
+						type:"post",
+						url:AllUrl+"/asw-eas/f/UserApp/savephone",
+						data:{
+							id:userMess.id,
+							"area.id":areaIds
+						},
+						async:true,
+						dataType:"jsonp",
+						success:function(data){
+							localStorage.setItem("$area",areaIds);
+							userMess["area"].name = areaval;
+							localStorage.setItem("$userMess",JSON.stringify(userMess));
+							mui.back();
+							plus.nativeUI.toast("修改成功");
+							wt.close(); 
+						},
+						error:function(){
+							plus.nativeUI.toast("服务器未响应，请稍后再试");
+							wt.close(); 
+						}
+					});	
+					}
+					
+			})
+			})
+		</script>
+	</body>
+
+</html>

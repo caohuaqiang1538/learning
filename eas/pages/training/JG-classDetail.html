@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>课程详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			body,html{
+				height: 100%;
+			}
+			body{
+				/*padding-bottom: 55px;*/
+			}
+			.mui-content{
+				height: 100%;
+				overflow: scroll;
+			}
+			.detail-banner{
+				width: 100%;
+				height: 185px;
+			}
+			.detail-banner img{
+				width: 100%;
+				height: 100%;
+			}
+			.detail-title,.detail-cont{
+				padding: 12px 15px;
+				background: #fff;
+			}
+			.detail-title h3{
+				font-size: 18px;
+				line-height: 25px;
+			}
+			.detail-title h5{
+				margin-top: 10px;
+				color: #FE3700;
+				font-size: 18px;
+				line-height: 25px;
+			}
+			.detail-cont{
+				margin-top: 15px;
+			}
+			.detail-cont>h3{
+				font-size: 18px;
+				font-weight: normal;
+			}
+			.detail-cont>h3>img{
+				width: 35px;
+				height: 35px;
+				vertical-align: middle;
+				margin-right: 5px;
+			}
+			.detail-cont>h4{
+				font-size: 16px;
+				font-weight: normal;
+				letter-spacing: 0.5px;
+				line-height: 22px;
+				margin-top: 15px;
+				padding-left: 15px;
+				border-left: 4px solid #21CDF3;
+			}
+			.detail-cont>p{
+				color: #494949;
+				padding-left: 4px;
+				font-size: 16px;
+				letter-spacing: 0.5px;
+				line-height: 22px;
+				margin:15px 0;
+			}
+			footer{
+				width: 100%;
+				height: 55px;
+				font-size: 20px;
+				line-height: 55px;
+				text-align: center;
+				position: fixed;
+				bottom: 0;
+				left: 0;
+				background: #0099FF;
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">课程详情</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="detail-banner">
+		    	<img src="" />
+		    </div>
+		    <div class="detail-title">
+		    	<h3></h3>
+		    	<h5></h5>
+		    </div>
+		    <div class="detail-cont">
+		    	<h3><img src="../../images/classdetails.png"/>课程介绍</h3>
+		    	<h4><span></span></h4>
+		    </div>
+		</div>
+		<footer id="toBM">预约报名</footer>
+	</body>
+	<script type="text/javascript" src="../../js/jquery-2.1.0.js" ></script>
+	<script src="../../js/mui.min.js"></script>
+	<script type="text/javascript">
+		mui.init()
+		mui.plusReady(function(){
+			var URL = localStorage.getItem("$url");
+			var AllUrl = URL.substring(1,URL.length-1);
+			var self = plus.webview.currentWebview();//获取父页面传递的值
+			$.ajax({
+				type:"post",
+				url:AllUrl+"/asw-eas/f/coursedescriptionAppController/get",
+				async:true,
+				data:{
+					depId:self.ids
+				},
+				dataType:"jsonp",
+				success:function(data){
+					$(".detail-banner img").attr("src",AllUrl+data.img);
+					$(".detail-title h3").text(data.courseName);
+					$(".detail-title h5").text("￥"+data.coursePrice);
+					$(".detail-cont h4>span").text(data.courseProfile)
+				},
+				error:function(){
+					plus.nativeUI.toast("获取详情失败，请重试")
+				}
+			});
+			$("#toBM").on("tap",function(){
+				plus.nativeUI.toast("抱歉，预约报名功能暂未开放");
+			})
+		})
+	</script>
+</html>
